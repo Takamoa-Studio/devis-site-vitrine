@@ -119,12 +119,21 @@
       main {
         grid-template-columns: minmax(0, 1fr);
       }
+
+      .sticky-summary {
+        position: static;
+      }
     }
 
     .column-stack {
       display: flex;
       flex-direction: column;
       gap: 16px;
+    }
+
+    .sticky-summary {
+      position: sticky;
+      top: 16px;
     }
 
     .card {
@@ -622,7 +631,7 @@
         </section>
       </div>
 
-      <div class="column-stack">
+      <div class="column-stack sticky-summary">
         <!-- COLONNE 2 : Résumés rapides -->
         <section class="card">
           <div class="card-header">
