@@ -1,0 +1,1134 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Calculateur de coût - Site vitrine</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    :root {
+      --bg: #0f172a;
+      --bg-alt: #020617;
+      --card: #020617;
+      --card-soft: #0b1220;
+      --accent: #38bdf8;
+      --accent-soft: rgba(56, 189, 248, 0.1);
+      --accent-2: #4ade80;
+      --text: #e5e7eb;
+      --muted: #9ca3af;
+      --border: #1f2937;
+      --danger: #f97373;
+      --radius-lg: 16px;
+      --radius-md: 10px;
+      --shadow-soft: 0 18px 40px rgba(15, 23, 42, 0.8);
+      --shadow-chip: 0 10px 24px rgba(15, 23, 42, 0.7);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top, #1d283a 0, #020617 45%, #000 100%);
+      color: var(--text);
+      line-height: 1.5;
+      min-height: 100vh;
+    }
+
+    h1, h2, h3 {
+      margin: 0;
+      font-weight: 600;
+      letter-spacing: 0.03em;
+    }
+
+    h1 {
+      font-size: clamp(1.7rem, 3vw, 2.2rem);
+    }
+
+    h2 {
+      font-size: 1.1rem;
+      text-transform: uppercase;
+    }
+
+    .page {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 24px 16px 48px;
+    }
+
+    header {
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-logo {
+      width: 40px;
+      height: 40px;
+      border-radius: 999px;
+      background: conic-gradient(from 160deg, #38bdf8, #4ade80, #a855f7, #38bdf8);
+      padding: 2px;
+      box-shadow: 0 0 40px rgba(56, 189, 248, 0.7);
+    }
+
+    .brand-logo-inner {
+      width: 100%;
+      height: 100%;
+      border-radius: inherit;
+      background: radial-gradient(circle at 30% 0%, #0f172a, #020617);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--accent);
+    }
+
+    .brand-text {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .brand-text span {
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--muted);
+    }
+
+    .brand-text h1 span.gradient {
+      background: linear-gradient(120deg, #4ade80, #38bdf8, #a855f7);
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+
+    .pill {
+      padding: 8px 14px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(56, 189, 248, 0.4);
+      color: var(--accent);
+      font-size: 0.78rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: var(--shadow-chip);
+      white-space: nowrap;
+    }
+
+    .pill-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: #4ade80;
+      box-shadow: 0 0 12px rgba(74, 222, 128, 0.9);
+    }
+
+    main {
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.2fr);
+      gap: 20px;
+      align-items: flex-start;
+    }
+
+    @media (max-width: 900px) {
+      main {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    .card {
+      background: radial-gradient(circle at top left, rgba(56,189,248,0.08) 0, rgba(15,23,42,0.95) 45%, #020617 100%);
+      border-radius: var(--radius-lg);
+      padding: 18px 18px 16px;
+      border: 1px solid rgba(148, 163, 184, 0.25);
+      box-shadow: var(--shadow-soft);
+      backdrop-filter: blur(16px);
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+
+    .card-header h2 {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+
+    .card-header h2 span.icon {
+      width: 22px;
+      height: 22px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.9);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      color: var(--accent);
+    }
+
+    .card-header p.sub {
+      font-size: 0.78rem;
+      color: var(--muted);
+      margin: 0;
+      max-width: 220px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px 14px;
+    }
+
+    @media (max-width: 600px) {
+      .grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      font-size: 0.8rem;
+    }
+
+    .field label {
+      color: var(--muted);
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      font-size: 0.8rem;
+    }
+
+    .field label span.hint {
+      color: #6b7280;
+      font-size: 0.75rem;
+    }
+
+    .field input[type="number"],
+    .field input[type="text"],
+    .field select {
+      background: rgba(15, 23, 42, 0.95);
+      border-radius: var(--radius-md);
+      border: 1px solid rgba(31, 41, 55, 0.9);
+      padding: 8px 10px;
+      color: var(--text);
+      outline: none;
+      font-size: 0.82rem;
+      transition: border-color 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+      width: 100%;
+    }
+
+    .field input[type="number"]:focus,
+    .field input[type="text"]:focus,
+    .field select:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 1px rgba(56, 189, 248, 0.5);
+      background: rgba(15, 23, 42, 1);
+    }
+
+    .field input::placeholder {
+      color: #4b5563;
+    }
+
+    .field-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 10px;
+    }
+
+    .field-row .title {
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    .field-row .value {
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.95);
+      border: 1px solid rgba(56, 189, 248, 0.2);
+      font-size: 0.7rem;
+      color: var(--muted);
+    }
+
+    .tag-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: var(--accent-2);
+      box-shadow: 0 0 10px rgba(74, 222, 128, 0.8);
+    }
+
+    .roles-table-wrapper {
+      max-height: 220px;
+      overflow: auto;
+      border-radius: var(--radius-md);
+      border: 1px solid rgba(31, 41, 55, 0.9);
+      background: radial-gradient(circle at top, rgba(56,189,248,0.1) 0, #020617 45%, #020617 100%);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.78rem;
+      min-width: 100%;
+    }
+
+    thead {
+      position: sticky;
+      top: 0;
+      background: rgba(15, 23, 42, 0.98);
+      backdrop-filter: blur(10px);
+      z-index: 1;
+    }
+
+    th, td {
+      padding: 7px 10px;
+      text-align: left;
+      white-space: nowrap;
+    }
+
+    th {
+      font-weight: 500;
+      color: #9ca3af;
+      border-bottom: 1px solid rgba(31, 41, 55, 0.9);
+      text-transform: uppercase;
+      font-size: 0.7rem;
+      letter-spacing: 0.08em;
+    }
+
+    tbody tr:nth-child(odd) td {
+      background: rgba(15, 23, 42, 0.7);
+    }
+
+    tbody tr:nth-child(even) td {
+      background: rgba(15, 23, 42, 0.95);
+    }
+
+    tbody tr:hover td {
+      background: rgba(30, 64, 175, 0.45);
+    }
+
+    .roles-table input {
+      background: rgba(15, 23, 42, 0.95);
+      border-radius: 999px;
+      border: 1px solid rgba(31, 41, 55, 0.9);
+      padding: 4px 8px;
+      color: var(--text);
+      font-size: 0.75rem;
+      width: 70px;
+      outline: none;
+    }
+
+    .roles-table input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 1px rgba(56, 189, 248, 0.6);
+    }
+
+    .summary-row {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    @media (max-width: 900px) {
+      .summary-row {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    .summary-card {
+      padding: 12px 12px 10px;
+      border-radius: var(--radius-md);
+      border: 1px solid rgba(56, 189, 248, 0.25);
+      background: linear-gradient(140deg, rgba(15,23,42,0.96), rgba(12,23,45,0.96));
+      box-shadow: 0 16px 30px rgba(15,23,42,0.85);
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .summary-label {
+      font-size: 0.72rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+    }
+
+    .summary-value {
+      font-size: 1rem;
+      font-weight: 600;
+    }
+
+    .summary-chip {
+      margin-top: 2px;
+      font-size: 0.72rem;
+      color: var(--muted);
+    }
+
+    .summary-value.accent {
+      color: var(--accent);
+    }
+
+    .summary-value.success {
+      color: var(--accent-2);
+    }
+
+    .section {
+      margin-top: 22px;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 10px;
+    }
+
+    .section-header h3 {
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .chip-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .chip {
+      padding: 3px 9px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.35);
+      font-size: 0.7rem;
+      color: var(--muted);
+      background: rgba(15, 23, 42, 0.9);
+    }
+
+    .chip strong {
+      color: var(--accent);
+      font-weight: 500;
+    }
+
+    .tasks-table-wrapper {
+      max-height: 360px;
+      overflow: auto;
+      border-radius: var(--radius-md);
+      border: 1px solid rgba(31, 41, 55, 0.9);
+      background: radial-gradient(circle at top, rgba(56,189,248,0.12) 0, #020617 50%, #020617 100%);
+    }
+
+    .tasks-phase {
+      font-weight: 600;
+      color: var(--accent-2);
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.09em;
+    }
+
+    tfoot td {
+      border-top: 1px solid rgba(31, 41, 55, 0.9);
+      font-weight: 500;
+      background: radial-gradient(circle at top, rgba(56,189,248,0.18) 0, rgba(15,23,42,0.95) 55%, #020617 100%);
+    }
+
+    .align-right {
+      text-align: right;
+    }
+
+    .muted {
+      color: var(--muted);
+      font-size: 0.78rem;
+    }
+
+    .danger {
+      color: var(--danger);
+    }
+
+    .footer-note {
+      margin-top: 16px;
+      font-size: 0.76rem;
+      color: var(--muted);
+      text-align: right;
+    }
+
+    .footer-note span {
+      color: var(--accent);
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header>
+      <div class="brand">
+        <div class="brand-logo">
+          <div class="brand-logo-inner">CV</div>
+        </div>
+        <div class="brand-text">
+          <span>Calculateur projet</span>
+          <h1><span class="gradient">Site vitrine sur-mesure</span></h1>
+        </div>
+      </div>
+      <div class="pill">
+        <span class="pill-dot"></span>
+        Temps réel · Devis modulaire
+      </div>
+    </header>
+
+    <main>
+      <!-- COLONNE GAUCHE : Paramètres projet -->
+      <section class="card">
+        <div class="card-header">
+          <div>
+            <h2><span class="icon">⚙</span> Paramètres du projet</h2>
+            <p class="sub">Ajuste le volume de travail, la complexité et ta marge agence.</p>
+          </div>
+          <div class="tag">
+            <span class="tag-dot"></span>
+            Mode freelance · multi-rôles
+          </div>
+        </div>
+
+        <div class="grid" aria-label="Paramètres principaux du projet">
+          <div class="field">
+            <label for="param_type_site">
+              Type de site
+              <span class="hint">impacte juste l'affichage</span>
+            </label>
+            <select id="param_type_site">
+              <option value="vitrine">Site vitrine sur-mesure</option>
+              <option value="vitrine_plus">Vitrine avancée (blog, filtres…)</option>
+              <option value="ecommerce">E-commerce (estimation simple)</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="param_complexity">
+              Complexité globale
+              <span class="hint">multiplie toutes les tâches</span>
+            </label>
+            <select id="param_complexity">
+              <option value="1">Simple (x1.0)</option>
+              <option value="1.2" selected>Standard (x1.2)</option>
+              <option value="1.5">Complexe (x1.5)</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="param_nb_home">
+              Nb. pages d'accueil (variantes)
+            </label>
+            <input type="number" id="param_nb_home" min="1" step="1" value="1">
+          </div>
+
+          <div class="field">
+            <label for="param_nb_pages">
+              Nb. pages internes
+              <span class="hint">hors home</span>
+            </label>
+            <input type="number" id="param_nb_pages" min="0" step="1" value="4">
+          </div>
+
+          <div class="field">
+            <label for="param_nb_seo">
+              Pages optimisées SEO
+            </label>
+            <input type="number" id="param_nb_seo" min="0" step="1" value="5">
+          </div>
+
+          <div class="field">
+            <label for="param_opt_logo">
+              Création / refonte de logo ?
+              <span class="hint">0 = non, 1 = oui</span>
+            </label>
+            <input type="number" id="param_opt_logo" min="0" max="1" step="1" value="1">
+          </div>
+
+          <div class="field">
+            <label for="param_opt_formation">
+              Formation client ?
+              <span class="hint">0 = non, 1 = oui</span>
+            </label>
+            <input type="number" id="param_opt_formation" min="0" max="1" step="1" value="1">
+          </div>
+
+          <div class="field">
+            <label for="param_margin">
+              Coefficient de marge agence
+              <span class="hint">ex : 1.3 = +30%</span>
+            </label>
+            <input type="number" id="param_margin" min="1" step="0.05" value="1.3">
+          </div>
+
+          <div class="field">
+            <label for="param_fx">
+              Taux de change € → MGA
+              <span class="hint">approximatif</span>
+            </label>
+            <input type="number" id="param_fx" min="1" step="50" value="5000">
+          </div>
+
+          <div class="field">
+            <label for="param_comment">
+              Intitulé du projet
+              <span class="hint">pour tes exports</span>
+            </label>
+            <input type="text" id="param_comment" placeholder="Site vitrine pour EVADIA…">
+          </div>
+
+          <div class="field">
+            <label for="param_buffer">
+              Buffer imprévus
+              <span class="hint">en % sur le coût interne</span>
+            </label>
+            <input type="number" id="param_buffer" min="0" step="5" value="10">
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="section-header">
+            <h3>Résumé rapide</h3>
+            <div class="chip-group">
+              <span class="chip"><strong>Pages</strong> : home + internes</span>
+              <span class="chip"><strong>Options</strong> : logo, formation, SEO</span>
+            </div>
+          </div>
+          <div class="summary-row">
+            <div class="summary-card">
+              <div class="summary-label">Volume de pages</div>
+              <div class="summary-value" id="summary-pages">—</div>
+              <div class="summary-chip muted">Home + internes déclarées</div>
+            </div>
+            <div class="summary-card">
+              <div class="summary-label">Complexité appliquée</div>
+              <div class="summary-value accent" id="summary-complexity">x1.2</div>
+              <div class="summary-chip">Simple / Standard / Complexe</div>
+            </div>
+            <div class="summary-card">
+              <div class="summary-label">Options activées</div>
+              <div class="summary-value" id="summary-options">—</div>
+              <div class="summary-chip muted">Logo, formation, SEO on-page</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- COLONNE DROITE : Rôles & Résumé financier -->
+      <section class="card">
+        <div class="card-header">
+          <div>
+            <h2><span class="icon">👥</span> Rôles & tarifs</h2>
+            <p class="sub">Configure tes tarifs freelance par rôle. Tout le reste se recalculera.</p>
+          </div>
+          <div class="tag">
+            <span class="tag-dot"></span>
+            Taux horaires en €/h
+          </div>
+        </div>
+
+        <div class="roles-table-wrapper roles-table" aria-label="Table des rôles et taux horaires">
+          <table>
+            <thead>
+              <tr>
+                <th>Rôle</th>
+                <th>Taux horaire (€)</th>
+                <th>Notes</th>
+              </tr>
+            </thead>
+            <tbody id="roles-body">
+              <!-- lignes générées en JS -->
+            </tbody>
+          </table>
+        </div>
+
+        <div class="section">
+          <div class="section-header">
+            <h3>Résumé financier</h3>
+          </div>
+          <div class="summary-row">
+            <div class="summary-card">
+              <div class="summary-label">Coût interne estimé</div>
+              <div class="summary-value" id="summary-cost-internal">—</div>
+              <div class="summary-chip muted">Somme de tous les freelances</div>
+            </div>
+            <div class="summary-card">
+              <div class="summary-label">Prix conseillé HT (€)</div>
+              <div class="summary-value success" id="summary-price-sell">—</div>
+              <div class="summary-chip">Marge agence + buffer imprévus</div>
+            </div>
+            <div class="summary-card">
+              <div class="summary-label">Prix conseillé HT (MGA)</div>
+              <div class="summary-value accent" id="summary-price-sell-mga">—</div>
+              <div class="summary-chip muted">Conversion indicative en Ariary</div>
+            </div>
+          </div>
+        </div>
+
+        <p class="footer-note">
+          Astuce : tu peux dupliquer ce modèle et fixer le résultat comme <span>base de devis</span> pour ton client.
+        </p>
+      </section>
+    </main>
+
+    <!-- SECTION DÉTAIL DES TÂCHES -->
+    <section class="section" style="margin-top: 26px;">
+      <div class="card">
+        <div class="section-header">
+          <h3>Détail des tâches & temps estimés</h3>
+          <span class="muted">Les heures tiennent compte du volume, de la complexité et des options activées.</span>
+        </div>
+
+        <div class="tasks-table-wrapper" aria-label="Détail des tâches et calculs">
+          <table>
+            <thead>
+              <tr>
+                <th>Phase</th>
+                <th>Tâche</th>
+                <th>Rôle</th>
+                <th class="align-right">Base h</th>
+                <th class="align-right">Volume</th>
+                <th class="align-right">Heures totales</th>
+                <th class="align-right">Taux €/h</th>
+                <th class="align-right">Coût tâche (€)</th>
+              </tr>
+            </thead>
+            <tbody id="tasks-body">
+              <!-- lignes générées en JS -->
+            </tbody>
+            <tfoot>
+              <tr>
+                <td colspan="5" class="align-right">Total heures</td>
+                <td class="align-right" id="tfoot-hours">—</td>
+                <td></td>
+                <td class="align-right" id="tfoot-cost">—</td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    // ----- Données de base -----
+
+    const roles = [
+      {
+        id: "cp",
+        name: "Chef de projet / Relation client",
+        rate: 30,
+        note: "Réunions, cadrage, suivi client"
+      },
+      {
+        id: "ux",
+        name: "Webdesigner / UX-UI",
+        rate: 35,
+        note: "Maquettes, UI, parcours utilisateur"
+      },
+      {
+        id: "dev",
+        name: "Développeur WordPress",
+        rate: 40,
+        note: "Intégration, thème, plugins"
+      },
+      {
+        id: "graph",
+        name: "Graphiste",
+        rate: 28,
+        note: "Logo, charte, visuels"
+      },
+      {
+        id: "seo",
+        name: "Rédacteur / SEO",
+        rate: 30,
+        note: "Contenu & on-page SEO"
+      },
+      {
+        id: "qa",
+        name: "QA / Tests",
+        rate: 25,
+        note: "Recette, tests responsive"
+      }
+    ];
+
+    const tasks = [
+      // Cadrage
+      {
+        id: "atelier",
+        phase: "Cadrage",
+        label: "Atelier de découverte & cadrage",
+        roleId: "cp",
+        baseHours: 3,
+        volumeKey: "const"
+      },
+      {
+        id: "cdc",
+        phase: "Cadrage",
+        label: "Rédaction cahier des charges",
+        roleId: "cp",
+        baseHours: 4,
+        volumeKey: "const"
+      },
+      // Design
+      {
+        id: "design_home",
+        phase: "Design",
+        label: "Maquette page d'accueil",
+        roleId: "ux",
+        baseHours: 6,
+        volumeKey: "nbHome"
+      },
+      {
+        id: "design_internes",
+        phase: "Design",
+        label: "Maquettes pages internes",
+        roleId: "ux",
+        baseHours: 3,
+        volumeKey: "nbPages"
+      },
+      // Graphisme
+      {
+        id: "logo",
+        phase: "Graphisme",
+        label: "Création / refonte de logo",
+        roleId: "graph",
+        baseHours: 5,
+        volumeKey: "optLogo"
+      },
+      // Développement
+      {
+        id: "dev_home",
+        phase: "Développement",
+        label: "Intégration page d'accueil",
+        roleId: "dev",
+        baseHours: 6,
+        volumeKey: "nbHome"
+      },
+      {
+        id: "dev_pages",
+        phase: "Développement",
+        label: "Intégration pages internes",
+        roleId: "dev",
+        baseHours: 3,
+        volumeKey: "nbPages"
+      },
+      {
+        id: "dev_config",
+        phase: "Développement",
+        label: "Configuration WordPress & plugins",
+        roleId: "dev",
+        baseHours: 3,
+        volumeKey: "const"
+      },
+      // SEO
+      {
+        id: "seo_pages",
+        phase: "SEO",
+        label: "Optimisation SEO on-page",
+        roleId: "seo",
+        baseHours: 1.5,
+        volumeKey: "nbSeoPages"
+      },
+      // Recette
+      {
+        id: "tests",
+        phase: "Recette",
+        label: "Tests responsive & bugfix",
+        roleId: "qa",
+        baseHours: 4,
+        volumeKey: "const"
+      },
+      // Formation
+      {
+        id: "formation",
+        phase: "Formation",
+        label: "Session de formation client",
+        roleId: "cp",
+        baseHours: 2,
+        volumeKey: "optFormation"
+      }
+    ];
+
+    const rolesById = {};
+    roles.forEach(r => rolesById[r.id] = r);
+
+    // ----- Helpers -----
+
+    function safeNumber(value, fallback = 0) {
+      const n = Number(value);
+      if (Number.isNaN(n)) return fallback;
+      return n;
+    }
+
+    function fmtEuro(num, digits = 0) {
+      if (!Number.isFinite(num)) return "—";
+      return num.toLocaleString("fr-FR", {
+        minimumFractionDigits: digits,
+        maximumFractionDigits: digits
+      }) + " €";
+    }
+
+    function fmtMGA(num) {
+      if (!Number.isFinite(num)) return "—";
+      return num.toLocaleString("fr-FR", {
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 0
+      }) + " MGA";
+    }
+
+    function fmtHours(num) {
+      if (!Number.isFinite(num)) return "—";
+      return num.toLocaleString("fr-FR", {
+        minimumFractionDigits: 1,
+        maximumFractionDigits: 1
+      });
+    }
+
+    function readParams() {
+      const nbHome = Math.max(1, safeNumber(document.getElementById("param_nb_home").value, 1));
+      const nbPages = Math.max(0, safeNumber(document.getElementById("param_nb_pages").value, 0));
+      const nbSeoPages = Math.max(0, safeNumber(document.getElementById("param_nb_seo").value, 0));
+      const optLogo = Math.max(0, Math.min(1, safeNumber(document.getElementById("param_opt_logo").value, 0)));
+      const optFormation = Math.max(0, Math.min(1, safeNumber(document.getElementById("param_opt_formation").value, 0)));
+      const complexity = safeNumber(document.getElementById("param_complexity").value, 1);
+      const margin = Math.max(1, safeNumber(document.getElementById("param_margin").value, 1.3));
+      const fx = Math.max(1, safeNumber(document.getElementById("param_fx").value, 5000));
+      const bufferPercent = Math.max(0, safeNumber(document.getElementById("param_buffer").value, 0));
+
+      return {
+        nbHome,
+        nbPages,
+        nbSeoPages,
+        optLogo,
+        optFormation,
+        complexity,
+        margin,
+        fx,
+        bufferPercent
+      };
+    }
+
+    function getTaskVolume(task, params) {
+      switch (task.volumeKey) {
+        case "nbHome": return params.nbHome;
+        case "nbPages": return params.nbPages;
+        case "nbSeoPages": return params.nbSeoPages;
+        case "optLogo": return params.optLogo;
+        case "optFormation": return params.optFormation;
+        case "const":
+        default:
+          return 1;
+      }
+    }
+
+    // ----- Initialisation UI -----
+
+    function initRolesTable() {
+      const tbody = document.getElementById("roles-body");
+      tbody.innerHTML = "";
+      roles.forEach(role => {
+        const tr = document.createElement("tr");
+
+        const tdName = document.createElement("td");
+        tdName.textContent = role.name;
+
+        const tdRate = document.createElement("td");
+        tdRate.className = "align-right";
+        const input = document.createElement("input");
+        input.type = "number";
+        input.min = "0";
+        input.step = "1";
+        input.value = role.rate;
+        input.dataset.roleId = role.id;
+        input.addEventListener("input", () => {
+          role.rate = safeNumber(input.value, role.rate);
+          recalcAll();
+        });
+        tdRate.appendChild(input);
+
+        const tdNote = document.createElement("td");
+        tdNote.textContent = role.note;
+
+        tr.appendChild(tdName);
+        tr.appendChild(tdRate);
+        tr.appendChild(tdNote);
+
+        tbody.appendChild(tr);
+      });
+    }
+
+    function initTasksTable() {
+      const tbody = document.getElementById("tasks-body");
+      tbody.innerHTML = "";
+      tasks.forEach(task => {
+        const tr = document.createElement("tr");
+        tr.dataset.taskId = task.id;
+
+        const tdPhase = document.createElement("td");
+        tdPhase.innerHTML = `<span class="tasks-phase">${task.phase}</span>`;
+
+        const tdLabel = document.createElement("td");
+        tdLabel.textContent = task.label;
+
+        const tdRole = document.createElement("td");
+        tdRole.textContent = rolesById[task.roleId]?.name || "—";
+
+        const tdBase = document.createElement("td");
+        tdBase.className = "align-right";
+        tdBase.textContent = fmtHours(task.baseHours);
+
+        const tdVolume = document.createElement("td");
+        tdVolume.className = "align-right";
+        tdVolume.textContent = "—";
+        tdVolume.dataset.type = "volume";
+
+        const tdHours = document.createElement("td");
+        tdHours.className = "align-right";
+        tdHours.textContent = "—";
+        tdHours.dataset.type = "hours";
+
+        const tdRate = document.createElement("td");
+        tdRate.className = "align-right";
+        tdRate.textContent = "—";
+        tdRate.dataset.type = "rate";
+
+        const tdCost = document.createElement("td");
+        tdCost.className = "align-right";
+        tdCost.textContent = "—";
+        tdCost.dataset.type = "cost";
+
+        tr.appendChild(tdPhase);
+        tr.appendChild(tdLabel);
+        tr.appendChild(tdRole);
+        tr.appendChild(tdBase);
+        tr.appendChild(tdVolume);
+        tr.appendChild(tdHours);
+        tr.appendChild(tdRate);
+        tr.appendChild(tdCost);
+
+        tbody.appendChild(tr);
+      });
+    }
+
+    // ----- Recalcul global -----
+
+    function recalcAll() {
+      const params = readParams();
+
+      // Résumé simple
+      document.getElementById("summary-pages").textContent =
+        `${params.nbHome} home · ${params.nbPages} internes`;
+      document.getElementById("summary-complexity").textContent =
+        `x${params.complexity.toLocaleString("fr-FR", { minimumFractionDigits: 1, maximumFractionDigits: 1 })}`;
+      const opts = [];
+      if (params.optLogo === 1) opts.push("Logo");
+      if (params.optFormation === 1) opts.push("Formation");
+      if (params.nbSeoPages > 0) opts.push(`SEO x${params.nbSeoPages}`);
+      document.getElementById("summary-options").textContent =
+        opts.length ? opts.join(" · ") : "Aucune option";
+
+      // Détail des tâches
+      const tbody = document.getElementById("tasks-body");
+      let totalHours = 0;
+      let totalCost = 0;
+
+      tasks.forEach(task => {
+        const row = tbody.querySelector(`tr[data-task-id="${task.id}"]`);
+        if (!row) return;
+
+        const volume = getTaskVolume(task, params);
+        const hours = task.baseHours * volume * params.complexity;
+        const rate = rolesById[task.roleId]?.rate ?? 0;
+        const cost = hours * rate;
+
+        totalHours += hours;
+        totalCost += cost;
+
+        row.querySelector('td[data-type="volume"]').textContent =
+          volume.toLocaleString("fr-FR", { maximumFractionDigits: 1 });
+        row.querySelector('td[data-type="hours"]').textContent = fmtHours(hours);
+        row.querySelector('td[data-type="rate"]').textContent = fmtEuro(rate, 0);
+        row.querySelector('td[data-type="cost"]').textContent = fmtEuro(cost, 0);
+      });
+
+      document.getElementById("tfoot-hours").textContent = fmtHours(totalHours);
+      document.getElementById("tfoot-cost").textContent = fmtEuro(totalCost, 0);
+
+      // Buffer imprévus
+      const bufferAmount = totalCost * (params.bufferPercent / 100);
+      const internalWithBuffer = totalCost + bufferAmount;
+
+      // Prix de vente
+      const priceSell = internalWithBuffer * params.margin;
+      const priceSellMGA = priceSell * params.fx;
+
+      document.getElementById("summary-cost-internal").textContent = fmtEuro(internalWithBuffer, 0);
+      document.getElementById("summary-price-sell").textContent = fmtEuro(priceSell, 0);
+      document.getElementById("summary-price-sell-mga").textContent = fmtMGA(priceSellMGA);
+    }
+
+    function bindParamEvents() {
+      const ids = [
+        "param_type_site",
+        "param_complexity",
+        "param_nb_home",
+        "param_nb_pages",
+        "param_nb_seo",
+        "param_opt_logo",
+        "param_opt_formation",
+        "param_margin",
+        "param_fx",
+        "param_buffer"
+      ];
+
+      ids.forEach(id => {
+        const el = document.getElementById(id);
+        if (!el) return;
+        const evt = el.tagName === "SELECT" ? "change" : "input";
+        el.addEventListener(evt, recalcAll);
+      });
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      initRolesTable();
+      initTasksTable();
+      bindParamEvents();
+      recalcAll();
+    });
+  </script>
+</body>
+</html>
