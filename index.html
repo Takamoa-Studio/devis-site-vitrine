@@ -110,7 +110,7 @@
 
     main {
       display: grid;
-      grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.2fr);
+      grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 20px;
       align-items: flex-start;
     }
@@ -119,6 +119,12 @@
       main {
         grid-template-columns: minmax(0, 1fr);
       }
+    }
+
+    .column-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
     }
 
     .card {
@@ -262,8 +268,6 @@
     }
 
     .roles-table-wrapper {
-      max-height: 220px;
-      overflow: auto;
       border-radius: var(--radius-md);
       border: 1px solid rgba(31, 41, 55, 0.9);
       background: radial-gradient(circle at top, rgba(56,189,248,0.1) 0, #020617 45%, #020617 100%);
@@ -419,8 +423,6 @@
     }
 
     .tasks-table-wrapper {
-      max-height: 360px;
-      overflow: auto;
       border-radius: var(--radius-md);
       border: 1px solid rgba(31, 41, 55, 0.9);
       background: radial-gradient(circle at top, rgba(56,189,248,0.12) 0, #020617 50%, #020617 100%);
@@ -479,198 +481,216 @@
     </header>
 
     <main>
-      <!-- COLONNE GAUCHE : Paramètres projet -->
-      <section class="card">
-        <div class="card-header">
-          <div>
-            <h2><span class="icon">⚙</span> Paramètres du projet</h2>
-            <p class="sub">Ajuste le volume de travail, la complexité et ta marge agence.</p>
-          </div>
-          <div class="tag">
-            <span class="tag-dot"></span>
-            Mode freelance · multi-rôles
-          </div>
-        </div>
-
-        <div class="grid" aria-label="Paramètres principaux du projet">
-          <div class="field">
-            <label for="param_type_site">
-              Type de site
-              <span class="hint">impacte juste l'affichage</span>
-            </label>
-            <select id="param_type_site">
-              <option value="vitrine">Site vitrine sur-mesure</option>
-              <option value="vitrine_plus">Vitrine avancée (blog, filtres…)</option>
-              <option value="ecommerce">E-commerce (estimation simple)</option>
-            </select>
-          </div>
-
-          <div class="field">
-            <label for="param_complexity">
-              Complexité globale
-              <span class="hint">multiplie toutes les tâches</span>
-            </label>
-            <select id="param_complexity">
-              <option value="1">Simple (x1.0)</option>
-              <option value="1.2" selected>Standard (x1.2)</option>
-              <option value="1.5">Complexe (x1.5)</option>
-            </select>
-          </div>
-
-          <div class="field">
-            <label for="param_nb_home">
-              Nb. pages d'accueil (variantes)
-            </label>
-            <input type="number" id="param_nb_home" min="1" step="1" value="1">
-          </div>
-
-          <div class="field">
-            <label for="param_nb_pages">
-              Nb. pages internes
-              <span class="hint">hors home</span>
-            </label>
-            <input type="number" id="param_nb_pages" min="0" step="1" value="4">
-          </div>
-
-          <div class="field">
-            <label for="param_nb_seo">
-              Pages optimisées SEO
-            </label>
-            <input type="number" id="param_nb_seo" min="0" step="1" value="5">
-          </div>
-
-          <div class="field">
-            <label for="param_opt_logo">
-              Création / refonte de logo ?
-              <span class="hint">0 = non, 1 = oui</span>
-            </label>
-            <input type="number" id="param_opt_logo" min="0" max="1" step="1" value="1">
-          </div>
-
-          <div class="field">
-            <label for="param_opt_formation">
-              Formation client ?
-              <span class="hint">0 = non, 1 = oui</span>
-            </label>
-            <input type="number" id="param_opt_formation" min="0" max="1" step="1" value="1">
-          </div>
-
-          <div class="field">
-            <label for="param_margin">
-              Coefficient de marge agence
-              <span class="hint">ex : 1.3 = +30%</span>
-            </label>
-            <input type="number" id="param_margin" min="1" step="0.05" value="1.3">
-          </div>
-
-          <div class="field">
-            <label for="param_fx">
-              Taux de change € → MGA
-              <span class="hint">approximatif</span>
-            </label>
-            <input type="number" id="param_fx" min="1" step="50" value="5000">
-          </div>
-
-          <div class="field">
-            <label for="param_comment">
-              Intitulé du projet
-              <span class="hint">pour tes exports</span>
-            </label>
-            <input type="text" id="param_comment" placeholder="Site vitrine pour EVADIA…">
-          </div>
-
-          <div class="field">
-            <label for="param_buffer">
-              Buffer imprévus
-              <span class="hint">en % sur le coût interne</span>
-            </label>
-            <input type="number" id="param_buffer" min="0" step="5" value="10">
-          </div>
-        </div>
-
-        <div class="section">
-          <div class="section-header">
-            <h3>Résumé rapide</h3>
-            <div class="chip-group">
-              <span class="chip"><strong>Pages</strong> : home + internes</span>
-              <span class="chip"><strong>Options</strong> : logo, formation, SEO</span>
+      <div class="column-stack">
+        <!-- COLONNE 1 : Paramètres projet -->
+        <section class="card">
+          <div class="card-header">
+            <div>
+              <h2><span class="icon">⚙</span> Paramètres du projet</h2>
+              <p class="sub">Renseigne le volume de travail, la complexité et ta marge.</p>
+            </div>
+            <div class="tag">
+              <span class="tag-dot"></span>
+              Mode freelance · multi-rôles
             </div>
           </div>
-          <div class="summary-row">
-            <div class="summary-card">
-              <div class="summary-label">Volume de pages</div>
-              <div class="summary-value" id="summary-pages">—</div>
-              <div class="summary-chip muted">Home + internes déclarées</div>
-            </div>
-            <div class="summary-card">
-              <div class="summary-label">Complexité appliquée</div>
-              <div class="summary-value accent" id="summary-complexity">x1.2</div>
-              <div class="summary-chip">Simple / Standard / Complexe</div>
-            </div>
-            <div class="summary-card">
-              <div class="summary-label">Options activées</div>
-              <div class="summary-value" id="summary-options">—</div>
-              <div class="summary-chip muted">Logo, formation, SEO on-page</div>
-            </div>
-          </div>
-        </div>
-      </section>
 
-      <!-- COLONNE DROITE : Rôles & Résumé financier -->
-      <section class="card">
-        <div class="card-header">
-          <div>
-            <h2><span class="icon">👥</span> Rôles & tarifs</h2>
-            <p class="sub">Configure tes tarifs freelance par rôle. Tout le reste se recalculera.</p>
-          </div>
-          <div class="tag">
-            <span class="tag-dot"></span>
-            Taux horaires en €/h
-          </div>
-        </div>
-
-        <div class="roles-table-wrapper roles-table" aria-label="Table des rôles et taux horaires">
-          <table>
-            <thead>
-              <tr>
-                <th>Rôle</th>
-                <th>Taux horaire (€)</th>
-                <th>Notes</th>
-              </tr>
-            </thead>
-            <tbody id="roles-body">
-              <!-- lignes générées en JS -->
-            </tbody>
-          </table>
-        </div>
-
-        <div class="section">
-          <div class="section-header">
-            <h3>Résumé financier</h3>
-          </div>
-          <div class="summary-row">
-            <div class="summary-card">
-              <div class="summary-label">Coût interne estimé</div>
-              <div class="summary-value" id="summary-cost-internal">—</div>
-              <div class="summary-chip muted">Somme de tous les freelances</div>
+          <div class="grid" aria-label="Paramètres principaux du projet">
+            <div class="field">
+              <label for="param_type_site">
+                Type de site
+                <span class="hint">impacte juste l'affichage</span>
+              </label>
+              <select id="param_type_site">
+                <option value="vitrine">Site vitrine sur-mesure</option>
+                <option value="vitrine_plus">Vitrine avancée (blog, filtres…)</option>
+                <option value="ecommerce">E-commerce (estimation simple)</option>
+              </select>
             </div>
-            <div class="summary-card">
-              <div class="summary-label">Prix conseillé HT (€)</div>
-              <div class="summary-value success" id="summary-price-sell">—</div>
-              <div class="summary-chip">Marge agence + buffer imprévus</div>
+
+            <div class="field">
+              <label for="param_complexity">
+                Complexité globale
+                <span class="hint">multiplie toutes les tâches</span>
+              </label>
+              <select id="param_complexity">
+                <option value="1">Simple (x1.0)</option>
+                <option value="1.2" selected>Standard (x1.2)</option>
+                <option value="1.5">Complexe (x1.5)</option>
+              </select>
             </div>
-            <div class="summary-card">
-              <div class="summary-label">Prix conseillé HT (MGA)</div>
-              <div class="summary-value accent" id="summary-price-sell-mga">—</div>
-              <div class="summary-chip muted">Conversion indicative en Ariary</div>
+
+            <div class="field">
+              <label for="param_nb_home">
+                Nb. pages d'accueil (variantes)
+              </label>
+              <input type="number" id="param_nb_home" min="1" step="1" value="1">
+            </div>
+
+            <div class="field">
+              <label for="param_nb_pages">
+                Nb. pages internes
+                <span class="hint">hors home</span>
+              </label>
+              <input type="number" id="param_nb_pages" min="0" step="1" value="4">
+            </div>
+
+            <div class="field">
+              <label for="param_nb_seo">
+                Pages optimisées SEO
+              </label>
+              <input type="number" id="param_nb_seo" min="0" step="1" value="5">
+            </div>
+
+            <div class="field">
+              <label for="param_opt_logo">
+                Création / refonte de logo ?
+                <span class="hint">0 = non, 1 = oui</span>
+              </label>
+              <input type="number" id="param_opt_logo" min="0" max="1" step="1" value="1">
+            </div>
+
+            <div class="field">
+              <label for="param_opt_formation">
+                Formation client ?
+                <span class="hint">0 = non, 1 = oui</span>
+              </label>
+              <input type="number" id="param_opt_formation" min="0" max="1" step="1" value="1">
+            </div>
+
+            <div class="field">
+              <label for="param_margin">
+                Coefficient de marge agence
+                <span class="hint">ex : 1.3 = +30%</span>
+              </label>
+              <input type="number" id="param_margin" min="1" step="0.05" value="1.3">
+            </div>
+
+            <div class="field">
+              <label for="param_fx">
+                Taux de change € → MGA
+                <span class="hint">approximatif</span>
+              </label>
+              <input type="number" id="param_fx" min="1" step="50" value="5000">
+            </div>
+
+            <div class="field">
+              <label for="param_comment">
+                Intitulé du projet
+                <span class="hint">pour tes exports</span>
+              </label>
+              <input type="text" id="param_comment" placeholder="Site vitrine pour EVADIA…">
+            </div>
+
+            <div class="field">
+              <label for="param_buffer">
+                Buffer imprévus
+                <span class="hint">en % sur le coût interne</span>
+              </label>
+              <input type="number" id="param_buffer" min="0" step="5" value="10">
             </div>
           </div>
-        </div>
+        </section>
 
-        <p class="footer-note">
-          Astuce : tu peux dupliquer ce modèle et fixer le résultat comme <span>base de devis</span> pour ton client.
-        </p>
-      </section>
+        <!-- COLONNE 1 : Rôles & tarifs -->
+        <section class="card">
+          <div class="card-header">
+            <div>
+              <h2><span class="icon">👥</span> Rôles & tarifs</h2>
+              <p class="sub">Ajuste les taux horaires freelance. Tous les coûts se recalculent.</p>
+            </div>
+            <div class="tag">
+              <span class="tag-dot"></span>
+              Taux horaires en €/h
+            </div>
+          </div>
+
+          <div class="roles-table-wrapper roles-table" aria-label="Table des rôles et taux horaires">
+            <table>
+              <thead>
+                <tr>
+                  <th>Rôle</th>
+                  <th>Taux horaire (€)</th>
+                  <th>Notes</th>
+                </tr>
+              </thead>
+              <tbody id="roles-body">
+                <!-- lignes générées en JS -->
+              </tbody>
+            </table>
+          </div>
+        </section>
+      </div>
+
+      <div class="column-stack">
+        <!-- COLONNE 2 : Résumés rapides -->
+        <section class="card">
+          <div class="card-header">
+            <div>
+              <h2><span class="icon">🧭</span> Résumé rapide</h2>
+              <p class="sub">Vue d'ensemble des volumes et options activées.</p>
+            </div>
+          </div>
+          <div class="section">
+            <div class="section-header">
+              <div class="chip-group">
+                <span class="chip"><strong>Pages</strong> : home + internes</span>
+                <span class="chip"><strong>Options</strong> : logo, formation, SEO</span>
+              </div>
+            </div>
+            <div class="summary-row">
+              <div class="summary-card">
+                <div class="summary-label">Volume de pages</div>
+                <div class="summary-value" id="summary-pages">—</div>
+                <div class="summary-chip muted">Home + internes déclarées</div>
+              </div>
+              <div class="summary-card">
+                <div class="summary-label">Complexité appliquée</div>
+                <div class="summary-value accent" id="summary-complexity">x1.2</div>
+                <div class="summary-chip">Simple / Standard / Complexe</div>
+              </div>
+              <div class="summary-card">
+                <div class="summary-label">Options activées</div>
+                <div class="summary-value" id="summary-options">—</div>
+                <div class="summary-chip muted">Logo, formation, SEO on-page</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- COLONNE 2 : Résumé financier -->
+        <section class="card">
+          <div class="card-header">
+            <div>
+              <h2><span class="icon">💰</span> Résumé financier</h2>
+              <p class="sub">Synthèse immédiate des montants générés par tes paramètres.</p>
+            </div>
+          </div>
+          <div class="section">
+            <div class="summary-row">
+              <div class="summary-card">
+                <div class="summary-label">Coût interne estimé</div>
+                <div class="summary-value" id="summary-cost-internal">—</div>
+                <div class="summary-chip muted">Somme de tous les freelances</div>
+              </div>
+              <div class="summary-card">
+                <div class="summary-label">Prix conseillé HT (€)</div>
+                <div class="summary-value success" id="summary-price-sell">—</div>
+                <div class="summary-chip">Marge agence + buffer imprévus</div>
+              </div>
+              <div class="summary-card">
+                <div class="summary-label">Prix conseillé HT (MGA)</div>
+                <div class="summary-value accent" id="summary-price-sell-mga">—</div>
+                <div class="summary-chip muted">Conversion indicative en Ariary</div>
+              </div>
+            </div>
+          </div>
+
+          <p class="footer-note">
+            Astuce : tu peux dupliquer ce modèle et fixer le résultat comme <span>base de devis</span> pour ton client.
+          </p>
+        </section>
+      </div>
     </main>
 
     <!-- SECTION DÉTAIL DES TÂCHES -->
