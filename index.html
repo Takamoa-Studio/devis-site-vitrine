@@ -258,6 +258,24 @@
       text-align: end;
     }
 
+    .field-subsection {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      padding: 8px;
+      border: 1px dashed rgba(148, 163, 184, 0.25);
+      border-radius: var(--radius-md);
+      background: rgba(15, 23, 42, 0.35);
+    }
+
+    .field-subtitle {
+      margin: 0;
+      font-size: 0.78rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
     .field input[type="number"],
     .field input[type="text"],
     .field select {
@@ -807,47 +825,85 @@
             <div class="field-group">
               <div class="group-header">
                 <h3 class="group-title"><span class="icon">📰</span> Blog & contenu</h3>
-                <p class="group-sub">Active le blog et ajuste l'import des articles migrés.</p>
+                <p class="group-sub">Active le blog, prépare les nouveaux articles et ajuste l'import d'anciens contenus.</p>
               </div>
-              <div class="grid" aria-label="Blog et import d'articles">
-                <div class="field">
-                  <label for="param_has_blog">
-                    Activer le blog ?
-                    <span class="hint">0 = non, 1 = oui</span>
-                  </label>
-                  <input type="number" id="param_has_blog" min="0" max="1" step="1" value="1">
-                </div>
+              <div class="field-subsection">
+                <p class="field-subtitle">Activation & création d'articles</p>
+                <div class="grid" aria-label="Activation du blog et production d'articles">
+                  <div class="field">
+                    <label for="param_has_blog">
+                      Activer le blog ?
+                      <span class="hint">0 = non, 1 = oui</span>
+                    </label>
+                    <input type="number" id="param_has_blog" min="0" max="1" step="1" value="1">
+                  </div>
 
-                <div class="field">
-                  <label for="param_import_articles">
-                    Articles à importer (refonte)
-                    <span class="hint">uniquement si blog activé</span>
-                  </label>
-                  <input type="number" id="param_import_articles" min="0" step="1" value="0">
-                </div>
+                  <div class="field">
+                    <label for="param_blog_articles">
+                      Articles à créer
+                      <span class="hint">hors import si refonte</span>
+                    </label>
+                    <input type="number" id="param_blog_articles" min="0" step="1" value="2">
+                  </div>
 
-                <div class="field">
-                  <label for="param_import_batch_size">
-                    Articles par batch d'import
-                    <span class="hint">pour le calcul dégressif</span>
-                  </label>
-                  <input type="number" id="param_import_batch_size" min="1" step="1" value="10">
-                </div>
+                  <div class="field">
+                    <label for="param_blog_visuals">
+                      Visuel dédié pour chaque article ?
+                      <span class="hint">impacte graphisme / contenus</span>
+                    </label>
+                    <select id="param_blog_visuals">
+                      <option value="1">Oui, un visuel par article</option>
+                      <option value="0">Non, visuels non prévus</option>
+                    </select>
+                  </div>
 
-                <div class="field">
-                  <label for="param_import_base_cost">
-                    Coût initial par batch (€)
-                    <span class="hint">avant dégressivité</span>
-                  </label>
-                  <input type="number" id="param_import_base_cost" min="0" step="10" value="120">
+                  <div class="field">
+                    <label for="param_blog_seo">
+                      Optimisation SEO pour chaque article ?
+                      <span class="hint">métas, maillage, balisage</span>
+                    </label>
+                    <select id="param_blog_seo">
+                      <option value="1">Oui, optimiser chaque article</option>
+                      <option value="0">Non, sans optimisation dédiée</option>
+                    </select>
+                  </div>
                 </div>
+              </div>
 
-                <div class="field">
-                  <label for="param_import_degressif">
-                    Facteur dégressif par batch
-                    <span class="hint">0.9 = -10% par batch supplémentaire</span>
-                  </label>
-                  <input type="number" id="param_import_degressif" min="0" max="1.5" step="0.05" value="0.9">
+              <div class="field-subsection">
+                <p class="field-subtitle">Import d'articles existants</p>
+                <div class="grid" aria-label="Blog et import d'articles">
+                  <div class="field">
+                    <label for="param_import_articles">
+                      Articles à importer (refonte)
+                      <span class="hint">uniquement si blog activé</span>
+                    </label>
+                    <input type="number" id="param_import_articles" min="0" step="1" value="0">
+                  </div>
+
+                  <div class="field">
+                    <label for="param_import_batch_size">
+                      Articles par batch d'import
+                      <span class="hint">pour le calcul dégressif</span>
+                    </label>
+                    <input type="number" id="param_import_batch_size" min="1" step="1" value="10">
+                  </div>
+
+                  <div class="field">
+                    <label for="param_import_base_cost">
+                      Coût initial par batch (€)
+                      <span class="hint">avant dégressivité</span>
+                    </label>
+                    <input type="number" id="param_import_base_cost" min="0" step="10" value="120">
+                  </div>
+
+                  <div class="field">
+                    <label for="param_import_degressif">
+                      Facteur dégressif par batch
+                      <span class="hint">0.9 = -10% par batch supplémentaire</span>
+                    </label>
+                    <input type="number" id="param_import_degressif" min="0" max="1.5" step="0.05" value="0.9">
+                  </div>
                 </div>
               </div>
             </div>
@@ -1246,6 +1302,22 @@
         volumeKey: "hasBlog"
       },
       {
+        id: "content_articles",
+        phase: "Contenus",
+        label: "Création + mise en ligne des articles",
+        roleId: "seo",
+        baseHours: 2.5,
+        volumeKey: "blogArticles"
+      },
+      {
+        id: "content_article_visuals",
+        phase: "Contenus",
+        label: "Visuel d'illustration par article",
+        roleId: "graph",
+        baseHours: 1,
+        volumeKey: "articleVisuals"
+      },
+      {
         id: "dev_config",
         phase: "Développement",
         label: "Configuration WordPress & plugins",
@@ -1254,6 +1326,14 @@
         volumeKey: "const"
       },
       // SEO
+      {
+        id: "seo_articles",
+        phase: "SEO",
+        label: "Optimisation SEO des articles",
+        roleId: "seo",
+        baseHours: 1,
+        volumeKey: "articleSeo"
+      },
       {
         id: "seo_pages",
         phase: "SEO",
@@ -1300,6 +1380,9 @@
           param_rea_details: 0,
           param_rea_design_mode: 1,
           param_has_blog: 0,
+          param_blog_articles: 0,
+          param_blog_visuals: 1,
+          param_blog_seo: 1,
           param_opt_logo: 0,
           param_opt_formation: 0,
           param_complexity: 1,
@@ -1326,6 +1409,9 @@
           param_rea_details: 3,
           param_rea_design_mode: 1,
           param_has_blog: 1,
+          param_blog_articles: 2,
+          param_blog_visuals: 1,
+          param_blog_seo: 1,
           param_opt_logo: 0,
           param_opt_formation: 0,
           param_complexity: 1.2,
@@ -1352,6 +1438,9 @@
           param_rea_details: 6,
           param_rea_design_mode: 1.4,
           param_has_blog: 1,
+          param_blog_articles: 6,
+          param_blog_visuals: 1,
+          param_blog_seo: 1,
           param_opt_logo: 1,
           param_opt_formation: 1,
           param_complexity: 1.5,
@@ -1424,6 +1513,9 @@
       "param_rea_details",
       "param_rea_design_mode",
       "param_has_blog",
+      "param_blog_articles",
+      "param_blog_visuals",
+      "param_blog_seo",
       "param_opt_logo",
       "param_opt_formation",
       "param_margin",
@@ -1449,6 +1541,12 @@
       const nbReaDetails = Math.max(0, safeNumber(document.getElementById("param_rea_details").value, 0));
       const reaDesignFactor = safeNumber(document.getElementById("param_rea_design_mode").value, 1);
       const hasBlog = Math.max(0, Math.min(1, safeNumber(document.getElementById("param_has_blog").value, 1)));
+      const blogArticlesRaw = Math.max(0, safeNumber(document.getElementById("param_blog_articles").value, 0));
+      const blogArticles = hasBlog ? blogArticlesRaw : 0;
+      const wantsBlogVisuals = Math.max(0, Math.min(1, safeNumber(document.getElementById("param_blog_visuals").value, 1)));
+      const wantsBlogSeo = Math.max(0, Math.min(1, safeNumber(document.getElementById("param_blog_seo").value, 1)));
+      const articleVisualsVolume = blogArticles * wantsBlogVisuals;
+      const articleSeoVolume = blogArticles * wantsBlogSeo;
       const optLogo = Math.max(0, Math.min(1, safeNumber(document.getElementById("param_opt_logo").value, 0)));
       const optFormation = Math.max(0, Math.min(1, safeNumber(document.getElementById("param_opt_formation").value, 0)));
       const complexity = safeNumber(document.getElementById("param_complexity").value, 1);
@@ -1478,6 +1576,9 @@
         nbReaDetails,
         reaDesignFactor,
         hasBlog,
+        blogArticles,
+        articleVisualsVolume,
+        articleSeoVolume,
         optLogo,
         optFormation,
         complexity,
@@ -1517,6 +1618,9 @@
         case "serviceDetailsWeighted": return params.nbServiceDetails * params.serviceDesignFactor;
         case "reaListing": return params.nbReaListing;
         case "reaDetailsWeighted": return params.nbReaDetails * params.reaDesignFactor;
+        case "blogArticles": return params.blogArticles;
+        case "articleVisuals": return params.articleVisualsVolume;
+        case "articleSeo": return params.articleSeoVolume;
         case "hasBlog": return params.hasBlog;
         case "const":
         default:
