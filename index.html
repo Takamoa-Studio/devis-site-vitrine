@@ -771,6 +771,41 @@
 
             <div class="field-group">
               <div class="group-header">
+                <h3 class="group-title"><span class="icon">🏆</span> Pages réalisations</h3>
+                <p class="group-sub">Ajuste le volume d'études de cas et le niveau de personnalisation.</p>
+              </div>
+              <div class="grid" aria-label="Pages réalisations et études de cas">
+                <div class="field">
+                  <label for="param_rea_listing">
+                    Page Réalisations (listing)
+                    <span class="hint">0 = non prévue, 1 = incluse</span>
+                  </label>
+                  <input type="number" id="param_rea_listing" min="0" max="1" step="1" value="1">
+                </div>
+
+                <div class="field">
+                  <label for="param_rea_details">
+                    Nb. études de cas détaillées
+                    <span class="hint">hors page listing</span>
+                  </label>
+                  <input type="number" id="param_rea_details" min="0" step="1" value="3">
+                </div>
+
+                <div class="field">
+                  <label for="param_rea_design_mode">
+                    Design des pages réalisations
+                    <span class="hint">impacte les heures de design/dev</span>
+                  </label>
+                  <select id="param_rea_design_mode">
+                    <option value="1">Gabarit unique pour toutes les études</option>
+                    <option value="1.4">Design spécifique par étude (+40%)</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div class="field-group">
+              <div class="group-header">
                 <h3 class="group-title"><span class="icon">📰</span> Blog & contenu</h3>
                 <p class="group-sub">Active le blog et ajuste l'import des articles migrés.</p>
               </div>
@@ -1121,6 +1156,22 @@
         volumeKey: "serviceDetailsWeighted"
       },
       {
+        id: "design_realisations_listing",
+        phase: "Design",
+        label: "Maquette page Réalisations",
+        roleId: "ux",
+        baseHours: 3,
+        volumeKey: "reaListing"
+      },
+      {
+        id: "design_realisations_details",
+        phase: "Design",
+        label: "Maquettes études de cas",
+        roleId: "ux",
+        baseHours: 2.5,
+        volumeKey: "reaDetailsWeighted"
+      },
+      {
         id: "design_blog",
         phase: "Design",
         label: "Maquettes blog (listing + article)",
@@ -1169,6 +1220,22 @@
         roleId: "dev",
         baseHours: 3.5,
         volumeKey: "serviceDetailsWeighted"
+      },
+      {
+        id: "dev_realisations_listing",
+        phase: "Développement",
+        label: "Intégration page Réalisations",
+        roleId: "dev",
+        baseHours: 4,
+        volumeKey: "reaListing"
+      },
+      {
+        id: "dev_realisations_details",
+        phase: "Développement",
+        label: "Intégration études de cas",
+        roleId: "dev",
+        baseHours: 3.5,
+        volumeKey: "reaDetailsWeighted"
       },
       {
         id: "dev_blog",
@@ -1229,6 +1296,9 @@
           param_service_listing: 0,
           param_service_details: 0,
           param_service_design_mode: 1,
+          param_rea_listing: 0,
+          param_rea_details: 0,
+          param_rea_design_mode: 1,
           param_has_blog: 0,
           param_opt_logo: 0,
           param_opt_formation: 0,
@@ -1252,6 +1322,9 @@
           param_service_listing: 1,
           param_service_details: 3,
           param_service_design_mode: 1,
+          param_rea_listing: 1,
+          param_rea_details: 3,
+          param_rea_design_mode: 1,
           param_has_blog: 1,
           param_opt_logo: 0,
           param_opt_formation: 0,
@@ -1275,6 +1348,9 @@
           param_service_listing: 1,
           param_service_details: 6,
           param_service_design_mode: 1.4,
+          param_rea_listing: 1,
+          param_rea_details: 6,
+          param_rea_design_mode: 1.4,
           param_has_blog: 1,
           param_opt_logo: 1,
           param_opt_formation: 1,
@@ -1344,6 +1420,9 @@
       "param_service_listing",
       "param_service_details",
       "param_service_design_mode",
+      "param_rea_listing",
+      "param_rea_details",
+      "param_rea_design_mode",
       "param_has_blog",
       "param_opt_logo",
       "param_opt_formation",
@@ -1366,6 +1445,9 @@
       const nbServiceListing = Math.max(0, Math.min(1, safeNumber(document.getElementById("param_service_listing").value, 1)));
       const nbServiceDetails = Math.max(0, safeNumber(document.getElementById("param_service_details").value, 0));
       const serviceDesignFactor = safeNumber(document.getElementById("param_service_design_mode").value, 1);
+      const nbReaListing = Math.max(0, Math.min(1, safeNumber(document.getElementById("param_rea_listing").value, 1)));
+      const nbReaDetails = Math.max(0, safeNumber(document.getElementById("param_rea_details").value, 0));
+      const reaDesignFactor = safeNumber(document.getElementById("param_rea_design_mode").value, 1);
       const hasBlog = Math.max(0, Math.min(1, safeNumber(document.getElementById("param_has_blog").value, 1)));
       const optLogo = Math.max(0, Math.min(1, safeNumber(document.getElementById("param_opt_logo").value, 0)));
       const optFormation = Math.max(0, Math.min(1, safeNumber(document.getElementById("param_opt_formation").value, 0)));
@@ -1380,7 +1462,7 @@
       const importDegressive = Math.max(0, safeNumber(document.getElementById("param_import_degressif").value, 1));
 
       const totalInternalPages = nbPages + nbLegal;
-      const totalPagesWithExtras = totalInternalPages + nbServiceListing + nbServiceDetails + (hasBlog ? 2 : 0);
+      const totalPagesWithExtras = totalInternalPages + nbServiceListing + nbServiceDetails + nbReaListing + nbReaDetails + (hasBlog ? 2 : 0);
 
       return {
         nbHome,
@@ -1392,6 +1474,9 @@
         nbServiceListing,
         nbServiceDetails,
         serviceDesignFactor,
+        nbReaListing,
+        nbReaDetails,
+        reaDesignFactor,
         hasBlog,
         optLogo,
         optFormation,
@@ -1430,6 +1515,8 @@
         case "optFormation": return params.optFormation;
         case "serviceListing": return params.nbServiceListing;
         case "serviceDetailsWeighted": return params.nbServiceDetails * params.serviceDesignFactor;
+        case "reaListing": return params.nbReaListing;
+        case "reaDetailsWeighted": return params.nbReaDetails * params.reaDesignFactor;
         case "hasBlog": return params.hasBlog;
         case "const":
         default:
@@ -1554,6 +1641,11 @@
         const detailLabel = params.nbServiceDetails > 0 ? `${params.nbServiceDetails} fiches` : "listing seul";
         const designLabel = params.serviceDesignFactor > 1 ? "design dédié" : "gabarit unique";
         opts.push(`Services ${detailLabel} (${designLabel})`);
+      }
+      if (params.nbReaListing === 1 || params.nbReaDetails > 0) {
+        const detailLabel = params.nbReaDetails > 0 ? `${params.nbReaDetails} cas` : "listing seul";
+        const designLabel = params.reaDesignFactor > 1 ? "design dédié" : "gabarit unique";
+        opts.push(`Réalisations ${detailLabel} (${designLabel})`);
       }
       if (params.nbSeoPages > 0) opts.push(`SEO x${params.nbSeoPages}`);
       if (importResult.batches > 0) opts.push(`Import ${params.importArticles} art.`);
