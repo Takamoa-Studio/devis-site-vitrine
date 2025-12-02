@@ -186,6 +186,51 @@
       gap: 12px 14px;
     }
 
+    .field-groups {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .field-group {
+      background: linear-gradient(120deg, rgba(56, 189, 248, 0.06), rgba(74, 222, 128, 0.04));
+      border: 1px solid rgba(148, 163, 184, 0.2);
+      border-radius: var(--radius-md);
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .group-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .group-title {
+      font-size: 0.82rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--text);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin: 0;
+    }
+
+    .group-title .icon {
+      font-size: 0.8rem;
+      color: var(--accent);
+    }
+
+    .group-sub {
+      margin: 0;
+      font-size: 0.78rem;
+      color: var(--muted);
+    }
+
     @media (max-width: 600px) {
       .grid {
         grid-template-columns: minmax(0, 1fr);
@@ -504,139 +549,179 @@
             </div>
           </div>
 
-          <div class="grid" aria-label="Paramètres principaux du projet">
-            <div class="field">
-              <label for="param_type_site">
-                Type de site
-                <span class="hint">impacte juste l'affichage</span>
-              </label>
-              <select id="param_type_site">
-                <option value="vitrine">Site vitrine sur-mesure</option>
-                <option value="vitrine_plus">Vitrine avancée (blog, filtres…)</option>
-                <option value="ecommerce">E-commerce (estimation simple)</option>
-              </select>
+          <div class="field-groups">
+            <div class="field-group">
+              <div class="group-header">
+                <h3 class="group-title"><span class="icon">🎯</span> Cadre du projet</h3>
+                <p class="group-sub">Précise le contexte général et la complexité.</p>
+              </div>
+              <div class="grid" aria-label="Cadre général du projet">
+                <div class="field">
+                  <label for="param_type_site">
+                    Type de site
+                    <span class="hint">impacte juste l'affichage</span>
+                  </label>
+                  <select id="param_type_site">
+                    <option value="vitrine">Site vitrine sur-mesure</option>
+                    <option value="vitrine_plus">Vitrine avancée (blog, filtres…)</option>
+                    <option value="ecommerce">E-commerce (estimation simple)</option>
+                  </select>
+                </div>
+
+                <div class="field">
+                  <label for="param_comment">
+                    Intitulé du projet
+                    <span class="hint">pour tes exports</span>
+                  </label>
+                  <input type="text" id="param_comment" placeholder="Site vitrine pour EVADIA…">
+                </div>
+
+                <div class="field">
+                  <label for="param_complexity">
+                    Complexité globale
+                    <span class="hint">multiplie toutes les tâches</span>
+                  </label>
+                  <select id="param_complexity">
+                    <option value="1">Simple (x1.0)</option>
+                    <option value="1.2" selected>Standard (x1.2)</option>
+                    <option value="1.5">Complexe (x1.5)</option>
+                  </select>
+                </div>
+
+                <div class="field">
+                  <label for="param_buffer">
+                    Buffer imprévus
+                    <span class="hint">en % sur le coût interne</span>
+                  </label>
+                  <input type="number" id="param_buffer" min="0" step="5" value="10">
+                </div>
+              </div>
             </div>
 
-            <div class="field">
-              <label for="param_complexity">
-                Complexité globale
-                <span class="hint">multiplie toutes les tâches</span>
-              </label>
-              <select id="param_complexity">
-                <option value="1">Simple (x1.0)</option>
-                <option value="1.2" selected>Standard (x1.2)</option>
-                <option value="1.5">Complexe (x1.5)</option>
-              </select>
+            <div class="field-group">
+              <div class="group-header">
+                <h3 class="group-title"><span class="icon">📄</span> Structure du site</h3>
+                <p class="group-sub">Organise les pages prévues pour le projet.</p>
+              </div>
+              <div class="grid" aria-label="Structure du site">
+                <div class="field">
+                  <label for="param_nb_home">
+                    Nb. pages d'accueil (variantes)
+                  </label>
+                  <input type="number" id="param_nb_home" min="1" step="1" value="1">
+                </div>
+
+                <div class="field">
+                  <label for="param_nb_pages">
+                    Nb. pages internes
+                    <span class="hint">hors home, pages légales incluses</span>
+                  </label>
+                  <input type="number" id="param_nb_pages" min="0" step="1" value="4">
+                </div>
+
+                <div class="field">
+                  <label for="param_nb_legal">
+                    Pages légales (incluses)
+                    <span class="hint">mentions légales, CGV, politique…</span>
+                  </label>
+                  <input type="number" id="param_nb_legal" min="0" step="1" value="3">
+                </div>
+
+                <div class="field">
+                  <label for="param_nb_seo">
+                    Pages optimisées SEO
+                  </label>
+                  <input type="number" id="param_nb_seo" min="0" step="1" value="5">
+                </div>
+              </div>
             </div>
 
-            <div class="field">
-              <label for="param_nb_home">
-                Nb. pages d'accueil (variantes)
-              </label>
-              <input type="number" id="param_nb_home" min="1" step="1" value="1">
+            <div class="field-group">
+              <div class="group-header">
+                <h3 class="group-title"><span class="icon">🧰</span> Options & accompagnement</h3>
+                <p class="group-sub">Services complémentaires à activer.</p>
+              </div>
+              <div class="grid" aria-label="Options et accompagnement">
+                <div class="field">
+                  <label for="param_opt_logo">
+                    Création / refonte de logo ?
+                    <span class="hint">0 = non, 1 = oui</span>
+                  </label>
+                  <input type="number" id="param_opt_logo" min="0" max="1" step="1" value="1">
+                </div>
+
+                <div class="field">
+                  <label for="param_opt_formation">
+                    Formation client ?
+                    <span class="hint">0 = non, 1 = oui</span>
+                  </label>
+                  <input type="number" id="param_opt_formation" min="0" max="1" step="1" value="1">
+                </div>
+              </div>
             </div>
 
-            <div class="field">
-              <label for="param_nb_pages">
-                Nb. pages internes
-                <span class="hint">hors home, pages légales incluses</span>
-              </label>
-              <input type="number" id="param_nb_pages" min="0" step="1" value="4">
+            <div class="field-group">
+              <div class="group-header">
+                <h3 class="group-title"><span class="icon">💰</span> Marges & taux</h3>
+                <p class="group-sub">Adapter le prix final au contexte financier.</p>
+              </div>
+              <div class="grid" aria-label="Marge et taux de change">
+                <div class="field">
+                  <label for="param_margin">
+                    Coefficient de marge agence
+                    <span class="hint">ex : 1.3 = +30%</span>
+                  </label>
+                  <input type="number" id="param_margin" min="1" step="0.05" value="1.3">
+                </div>
+
+                <div class="field">
+                  <label for="param_fx">
+                    Taux de change € → MGA
+                    <span class="hint">approximatif</span>
+                  </label>
+                  <input type="number" id="param_fx" min="1" step="50" value="5000">
+                </div>
+              </div>
             </div>
 
-            <div class="field">
-              <label for="param_nb_legal">
-                Pages légales (incluses)
-                <span class="hint">mentions légales, CGV, politique…</span>
-              </label>
-              <input type="number" id="param_nb_legal" min="0" step="1" value="3">
-            </div>
+            <div class="field-group">
+              <div class="group-header">
+                <h3 class="group-title"><span class="icon">📥</span> Import de contenu</h3>
+                <p class="group-sub">Active et règle l'import d'articles en refonte.</p>
+              </div>
+              <div class="grid" aria-label="Importation d'articles">
+                <div class="field">
+                  <label for="param_import_articles">
+                    Articles à importer (refonte)
+                    <span class="hint">0 = pas d'import</span>
+                  </label>
+                  <input type="number" id="param_import_articles" min="0" step="1" value="0">
+                </div>
 
-            <div class="field">
-              <label for="param_nb_seo">
-                Pages optimisées SEO
-              </label>
-              <input type="number" id="param_nb_seo" min="0" step="1" value="5">
-            </div>
+                <div class="field">
+                  <label for="param_import_batch_size">
+                    Articles par batch d'import
+                    <span class="hint">pour le calcul dégressif</span>
+                  </label>
+                  <input type="number" id="param_import_batch_size" min="1" step="1" value="10">
+                </div>
 
-            <div class="field">
-              <label for="param_opt_logo">
-                Création / refonte de logo ?
-                <span class="hint">0 = non, 1 = oui</span>
-              </label>
-              <input type="number" id="param_opt_logo" min="0" max="1" step="1" value="1">
-            </div>
+                <div class="field">
+                  <label for="param_import_base_cost">
+                    Coût initial par batch (€)
+                    <span class="hint">avant dégressivité</span>
+                  </label>
+                  <input type="number" id="param_import_base_cost" min="0" step="10" value="120">
+                </div>
 
-            <div class="field">
-              <label for="param_opt_formation">
-                Formation client ?
-                <span class="hint">0 = non, 1 = oui</span>
-              </label>
-              <input type="number" id="param_opt_formation" min="0" max="1" step="1" value="1">
-            </div>
-
-            <div class="field">
-              <label for="param_margin">
-                Coefficient de marge agence
-                <span class="hint">ex : 1.3 = +30%</span>
-              </label>
-              <input type="number" id="param_margin" min="1" step="0.05" value="1.3">
-            </div>
-
-            <div class="field">
-              <label for="param_fx">
-                Taux de change € → MGA
-                <span class="hint">approximatif</span>
-              </label>
-              <input type="number" id="param_fx" min="1" step="50" value="5000">
-            </div>
-
-            <div class="field">
-              <label for="param_comment">
-                Intitulé du projet
-                <span class="hint">pour tes exports</span>
-              </label>
-              <input type="text" id="param_comment" placeholder="Site vitrine pour EVADIA…">
-            </div>
-
-            <div class="field">
-              <label for="param_buffer">
-                Buffer imprévus
-                <span class="hint">en % sur le coût interne</span>
-              </label>
-              <input type="number" id="param_buffer" min="0" step="5" value="10">
-            </div>
-
-            <div class="field">
-              <label for="param_import_articles">
-                Articles à importer (refonte)
-                <span class="hint">0 = pas d'import</span>
-              </label>
-              <input type="number" id="param_import_articles" min="0" step="1" value="0">
-            </div>
-
-            <div class="field">
-              <label for="param_import_batch_size">
-                Articles par batch d'import
-                <span class="hint">pour le calcul dégressif</span>
-              </label>
-              <input type="number" id="param_import_batch_size" min="1" step="1" value="10">
-            </div>
-
-            <div class="field">
-              <label for="param_import_base_cost">
-                Coût initial par batch (€)
-                <span class="hint">avant dégressivité</span>
-              </label>
-              <input type="number" id="param_import_base_cost" min="0" step="10" value="120">
-            </div>
-
-            <div class="field">
-              <label for="param_import_degressif">
-                Facteur dégressif par batch
-                <span class="hint">0.9 = -10% par batch supplémentaire</span>
-              </label>
-              <input type="number" id="param_import_degressif" min="0" max="1.5" step="0.05" value="0.9">
+                <div class="field">
+                  <label for="param_import_degressif">
+                    Facteur dégressif par batch
+                    <span class="hint">0.9 = -10% par batch supplémentaire</span>
+                  </label>
+                  <input type="number" id="param_import_degressif" min="0" max="1.5" step="0.05" value="0.9">
+                </div>
+              </div>
             </div>
           </div>
         </section>
