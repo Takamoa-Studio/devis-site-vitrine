@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Devis SEO & Maintenance WordPress</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    :root {
+      --bg: #0f172a;
+      --bg-alt: #020617;
+      --card: #020617;
+      --card-soft: #0b1220;
+      --accent: #38bdf8;
+      --accent-soft: rgba(56, 189, 248, 0.1);
+      --accent-2: #4ade80;
+      --text: #e5e7eb;
+      --muted: #9ca3af;
+      --border: #1f2937;
+      --danger: #f97373;
+      --radius-lg: 16px;
+      --radius-md: 10px;
+      --shadow-soft: 0 18px 40px rgba(15, 23, 42, 0.8);
+      --shadow-chip: 0 10px 24px rgba(15, 23, 42, 0.7);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top, #1d283a 0, #020617 45%, #000 100%);
+      color: var(--text);
+      line-height: 1.5;
+      min-height: 100vh;
+    }
+
+    h1, h2, h3 {
+      margin: 0;
+      font-weight: 600;
+      letter-spacing: 0.03em;
+    }
+
+    h1 {
+      font-size: clamp(1.7rem, 3vw, 2.2rem);
+    }
+
+    h2 {
+      font-size: 1.1rem;
+      text-transform: uppercase;
+    }
+
+    .page {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 24px 16px 48px;
+    }
+
+    header {
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .brand {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 10px;
+    }
+
+    .brand-logo-img {
+      width: 180px;
+      height: auto;
+      display: block;
+      filter: drop-shadow(0 10px 30px rgba(56, 189, 248, 0.35));
+    }
+
+    .brand-subtitle {
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      color: var(--muted);
+    }
+
+    .pill {
+      padding: 8px 14px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(56, 189, 248, 0.4);
+      color: var(--accent);
+      font-size: 0.78rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: var(--shadow-chip);
+      white-space: nowrap;
+    }
+
+    .pill-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: #4ade80;
+      box-shadow: 0 0 12px rgba(74, 222, 128, 0.9);
+    }
+
+    main {
+      display: grid;
+      grid-template-columns: minmax(0, 1.5fr) minmax(0, 0.5fr);
+      gap: 20px;
+      align-items: flex-start;
+    }
+
+    @media (max-width: 900px) {
+      main {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    .card {
+      background: radial-gradient(circle at top left, rgba(56,189,248,0.08) 0, rgba(15,23,42,0.95) 45%, #020617 100%);
+      border-radius: var(--radius-lg);
+      padding: 18px 18px 16px;
+      border: 1px solid rgba(148, 163, 184, 0.25);
+      box-shadow: var(--shadow-soft);
+      backdrop-filter: blur(16px);
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+
+    .card-header h2 {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+
+    .card-header h2 span.icon {
+      width: 22px;
+      height: 22px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.9);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      color: var(--accent);
+    }
+
+    .card-header p.sub {
+      font-size: 0.78rem;
+      color: var(--muted);
+      margin: 0;
+      max-width: 260px;
+    }
+
+    .section {
+      margin-top: 22px;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 10px;
+    }
+
+    .section-header h3 {
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .muted {
+      color: var(--muted);
+      font-size: 0.78rem;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.95);
+      border: 1px solid rgba(56, 189, 248, 0.2);
+      font-size: 0.7rem;
+      color: var(--muted);
+    }
+
+    .tag-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: var(--accent-2);
+      box-shadow: 0 0 10px rgba(74, 222, 128, 0.8);
+    }
+
+    .tasks-table-wrapper {
+      max-height: 420px;
+      overflow: auto;
+      border-radius: var(--radius-md);
+      border: 1px solid rgba(31, 41, 55, 0.9);
+      background: radial-gradient(circle at top, rgba(56,189,248,0.12) 0, #020617 50%, #020617 100%);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.78rem;
+      min-width: 100%;
+    }
+
+    thead {
+      position: sticky;
+      top: 0;
+      background: rgba(15, 23, 42, 0.98);
+      backdrop-filter: blur(10px);
+      z-index: 1;
+    }
+
+    th, td {
+      padding: 7px 10px;
+      text-align: left;
+      white-space: nowrap;
+    }
+
+    th {
+      font-weight: 500;
+      color: #9ca3af;
+      border-bottom: 1px solid rgba(31, 41, 55, 0.9);
+      text-transform: uppercase;
+      font-size: 0.7rem;
+      letter-spacing: 0.08em;
+    }
+
+    tbody tr:nth-child(odd) td {
+      background: rgba(15, 23, 42, 0.7);
+    }
+
+    tbody tr:nth-child(even) td {
+      background: rgba(15, 23, 42, 0.95);
+    }
+
+    tbody tr:hover td {
+      background: rgba(30, 64, 175, 0.45);
+    }
+
+    .align-right {
+      text-align: right;
+    }
+
+    .field input[type="number"] {
+      background: rgba(15, 23, 42, 0.95);
+      border-radius: 999px;
+      border: 1px solid rgba(31, 41, 55, 0.9);
+      padding: 6px 10px;
+      color: var(--text);
+      font-size: 0.78rem;
+      width: 90px;
+      outline: none;
+      transition: border-color 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+    }
+
+    .field input[type="number"]:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 1px rgba(56, 189, 248, 0.6);
+    }
+
+    .summary-card {
+      padding: 12px 12px 10px;
+      border-radius: var(--radius-md);
+      border: 1px solid rgba(56, 189, 248, 0.25);
+      background: linear-gradient(140deg, rgba(15,23,42,0.96), rgba(12,23,45,0.96));
+      box-shadow: 0 16px 30px rgba(15,23,42,0.85);
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .summary-label {
+      font-size: 0.72rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+    }
+
+    .summary-value {
+      font-size: 1rem;
+      font-weight: 600;
+    }
+
+    .summary-value.accent {
+      color: var(--accent);
+    }
+
+    .summary-value.success {
+      color: var(--accent-2);
+    }
+
+    .summary-row {
+      display: grid;
+      grid-template-columns: repeat(1, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .btn {
+      margin-top: 10px;
+      padding: 10px 14px;
+      border-radius: var(--radius-md);
+      border: 1px solid rgba(56, 189, 248, 0.5);
+      background: linear-gradient(90deg, rgba(56,189,248,0.12), rgba(56,189,248,0.22));
+      color: var(--text);
+      font-weight: 600;
+      cursor: pointer;
+      width: 100%;
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+      box-shadow: var(--shadow-chip);
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 14px 28px rgba(56, 189, 248, 0.25);
+    }
+
+    .sticky-card {
+      position: sticky;
+      top: 16px;
+    }
+
+    .totals {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .table-note {
+      margin-top: 6px;
+      color: var(--muted);
+      font-size: 0.75rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header>
+      <div class="brand">
+        <img src="assets/logo.webp" alt="Logo Takamoa" class="brand-logo-img">
+        <span class="brand-subtitle">Maintenance & Optimisation SEO</span>
+      </div>
+      <div class="pill">
+        <span class="pill-dot"></span>
+        Devis modulable · Temps réel
+      </div>
+    </header>
+
+    <main>
+      <section>
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <h2><span class="icon">🧭</span> Configurer votre prestation</h2>
+              <p class="sub">Ajustez les quantités et tarifs unitaires pour générer un devis précis.</p>
+            </div>
+            <div class="tag">
+              <span class="tag-dot"></span>
+              WordPress · SEO · Maintenance
+            </div>
+          </div>
+          <div id="blocks-container" class="section" aria-label="Blocs de devis SEO et maintenance"></div>
+        </div>
+      </section>
+
+      <section class="card sticky-card">
+        <div class="card-header">
+          <div>
+            <h2><span class="icon">🧾</span> Récapitulatif du devis</h2>
+            <p class="sub">Totaux mis à jour automatiquement pour chaque bloc et pour l'ensemble.</p>
+          </div>
+        </div>
+
+        <div class="totals" id="totals-container"></div>
+
+        <div class="summary-card" style="margin-top: 12px;">
+          <div class="summary-label">Total général du devis</div>
+          <div id="grand-total" class="summary-value success">—</div>
+          <div class="summary-value accent" style="font-size: 0.85rem;">TVA non incluse · estimation</div>
+        </div>
+
+        <button class="btn" type="button" onclick="window.print()">Exporter / Imprimer le devis</button>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    // ----- Données de base -----
+    const blocks = [
+      {
+        id: "audit",
+        title: "Audit & optimisation du site",
+        desc: "Évaluation technique, performance et sécurité avant optimisation.",
+        items: [
+          { label: "Audit technique & ergonomique du site", unit: "Forfait", qty: 1, price: 450 },
+          { label: "Analyse des performances", unit: "Forfait", qty: 1, price: 280 },
+          { label: "Implémentation des correctifs prioritaires", unit: "Heure", qty: 4, price: 60 },
+          { label: "Optimisation sécurité & plugins", unit: "Heure", qty: 3, price: 60 }
+        ]
+      },
+      {
+        id: "seo_onpage",
+        title: "Optimisation SEO des pages",
+        desc: "Recherche sémantique et optimisation on-page ciblée.",
+        items: [
+          { label: "Recherche mots-clés & mapping", unit: "Lot de pages", qty: 1, price: 320 },
+          { label: "Optimisation SEO d'une page", unit: "Page", qty: 5, price: 90 },
+          { label: "Intégration SEO dans WordPress", unit: "Page", qty: 5, price: 45 },
+          { label: "Création d'un template de page optimisée", unit: "Forfait", qty: 1, price: 280 }
+        ]
+      },
+      {
+        id: "content",
+        title: "Stratégie de contenus",
+        desc: "Plan éditorial et cadrage thématique pour votre audience.",
+        items: [
+          { label: "Atelier / interview pour cadrage éditorial", unit: "Forfait", qty: 1, price: 260 },
+          { label: "Personas & thèmes prioritaires", unit: "Forfait", qty: 1, price: 220 },
+          { label: "Calendrier éditorial", unit: "Mois", qty: 2, price: 180 },
+          { label: "Recherche mots-clés pour articles", unit: "Article", qty: 4, price: 50 }
+        ]
+      },
+      {
+        id: "blog",
+        title: "Rédaction d’articles de blog SEO",
+        desc: "Production de contenus optimisés pour le référencement.",
+        items: [
+          { label: "Article court (600–800 mots)", unit: "Article", qty: 2, price: 140 },
+          { label: "Article standard (800–1200 mots)", unit: "Article", qty: 2, price: 180 },
+          { label: "Article pilier (1500–2500 mots)", unit: "Article", qty: 1, price: 320 },
+          { label: "Intégration article dans WordPress", unit: "Article", qty: 5, price: 35 },
+          { label: "Optimisation Rank Math / Yoast", unit: "Article", qty: 5, price: 28 },
+          { label: "Création de visuels", unit: "Article", qty: 5, price: 25 }
+        ]
+      },
+      {
+        id: "maintenance",
+        title: "Maintenance & accompagnement WordPress",
+        desc: "Supervision, mises à jour et support continu.",
+        items: [
+          { label: "Pack Maintenance Basic", unit: "Mois", qty: 1, price: 120 },
+          { label: "Pack Maintenance Pro", unit: "Mois", qty: 1, price: 210 },
+          { label: "Pack Maintenance Premium", unit: "Mois", qty: 1, price: 320 },
+          { label: "Heures de support à la carte", unit: "Heure", qty: 4, price: 70 }
+        ]
+      }
+    ];
+
+    // ----- Helpers -----
+    function safeNumber(value, fallback = 0) {
+      const n = Number(value);
+      if (Number.isNaN(n)) return fallback;
+      return n;
+    }
+
+    function fmtEuro(num) {
+      if (!Number.isFinite(num)) return "—";
+      return num.toLocaleString("fr-FR", {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+      }) + " €";
+    }
+
+    // ----- Initialisation UI -----
+    function createTable(block) {
+      const wrapper = document.createElement("div");
+      wrapper.className = "section";
+
+      const header = document.createElement("div");
+      header.className = "section-header";
+      const title = document.createElement("h3");
+      title.innerHTML = `${block.title}`;
+      header.appendChild(title);
+      const hint = document.createElement("span");
+      hint.className = "muted";
+      hint.textContent = block.desc;
+      header.appendChild(hint);
+
+      const tableWrap = document.createElement("div");
+      tableWrap.className = "tasks-table-wrapper";
+
+      const table = document.createElement("table");
+      const thead = document.createElement("thead");
+      thead.innerHTML = `
+        <tr>
+          <th>Description</th>
+          <th>Unité</th>
+          <th class="align-right">Quantité</th>
+          <th class="align-right">Prix unitaire</th>
+          <th class="align-right">Sous-total</th>
+        </tr>`;
+
+      const tbody = document.createElement("tbody");
+      tbody.dataset.blockId = block.id;
+
+      block.items.forEach((item, index) => {
+        const tr = document.createElement("tr");
+        tr.dataset.blockId = block.id;
+        tr.dataset.itemIndex = index;
+
+        tr.innerHTML = `
+          <td>${item.label}</td>
+          <td>${item.unit}</td>
+          <td class="align-right">
+            <div class="field">
+              <input type="number" min="0" step="0.1" value="${item.qty}" aria-label="Quantité ${item.label}" data-type="qty">
+            </div>
+          </td>
+          <td class="align-right">
+            <div class="field">
+              <input type="number" min="0" step="0.01" value="${item.price}" aria-label="Prix unitaire ${item.label}" data-type="price">
+            </div>
+          </td>
+          <td class="align-right" data-type="subtotal">—</td>`;
+
+        tbody.appendChild(tr);
+      });
+
+      table.appendChild(thead);
+      table.appendChild(tbody);
+      tableWrap.appendChild(table);
+
+      const note = document.createElement("div");
+      note.className = "table-note";
+      note.textContent = "Les sous-totaux se mettent à jour automatiquement.";
+
+      wrapper.appendChild(header);
+      wrapper.appendChild(tableWrap);
+      wrapper.appendChild(note);
+      return wrapper;
+    }
+
+    function initBlocks() {
+      const container = document.getElementById("blocks-container");
+      blocks.forEach(block => {
+        container.appendChild(createTable(block));
+      });
+    }
+
+    // ----- Calculs -----
+    function recalcBlock(blockId) {
+      const tbody = document.querySelector(`tbody[data-block-id="${blockId}"]`);
+      if (!tbody) return 0;
+      let total = 0;
+
+      tbody.querySelectorAll("tr").forEach(tr => {
+        const qtyInput = tr.querySelector('input[data-type="qty"]');
+        const priceInput = tr.querySelector('input[data-type="price"]');
+        const subtotalCell = tr.querySelector('[data-type="subtotal"]');
+
+        const qty = Math.max(0, safeNumber(qtyInput?.value, 0));
+        const price = Math.max(0, safeNumber(priceInput?.value, 0));
+        const subtotal = qty * price;
+
+        subtotalCell.textContent = fmtEuro(subtotal);
+        total += subtotal;
+      });
+
+      const totalSpan = document.querySelector(`[data-total-block="${blockId}"]`);
+      if (totalSpan) totalSpan.textContent = fmtEuro(total);
+      return total;
+    }
+
+    function recalcAll() {
+      let grandTotal = 0;
+      blocks.forEach(block => {
+        grandTotal += recalcBlock(block.id);
+      });
+      document.getElementById("grand-total").textContent = fmtEuro(grandTotal);
+    }
+
+    function bindEvents() {
+      document.querySelectorAll('input[data-type="qty"], input[data-type="price"]').forEach(input => {
+        input.addEventListener("input", recalcAll);
+        input.addEventListener("change", recalcAll);
+      });
+    }
+
+    function initTotals() {
+      const totalsContainer = document.getElementById("totals-container");
+      blocks.forEach(block => {
+        const card = document.createElement("div");
+        card.className = "summary-card";
+        card.innerHTML = `
+          <div class="summary-label">${block.title}</div>
+          <div class="summary-value" data-total-block="${block.id}">—</div>`;
+        totalsContainer.appendChild(card);
+      });
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      initBlocks();
+      initTotals();
+      bindEvents();
+      recalcAll();
+    });
+  </script>
+</body>
+</html>
