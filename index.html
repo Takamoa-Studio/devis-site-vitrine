@@ -67,49 +67,23 @@
 
     .brand {
       display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .brand-logo {
-      width: 40px;
-      height: 40px;
-      border-radius: 999px;
-      background: conic-gradient(from 160deg, #38bdf8, #4ade80, #a855f7, #38bdf8);
-      padding: 2px;
-      box-shadow: 0 0 40px rgba(56, 189, 248, 0.7);
-    }
-
-    .brand-logo-inner {
-      width: 100%;
-      height: 100%;
-      border-radius: inherit;
-      background: radial-gradient(circle at 30% 0%, #0f172a, #020617);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 0.9rem;
-      font-weight: 700;
-      color: var(--accent);
-    }
-
-    .brand-text {
-      display: flex;
       flex-direction: column;
-      gap: 2px;
+      align-items: flex-start;
+      gap: 10px;
     }
 
-    .brand-text span {
-      font-size: 0.78rem;
+    .brand-logo-img {
+      width: 180px;
+      height: auto;
+      display: block;
+      filter: drop-shadow(0 10px 30px rgba(56, 189, 248, 0.35));
+    }
+
+    .brand-subtitle {
+      font-size: 0.82rem;
       text-transform: uppercase;
-      letter-spacing: 0.15em;
+      letter-spacing: 0.18em;
       color: var(--muted);
-    }
-
-    .brand-text h1 span.gradient {
-      background: linear-gradient(120deg, #4ade80, #38bdf8, #a855f7);
-      -webkit-background-clip: text;
-      color: transparent;
     }
 
     .pill {
@@ -495,13 +469,8 @@
   <div class="page">
     <header>
       <div class="brand">
-        <div class="brand-logo">
-          <div class="brand-logo-inner">CV</div>
-        </div>
-        <div class="brand-text">
-          <span>Calculateur projet</span>
-          <h1><span class="gradient">Site vitrine sur-mesure</span></h1>
-        </div>
+        <img src="assets/logo.webp" alt="Logo Takamoa" class="brand-logo-img">
+        <span class="brand-subtitle">SITE VITRINE SUR-MESURE</span>
       </div>
       <div class="pill">
         <span class="pill-dot"></span>
