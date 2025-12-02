@@ -539,9 +539,17 @@
             <div class="field">
               <label for="param_nb_pages">
                 Nb. pages internes
-                <span class="hint">hors home</span>
+                <span class="hint">hors home, pages légales incluses</span>
               </label>
               <input type="number" id="param_nb_pages" min="0" step="1" value="4">
+            </div>
+
+            <div class="field">
+              <label for="param_nb_legal">
+                Pages légales (incluses)
+                <span class="hint">mentions légales, CGV, politique…</span>
+              </label>
+              <input type="number" id="param_nb_legal" min="0" step="1" value="3">
             </div>
 
             <div class="field">
@@ -598,6 +606,38 @@
               </label>
               <input type="number" id="param_buffer" min="0" step="5" value="10">
             </div>
+
+            <div class="field">
+              <label for="param_import_articles">
+                Articles à importer (refonte)
+                <span class="hint">0 = pas d'import</span>
+              </label>
+              <input type="number" id="param_import_articles" min="0" step="1" value="0">
+            </div>
+
+            <div class="field">
+              <label for="param_import_batch_size">
+                Articles par batch d'import
+                <span class="hint">pour le calcul dégressif</span>
+              </label>
+              <input type="number" id="param_import_batch_size" min="1" step="1" value="10">
+            </div>
+
+            <div class="field">
+              <label for="param_import_base_cost">
+                Coût initial par batch (€)
+                <span class="hint">avant dégressivité</span>
+              </label>
+              <input type="number" id="param_import_base_cost" min="0" step="10" value="120">
+            </div>
+
+            <div class="field">
+              <label for="param_import_degressif">
+                Facteur dégressif par batch
+                <span class="hint">0.9 = -10% par batch supplémentaire</span>
+              </label>
+              <input type="number" id="param_import_degressif" min="0" max="1.5" step="0.05" value="0.9">
+            </div>
           </div>
         </section>
 
@@ -651,7 +691,7 @@
               <div class="summary-card">
                 <div class="summary-label">Volume de pages</div>
                 <div class="summary-value" id="summary-pages">—</div>
-                <div class="summary-chip muted">Home + internes déclarées</div>
+                <div class="summary-chip muted">Home + internes (légales incluses)</div>
               </div>
               <div class="summary-card">
                 <div class="summary-label">Complexité appliquée</div>
@@ -662,6 +702,18 @@
                 <div class="summary-label">Options activées</div>
                 <div class="summary-value" id="summary-options">—</div>
                 <div class="summary-chip muted">Logo, formation, SEO on-page</div>
+              </div>
+            </div>
+            <div class="summary-row">
+              <div class="summary-card">
+                <div class="summary-label">Pages légales</div>
+                <div class="summary-value" id="summary-legal-pages">—</div>
+                <div class="summary-chip muted">Toujours comptées dans les internes</div>
+              </div>
+              <div class="summary-card">
+                <div class="summary-label">Importation d'articles</div>
+                <div class="summary-value" id="summary-import">—</div>
+                <div class="summary-chip muted">Coût dégressif par batch</div>
               </div>
             </div>
           </div>
@@ -680,7 +732,7 @@
               <div class="summary-card">
                 <div class="summary-label">Coût interne estimé</div>
                 <div class="summary-value" id="summary-cost-internal">—</div>
-                <div class="summary-chip muted">Somme de tous les freelances</div>
+                <div class="summary-chip muted">Freelances + import + buffer</div>
               </div>
               <div class="summary-card">
                 <div class="summary-label">Prix conseillé HT (€)</div>
@@ -733,6 +785,14 @@
                 <td class="align-right" id="tfoot-hours">—</td>
                 <td></td>
                 <td class="align-right" id="tfoot-cost">—</td>
+              </tr>
+              <tr>
+                <td colspan="7" class="align-right">Importation d'articles (refonte)</td>
+                <td class="align-right" id="tfoot-import">—</td>
+              </tr>
+              <tr>
+                <td colspan="7" class="align-right">Total coûts avant buffer</td>
+                <td class="align-right" id="tfoot-prebuffer">—</td>
               </tr>
             </tfoot>
           </table>
@@ -810,13 +870,13 @@
         baseHours: 6,
         volumeKey: "nbHome"
       },
-      {
+      { 
         id: "design_internes",
         phase: "Design",
         label: "Maquettes pages internes",
         roleId: "ux",
         baseHours: 3,
-        volumeKey: "nbPages"
+        volumeKey: "nbInternalPages"
       },
       // Graphisme
       {
@@ -836,13 +896,13 @@
         baseHours: 6,
         volumeKey: "nbHome"
       },
-      {
+      { 
         id: "dev_pages",
         phase: "Développement",
         label: "Intégration pages internes",
         roleId: "dev",
         baseHours: 3,
-        volumeKey: "nbPages"
+        volumeKey: "nbInternalPages"
       },
       {
         id: "dev_config",
@@ -919,6 +979,7 @@
     function readParams() {
       const nbHome = Math.max(1, safeNumber(document.getElementById("param_nb_home").value, 1));
       const nbPages = Math.max(0, safeNumber(document.getElementById("param_nb_pages").value, 0));
+      const nbLegal = Math.max(0, safeNumber(document.getElementById("param_nb_legal").value, 0));
       const nbSeoPages = Math.max(0, safeNumber(document.getElementById("param_nb_seo").value, 0));
       const optLogo = Math.max(0, Math.min(1, safeNumber(document.getElementById("param_opt_logo").value, 0)));
       const optFormation = Math.max(0, Math.min(1, safeNumber(document.getElementById("param_opt_formation").value, 0)));
@@ -926,24 +987,51 @@
       const margin = Math.max(1, safeNumber(document.getElementById("param_margin").value, 1.3));
       const fx = Math.max(1, safeNumber(document.getElementById("param_fx").value, 5000));
       const bufferPercent = Math.max(0, safeNumber(document.getElementById("param_buffer").value, 0));
+      const importArticles = Math.max(0, safeNumber(document.getElementById("param_import_articles").value, 0));
+      const importBatchSize = Math.max(1, safeNumber(document.getElementById("param_import_batch_size").value, 1));
+      const importBaseCost = Math.max(0, safeNumber(document.getElementById("param_import_base_cost").value, 0));
+      const importDegressive = Math.max(0, safeNumber(document.getElementById("param_import_degressif").value, 1));
+
+      const totalInternalPages = nbPages + nbLegal;
 
       return {
         nbHome,
         nbPages,
+        nbLegal,
+        totalInternalPages,
         nbSeoPages,
         optLogo,
         optFormation,
         complexity,
         margin,
         fx,
-        bufferPercent
+        bufferPercent,
+        importArticles,
+        importBatchSize,
+        importBaseCost,
+        importDegressive
       };
+    }
+
+    function computeImportCost(importArticles, batchSize, baseCost, degressive) {
+      if (importArticles <= 0 || batchSize <= 0 || baseCost <= 0) {
+        return { cost: 0, batches: 0 };
+      }
+
+      const batches = Math.ceil(importArticles / batchSize);
+      let cost = 0;
+
+      for (let i = 0; i < batches; i++) {
+        cost += baseCost * Math.pow(degressive, i);
+      }
+
+      return { cost, batches };
     }
 
     function getTaskVolume(task, params) {
       switch (task.volumeKey) {
         case "nbHome": return params.nbHome;
-        case "nbPages": return params.nbPages;
+        case "nbInternalPages": return params.totalInternalPages;
         case "nbSeoPages": return params.nbSeoPages;
         case "optLogo": return params.optLogo;
         case "optFormation": return params.optFormation;
@@ -1046,18 +1134,33 @@
 
     function recalcAll() {
       const params = readParams();
+      const importResult = computeImportCost(
+        params.importArticles,
+        params.importBatchSize,
+        params.importBaseCost,
+        params.importDegressive
+      );
 
       // Résumé simple
       document.getElementById("summary-pages").textContent =
-        `${params.nbHome} home · ${params.nbPages} internes`;
+        `${params.nbHome} home · ${params.totalInternalPages} internes`;
       document.getElementById("summary-complexity").textContent =
         `x${params.complexity.toLocaleString("fr-FR", { minimumFractionDigits: 1, maximumFractionDigits: 1 })}`;
+      document.getElementById("summary-legal-pages").textContent =
+        params.nbLegal > 0
+          ? `${params.nbLegal} pages légales incluses`
+          : "Aucune page légale";
       const opts = [];
       if (params.optLogo === 1) opts.push("Logo");
       if (params.optFormation === 1) opts.push("Formation");
       if (params.nbSeoPages > 0) opts.push(`SEO x${params.nbSeoPages}`);
+      if (importResult.batches > 0) opts.push(`Import ${params.importArticles} art.`);
       document.getElementById("summary-options").textContent =
         opts.length ? opts.join(" · ") : "Aucune option";
+      document.getElementById("summary-import").textContent =
+        importResult.batches > 0
+          ? `${params.importArticles} art. / ${importResult.batches} batchs → ${fmtEuro(importResult.cost, 0)}`
+          : "Pas d'import d'articles";
 
       // Détail des tâches
       const tbody = document.getElementById("tasks-body");
@@ -1085,10 +1188,12 @@
 
       document.getElementById("tfoot-hours").textContent = fmtHours(totalHours);
       document.getElementById("tfoot-cost").textContent = fmtEuro(totalCost, 0);
+      document.getElementById("tfoot-import").textContent = fmtEuro(importResult.cost, 0);
+      document.getElementById("tfoot-prebuffer").textContent = fmtEuro(totalCost + importResult.cost, 0);
 
       // Buffer imprévus
-      const bufferAmount = totalCost * (params.bufferPercent / 100);
-      const internalWithBuffer = totalCost + bufferAmount;
+      const bufferAmount = (totalCost + importResult.cost) * (params.bufferPercent / 100);
+      const internalWithBuffer = totalCost + importResult.cost + bufferAmount;
 
       // Prix de vente
       const priceSell = internalWithBuffer * params.margin;
@@ -1105,12 +1210,17 @@
         "param_complexity",
         "param_nb_home",
         "param_nb_pages",
+        "param_nb_legal",
         "param_nb_seo",
         "param_opt_logo",
         "param_opt_formation",
         "param_margin",
         "param_fx",
-        "param_buffer"
+        "param_buffer",
+        "param_import_articles",
+        "param_import_batch_size",
+        "param_import_base_cost",
+        "param_import_degressif"
       ];
 
       ids.forEach(id => {
