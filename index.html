@@ -551,9 +551,15 @@
 
     .card-actions {
       display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .card-actions-buttons {
+      display: flex;
       align-items: stretch;
       gap: 10px;
-      margin-bottom: 12px;
       flex-wrap: wrap;
       justify-content: flex-end;
     }
@@ -573,6 +579,7 @@
     .import-status {
       font-size: 0.75rem;
       color: var(--muted);
+      text-align: right;
     }
     .import-status.error { color: var(--danger); }
 
@@ -627,11 +634,13 @@
           </div>
 
           <div class="card-actions" aria-label="Import et export des paramètres du calculateur">
-            <button type="button" id="export_params" class="ghost-button">Exporter les paramètres</button>
-            <label class="ghost-button file-input-label">
-              Importer un fichier
-              <input type="file" id="import_params" accept="application/json" aria-label="Importer des paramètres JSON">
-            </label>
+            <div class="card-actions-buttons">
+              <button type="button" id="export_params" class="ghost-button">Exporter les paramètres</button>
+              <label class="ghost-button file-input-label">
+                Importer un fichier
+                <input type="file" id="import_params" accept="application/json" aria-label="Importer des paramètres JSON">
+              </label>
+            </div>
             <span id="import_status" class="import-status" aria-live="polite"></span>
           </div>
 
