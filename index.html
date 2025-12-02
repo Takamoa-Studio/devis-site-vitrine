@@ -745,9 +745,21 @@
 
                 <div class="field">
                   <label for="param_nb_seo">
-                    Pages optimisées SEO
+                    Pages SEO ciblées (ajout manuel)
                   </label>
                   <input type="number" id="param_nb_seo" min="0" step="1" value="5">
+                </div>
+
+                <div class="field">
+                  <label for="param_seo_mode">
+                    Intensité SEO automatique
+                    <span class="hint">calcule les pages à optimiser selon le volume</span>
+                  </label>
+                  <select id="param_seo_mode">
+                    <option value="0.6">Essentiel (60% du volume)</option>
+                    <option value="1" selected>Standard (100% du volume)</option>
+                    <option value="1.3">Renforcé (130% du volume)</option>
+                  </select>
                 </div>
               </div>
             </div>
@@ -757,32 +769,62 @@
                 <h3 class="group-title"><span class="icon">🛠️</span> Pages services</h3>
                 <p class="group-sub">Détaille les gabarits de ta page services et des fiches.</p>
               </div>
-              <div class="grid" aria-label="Pages services et gabarits">
-                <div class="field">
-                  <label for="param_service_listing">
-                    Page Services (listing)
-                    <span class="hint">0 = non prévue, 1 = incluse</span>
-                  </label>
-                  <input type="number" id="param_service_listing" min="0" max="1" step="1" value="1">
-                </div>
+              <div class="field-subsection">
+                <p class="field-subtitle">Activation & structure</p>
+                <div class="grid" aria-label="Pages services et gabarits">
+                  <div class="field">
+                    <label for="param_service_listing">
+                      Page Services (listing)
+                      <span class="hint">0 = non prévue, 1 = incluse</span>
+                    </label>
+                    <input type="number" id="param_service_listing" min="0" max="1" step="1" value="1">
+                  </div>
 
-                <div class="field">
-                  <label for="param_service_details">
-                    Nb. pages détail service
-                    <span class="hint">hors page listing</span>
-                  </label>
-                  <input type="number" id="param_service_details" min="0" step="1" value="3">
-                </div>
+                  <div class="field">
+                    <label for="param_service_details">
+                      Nb. pages détail service
+                      <span class="hint">hors page listing</span>
+                    </label>
+                    <input type="number" id="param_service_details" min="0" step="1" value="3">
+                  </div>
 
-                <div class="field">
-                  <label for="param_service_design_mode">
-                    Design des pages service
-                    <span class="hint">impacte les heures de design/dev</span>
-                  </label>
-                  <select id="param_service_design_mode">
-                    <option value="1">Gabarit unique pour tous les services</option>
-                    <option value="1.4">Design spécifique par service (+40%)</option>
-                  </select>
+                  <div class="field">
+                    <label for="param_service_design_mode">
+                      Design des pages service
+                      <span class="hint">impacte les heures de design/dev</span>
+                    </label>
+                    <select id="param_service_design_mode">
+                      <option value="1">Gabarit unique pour tous les services</option>
+                      <option value="1.4">Design spécifique par service (+40%)</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <div class="field-subsection">
+                <p class="field-subtitle">Contenus & SEO</p>
+                <div class="grid" aria-label="Contenus et SEO pour les services">
+                  <div class="field">
+                    <label for="param_service_content">
+                      Rédaction + SEO des fiches
+                      <span class="hint">applique la SEO auto sur listing + fiches</span>
+                    </label>
+                    <select id="param_service_content">
+                      <option value="1" selected>Oui, couvrir toutes les pages services</option>
+                      <option value="0">Non, SEO/rédaction gérés ailleurs</option>
+                    </select>
+                  </div>
+
+                  <div class="field">
+                    <label for="param_service_visuals">
+                      Illustrations pour les services ?
+                      <span class="hint">impacts le volume rédaction/graphisme</span>
+                    </label>
+                    <select id="param_service_visuals">
+                      <option value="1">Oui, un visuel par fiche</option>
+                      <option value="0" selected>Non, visuels non prévus</option>
+                    </select>
+                  </div>
                 </div>
               </div>
             </div>
@@ -792,32 +834,62 @@
                 <h3 class="group-title"><span class="icon">🏆</span> Pages réalisations</h3>
                 <p class="group-sub">Ajuste le volume d'études de cas et le niveau de personnalisation.</p>
               </div>
-              <div class="grid" aria-label="Pages réalisations et études de cas">
-                <div class="field">
-                  <label for="param_rea_listing">
-                    Page Réalisations (listing)
-                    <span class="hint">0 = non prévue, 1 = incluse</span>
-                  </label>
-                  <input type="number" id="param_rea_listing" min="0" max="1" step="1" value="1">
-                </div>
+              <div class="field-subsection">
+                <p class="field-subtitle">Activation & structure</p>
+                <div class="grid" aria-label="Pages réalisations et études de cas">
+                  <div class="field">
+                    <label for="param_rea_listing">
+                      Page Réalisations (listing)
+                      <span class="hint">0 = non prévue, 1 = incluse</span>
+                    </label>
+                    <input type="number" id="param_rea_listing" min="0" max="1" step="1" value="1">
+                  </div>
 
-                <div class="field">
-                  <label for="param_rea_details">
-                    Nb. études de cas détaillées
-                    <span class="hint">hors page listing</span>
-                  </label>
-                  <input type="number" id="param_rea_details" min="0" step="1" value="3">
-                </div>
+                  <div class="field">
+                    <label for="param_rea_details">
+                      Nb. études de cas détaillées
+                      <span class="hint">hors page listing</span>
+                    </label>
+                    <input type="number" id="param_rea_details" min="0" step="1" value="3">
+                  </div>
 
-                <div class="field">
-                  <label for="param_rea_design_mode">
-                    Design des pages réalisations
-                    <span class="hint">impacte les heures de design/dev</span>
-                  </label>
-                  <select id="param_rea_design_mode">
-                    <option value="1">Gabarit unique pour toutes les études</option>
-                    <option value="1.4">Design spécifique par étude (+40%)</option>
-                  </select>
+                  <div class="field">
+                    <label for="param_rea_design_mode">
+                      Design des pages réalisations
+                      <span class="hint">impacte les heures de design/dev</span>
+                    </label>
+                    <select id="param_rea_design_mode">
+                      <option value="1">Gabarit unique pour toutes les études</option>
+                      <option value="1.4">Design spécifique par étude (+40%)</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <div class="field-subsection">
+                <p class="field-subtitle">Contenus & SEO</p>
+                <div class="grid" aria-label="Contenus et SEO pour les réalisations">
+                  <div class="field">
+                    <label for="param_rea_content">
+                      Rédaction + SEO des études de cas
+                      <span class="hint">applique la SEO auto sur listing + cas</span>
+                    </label>
+                    <select id="param_rea_content">
+                      <option value="1" selected>Oui, couvrir toutes les réalisations</option>
+                      <option value="0">Non, SEO/rédaction gérés ailleurs</option>
+                    </select>
+                  </div>
+
+                  <div class="field">
+                    <label for="param_rea_visuals">
+                      Illustrations pour les réalisations ?
+                      <span class="hint">photos, schémas ou mockups</span>
+                    </label>
+                    <select id="param_rea_visuals">
+                      <option value="1">Oui, un visuel par cas</option>
+                      <option value="0" selected>Non, pas de visuels dédiés</option>
+                    </select>
+                  </div>
                 </div>
               </div>
             </div>
@@ -1310,12 +1382,44 @@
         volumeKey: "blogArticles"
       },
       {
+        id: "content_services",
+        phase: "Contenus",
+        label: "Rédaction + optimisation fiches service",
+        roleId: "seo",
+        baseHours: 2.3,
+        volumeKey: "serviceContentPages"
+      },
+      {
+        id: "content_realisations",
+        phase: "Contenus",
+        label: "Rédaction + optimisation études de cas",
+        roleId: "seo",
+        baseHours: 2.6,
+        volumeKey: "reaContentPages"
+      },
+      {
         id: "content_article_visuals",
         phase: "Contenus",
         label: "Visuel d'illustration par article",
         roleId: "graph",
         baseHours: 1,
         volumeKey: "articleVisuals"
+      },
+      {
+        id: "content_service_visuals",
+        phase: "Contenus",
+        label: "Visuels pour fiches service",
+        roleId: "graph",
+        baseHours: 0.8,
+        volumeKey: "serviceVisualsVolume"
+      },
+      {
+        id: "content_rea_visuals",
+        phase: "Contenus",
+        label: "Visuels pour études de cas",
+        roleId: "graph",
+        baseHours: 1.2,
+        volumeKey: "reaVisualsVolume"
       },
       {
         id: "dev_config",
@@ -1373,12 +1477,17 @@
           param_nb_pages: 1,
           param_nb_legal: 2,
           param_nb_seo: 2,
+          param_seo_mode: 1,
           param_service_listing: 0,
           param_service_details: 0,
           param_service_design_mode: 1,
+          param_service_content: 1,
+          param_service_visuals: 0,
           param_rea_listing: 0,
           param_rea_details: 0,
           param_rea_design_mode: 1,
+          param_rea_content: 1,
+          param_rea_visuals: 0,
           param_has_blog: 0,
           param_blog_articles: 0,
           param_blog_visuals: 1,
@@ -1402,12 +1511,17 @@
           param_nb_pages: 4,
           param_nb_legal: 3,
           param_nb_seo: 5,
+          param_seo_mode: 1,
           param_service_listing: 1,
           param_service_details: 3,
           param_service_design_mode: 1,
+          param_service_content: 1,
+          param_service_visuals: 0,
           param_rea_listing: 1,
           param_rea_details: 3,
           param_rea_design_mode: 1,
+          param_rea_content: 1,
+          param_rea_visuals: 0,
           param_has_blog: 1,
           param_blog_articles: 2,
           param_blog_visuals: 1,
@@ -1431,12 +1545,17 @@
           param_nb_pages: 8,
           param_nb_legal: 3,
           param_nb_seo: 12,
+          param_seo_mode: 1.3,
           param_service_listing: 1,
           param_service_details: 6,
           param_service_design_mode: 1.4,
+          param_service_content: 1,
+          param_service_visuals: 1,
           param_rea_listing: 1,
           param_rea_details: 6,
           param_rea_design_mode: 1.4,
+          param_rea_content: 1,
+          param_rea_visuals: 1,
           param_has_blog: 1,
           param_blog_articles: 6,
           param_blog_visuals: 1,
@@ -1506,12 +1625,17 @@
       "param_nb_pages",
       "param_nb_legal",
       "param_nb_seo",
+      "param_seo_mode",
       "param_service_listing",
       "param_service_details",
       "param_service_design_mode",
+      "param_service_content",
+      "param_service_visuals",
       "param_rea_listing",
       "param_rea_details",
       "param_rea_design_mode",
+      "param_rea_content",
+      "param_rea_visuals",
       "param_has_blog",
       "param_blog_articles",
       "param_blog_visuals",
@@ -1533,13 +1657,18 @@
       const nbHome = Math.max(1, safeNumber(document.getElementById("param_nb_home").value, 1));
       const nbPages = Math.max(0, safeNumber(document.getElementById("param_nb_pages").value, 0));
       const nbLegal = Math.max(0, safeNumber(document.getElementById("param_nb_legal").value, 0));
-      const nbSeoPages = Math.max(0, safeNumber(document.getElementById("param_nb_seo").value, 0));
+      const seoIntensity = Math.max(0, safeNumber(document.getElementById("param_seo_mode").value, 1));
+      const baseSeoFocus = Math.max(0, safeNumber(document.getElementById("param_nb_seo").value, 0));
       const nbServiceListing = Math.max(0, Math.min(1, safeNumber(document.getElementById("param_service_listing").value, 1)));
       const nbServiceDetails = Math.max(0, safeNumber(document.getElementById("param_service_details").value, 0));
       const serviceDesignFactor = safeNumber(document.getElementById("param_service_design_mode").value, 1);
+      const serviceContentMode = Math.max(0, Math.min(1, safeNumber(document.getElementById("param_service_content").value, 1)));
+      const serviceVisualsPref = Math.max(0, Math.min(1, safeNumber(document.getElementById("param_service_visuals").value, 0)));
       const nbReaListing = Math.max(0, Math.min(1, safeNumber(document.getElementById("param_rea_listing").value, 1)));
       const nbReaDetails = Math.max(0, safeNumber(document.getElementById("param_rea_details").value, 0));
       const reaDesignFactor = safeNumber(document.getElementById("param_rea_design_mode").value, 1);
+      const reaContentMode = Math.max(0, Math.min(1, safeNumber(document.getElementById("param_rea_content").value, 1)));
+      const reaVisualsPref = Math.max(0, Math.min(1, safeNumber(document.getElementById("param_rea_visuals").value, 0)));
       const hasBlog = Math.max(0, Math.min(1, safeNumber(document.getElementById("param_has_blog").value, 1)));
       const blogArticlesRaw = Math.max(0, safeNumber(document.getElementById("param_blog_articles").value, 0));
       const blogArticles = hasBlog ? blogArticlesRaw : 0;
@@ -1561,6 +1690,12 @@
 
       const totalInternalPages = nbPages + nbLegal;
       const totalPagesWithExtras = totalInternalPages + nbServiceListing + nbServiceDetails + nbReaListing + nbReaDetails + (hasBlog ? 2 : 0);
+      const seoAutoPages = Math.round((nbHome + totalInternalPages) * seoIntensity);
+      const serviceContentPages = serviceContentMode ? nbServiceListing + nbServiceDetails : 0;
+      const reaContentPages = reaContentMode ? nbReaListing + nbReaDetails : 0;
+      const serviceVisualsVolume = serviceContentMode ? serviceVisualsPref * nbServiceDetails : 0;
+      const reaVisualsVolume = reaContentMode ? reaVisualsPref * nbReaDetails : 0;
+      const nbSeoPages = seoAutoPages + baseSeoFocus + serviceContentPages + reaContentPages;
 
       return {
         nbHome,
@@ -1569,12 +1704,20 @@
         totalInternalPages,
         totalPagesWithExtras,
         nbSeoPages,
+        seoAutoPages,
+        baseSeoFocus,
         nbServiceListing,
         nbServiceDetails,
         serviceDesignFactor,
+        serviceContentMode,
+        serviceContentPages,
+        serviceVisualsVolume,
         nbReaListing,
         nbReaDetails,
         reaDesignFactor,
+        reaContentMode,
+        reaContentPages,
+        reaVisualsVolume,
         hasBlog,
         blogArticles,
         articleVisualsVolume,
@@ -1616,8 +1759,12 @@
         case "optFormation": return params.optFormation;
         case "serviceListing": return params.nbServiceListing;
         case "serviceDetailsWeighted": return params.nbServiceDetails * params.serviceDesignFactor;
+        case "serviceContentPages": return params.serviceContentPages;
+        case "serviceVisualsVolume": return params.serviceVisualsVolume;
         case "reaListing": return params.nbReaListing;
         case "reaDetailsWeighted": return params.nbReaDetails * params.reaDesignFactor;
+        case "reaContentPages": return params.reaContentPages;
+        case "reaVisualsVolume": return params.reaVisualsVolume;
         case "blogArticles": return params.blogArticles;
         case "articleVisuals": return params.articleVisualsVolume;
         case "articleSeo": return params.articleSeoVolume;
@@ -1746,12 +1893,32 @@
         const designLabel = params.serviceDesignFactor > 1 ? "design dédié" : "gabarit unique";
         opts.push(`Services ${detailLabel} (${designLabel})`);
       }
+      if (params.serviceContentMode === 1 && params.serviceContentPages > 0) {
+        opts.push(`Rédac/SEO services x${params.serviceContentPages}`);
+      }
+      if (params.serviceVisualsVolume > 0) {
+        opts.push(`Visuels services x${params.serviceVisualsVolume}`);
+      }
       if (params.nbReaListing === 1 || params.nbReaDetails > 0) {
         const detailLabel = params.nbReaDetails > 0 ? `${params.nbReaDetails} cas` : "listing seul";
         const designLabel = params.reaDesignFactor > 1 ? "design dédié" : "gabarit unique";
         opts.push(`Réalisations ${detailLabel} (${designLabel})`);
       }
-      if (params.nbSeoPages > 0) opts.push(`SEO x${params.nbSeoPages}`);
+      if (params.reaContentMode === 1 && params.reaContentPages > 0) {
+        opts.push(`Rédac/SEO réas x${params.reaContentPages}`);
+      }
+      if (params.reaVisualsVolume > 0) {
+        opts.push(`Visuels réas x${params.reaVisualsVolume}`);
+      }
+      if (params.nbSeoPages > 0) {
+        const seoParts = [];
+        if (params.seoAutoPages > 0) seoParts.push(`auto ${params.seoAutoPages}`);
+        if (params.baseSeoFocus > 0) seoParts.push(`focus ${params.baseSeoFocus}`);
+        if (params.serviceContentPages > 0) seoParts.push(`services ${params.serviceContentPages}`);
+        if (params.reaContentPages > 0) seoParts.push(`réas ${params.reaContentPages}`);
+        const seoBreakdown = seoParts.length ? ` (${seoParts.join(" / ")})` : "";
+        opts.push(`SEO x${params.nbSeoPages}${seoBreakdown}`);
+      }
       if (importResult.batches > 0) opts.push(`Import ${params.importArticles} art.`);
       document.getElementById("summary-options").textContent =
         opts.length ? opts.join(" · ") : "Aucune option";
