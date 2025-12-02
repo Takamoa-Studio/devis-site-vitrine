@@ -614,7 +614,7 @@
                 <div class="field">
                   <label for="param_nb_pages">
                     Nb. pages internes
-                    <span class="hint">hors home, pages légales incluses</span>
+                    <span class="hint">hors home, services, blog et pages légales</span>
                   </label>
                   <input type="number" id="param_nb_pages" min="0" step="1" value="4">
                 </div>
@@ -632,6 +632,41 @@
                     Pages optimisées SEO
                   </label>
                   <input type="number" id="param_nb_seo" min="0" step="1" value="5">
+                </div>
+              </div>
+            </div>
+
+            <div class="field-group">
+              <div class="group-header">
+                <h3 class="group-title"><span class="icon">🛠️</span> Pages services</h3>
+                <p class="group-sub">Détaille les gabarits de ta page services et des fiches.</p>
+              </div>
+              <div class="grid" aria-label="Pages services et gabarits">
+                <div class="field">
+                  <label for="param_service_listing">
+                    Page Services (listing)
+                    <span class="hint">0 = non prévue, 1 = incluse</span>
+                  </label>
+                  <input type="number" id="param_service_listing" min="0" max="1" step="1" value="1">
+                </div>
+
+                <div class="field">
+                  <label for="param_service_details">
+                    Nb. pages détail service
+                    <span class="hint">hors page listing</span>
+                  </label>
+                  <input type="number" id="param_service_details" min="0" step="1" value="3">
+                </div>
+
+                <div class="field">
+                  <label for="param_service_design_mode">
+                    Design des pages service
+                    <span class="hint">impacte les heures de design/dev</span>
+                  </label>
+                  <select id="param_service_design_mode">
+                    <option value="1">Gabarit unique pour tous les services</option>
+                    <option value="1.4">Design spécifique par service (+40%)</option>
+                  </select>
                 </div>
               </div>
             </div>
@@ -686,14 +721,22 @@
 
             <div class="field-group">
               <div class="group-header">
-                <h3 class="group-title"><span class="icon">📥</span> Import de contenu</h3>
-                <p class="group-sub">Active et règle l'import d'articles en refonte.</p>
+                <h3 class="group-title"><span class="icon">📰</span> Blog & contenu</h3>
+                <p class="group-sub">Active le blog et ajuste l'import des articles migrés.</p>
               </div>
-              <div class="grid" aria-label="Importation d'articles">
+              <div class="grid" aria-label="Blog et import d'articles">
+                <div class="field">
+                  <label for="param_has_blog">
+                    Activer le blog ?
+                    <span class="hint">0 = non, 1 = oui</span>
+                  </label>
+                  <input type="number" id="param_has_blog" min="0" max="1" step="1" value="1">
+                </div>
+
                 <div class="field">
                   <label for="param_import_articles">
                     Articles à importer (refonte)
-                    <span class="hint">0 = pas d'import</span>
+                    <span class="hint">uniquement si blog activé</span>
                   </label>
                   <input type="number" id="param_import_articles" min="0" step="1" value="0">
                 </div>
@@ -776,7 +819,7 @@
               <div class="summary-card">
                 <div class="summary-label">Volume de pages</div>
                 <div class="summary-value" id="summary-pages">—</div>
-                <div class="summary-chip muted">Home + internes (légales incluses)</div>
+                <div class="summary-chip muted">Home + internes (services / blog inclus si activés)</div>
               </div>
               <div class="summary-card">
                 <div class="summary-label">Complexité appliquée</div>
@@ -786,7 +829,7 @@
               <div class="summary-card">
                 <div class="summary-label">Options activées</div>
                 <div class="summary-value" id="summary-options">—</div>
-                <div class="summary-chip muted">Logo, formation, SEO on-page</div>
+                <div class="summary-chip muted">Logo, formation, services, blog, SEO on-page</div>
               </div>
             </div>
             <div class="summary-row">
@@ -796,9 +839,9 @@
                 <div class="summary-chip muted">Toujours comptées dans les internes</div>
               </div>
               <div class="summary-card">
-                <div class="summary-label">Importation d'articles</div>
+                <div class="summary-label">Blog & import</div>
                 <div class="summary-value" id="summary-import">—</div>
-                <div class="summary-chip muted">Coût dégressif par batch</div>
+                <div class="summary-chip muted">Activation du blog + coût dégressif</div>
               </div>
             </div>
           </div>
@@ -872,7 +915,7 @@
                 <td class="align-right" id="tfoot-cost">—</td>
               </tr>
               <tr>
-                <td colspan="7" class="align-right">Importation d'articles (refonte)</td>
+                <td colspan="7" class="align-right">Blog : importation d'articles (refonte)</td>
                 <td class="align-right" id="tfoot-import">—</td>
               </tr>
               <tr>
@@ -955,13 +998,37 @@
         baseHours: 6,
         volumeKey: "nbHome"
       },
-      { 
+      {
         id: "design_internes",
         phase: "Design",
         label: "Maquettes pages internes",
         roleId: "ux",
         baseHours: 3,
         volumeKey: "nbInternalPages"
+      },
+      {
+        id: "design_services_listing",
+        phase: "Design",
+        label: "Maquette page Services",
+        roleId: "ux",
+        baseHours: 3,
+        volumeKey: "serviceListing"
+      },
+      {
+        id: "design_services_details",
+        phase: "Design",
+        label: "Maquettes fiches service",
+        roleId: "ux",
+        baseHours: 2.5,
+        volumeKey: "serviceDetailsWeighted"
+      },
+      {
+        id: "design_blog",
+        phase: "Design",
+        label: "Maquettes blog (listing + article)",
+        roleId: "ux",
+        baseHours: 4,
+        volumeKey: "hasBlog"
       },
       // Graphisme
       {
@@ -981,13 +1048,37 @@
         baseHours: 6,
         volumeKey: "nbHome"
       },
-      { 
+      {
         id: "dev_pages",
         phase: "Développement",
         label: "Intégration pages internes",
         roleId: "dev",
         baseHours: 3,
         volumeKey: "nbInternalPages"
+      },
+      {
+        id: "dev_services_listing",
+        phase: "Développement",
+        label: "Intégration page Services",
+        roleId: "dev",
+        baseHours: 4,
+        volumeKey: "serviceListing"
+      },
+      {
+        id: "dev_services_details",
+        phase: "Développement",
+        label: "Intégration fiches service",
+        roleId: "dev",
+        baseHours: 3.5,
+        volumeKey: "serviceDetailsWeighted"
+      },
+      {
+        id: "dev_blog",
+        phase: "Développement",
+        label: "Intégration blog (listing + article)",
+        roleId: "dev",
+        baseHours: 5,
+        volumeKey: "hasBlog"
       },
       {
         id: "dev_config",
@@ -1066,25 +1157,36 @@
       const nbPages = Math.max(0, safeNumber(document.getElementById("param_nb_pages").value, 0));
       const nbLegal = Math.max(0, safeNumber(document.getElementById("param_nb_legal").value, 0));
       const nbSeoPages = Math.max(0, safeNumber(document.getElementById("param_nb_seo").value, 0));
+      const nbServiceListing = Math.max(0, Math.min(1, safeNumber(document.getElementById("param_service_listing").value, 1)));
+      const nbServiceDetails = Math.max(0, safeNumber(document.getElementById("param_service_details").value, 0));
+      const serviceDesignFactor = safeNumber(document.getElementById("param_service_design_mode").value, 1);
+      const hasBlog = Math.max(0, Math.min(1, safeNumber(document.getElementById("param_has_blog").value, 1)));
       const optLogo = Math.max(0, Math.min(1, safeNumber(document.getElementById("param_opt_logo").value, 0)));
       const optFormation = Math.max(0, Math.min(1, safeNumber(document.getElementById("param_opt_formation").value, 0)));
       const complexity = safeNumber(document.getElementById("param_complexity").value, 1);
       const margin = Math.max(1, safeNumber(document.getElementById("param_margin").value, 1.3));
       const fx = Math.max(1, safeNumber(document.getElementById("param_fx").value, 5000));
       const bufferPercent = Math.max(0, safeNumber(document.getElementById("param_buffer").value, 0));
-      const importArticles = Math.max(0, safeNumber(document.getElementById("param_import_articles").value, 0));
+      const importArticlesRaw = Math.max(0, safeNumber(document.getElementById("param_import_articles").value, 0));
+      const importArticles = hasBlog ? importArticlesRaw : 0;
       const importBatchSize = Math.max(1, safeNumber(document.getElementById("param_import_batch_size").value, 1));
       const importBaseCost = Math.max(0, safeNumber(document.getElementById("param_import_base_cost").value, 0));
       const importDegressive = Math.max(0, safeNumber(document.getElementById("param_import_degressif").value, 1));
 
       const totalInternalPages = nbPages + nbLegal;
+      const totalPagesWithExtras = totalInternalPages + nbServiceListing + nbServiceDetails + (hasBlog ? 2 : 0);
 
       return {
         nbHome,
         nbPages,
         nbLegal,
         totalInternalPages,
+        totalPagesWithExtras,
         nbSeoPages,
+        nbServiceListing,
+        nbServiceDetails,
+        serviceDesignFactor,
+        hasBlog,
         optLogo,
         optFormation,
         complexity,
@@ -1120,6 +1222,9 @@
         case "nbSeoPages": return params.nbSeoPages;
         case "optLogo": return params.optLogo;
         case "optFormation": return params.optFormation;
+        case "serviceListing": return params.nbServiceListing;
+        case "serviceDetailsWeighted": return params.nbServiceDetails * params.serviceDesignFactor;
+        case "hasBlog": return params.hasBlog;
         case "const":
         default:
           return 1;
@@ -1228,7 +1333,7 @@
 
       // Résumé simple
       document.getElementById("summary-pages").textContent =
-        `${params.nbHome} home · ${params.totalInternalPages} internes`;
+        `${params.nbHome} home · ${params.totalPagesWithExtras} internes`;
       document.getElementById("summary-complexity").textContent =
         `x${params.complexity.toLocaleString("fr-FR", { minimumFractionDigits: 1, maximumFractionDigits: 1 })}`;
       document.getElementById("summary-legal-pages").textContent =
@@ -1238,14 +1343,22 @@
       const opts = [];
       if (params.optLogo === 1) opts.push("Logo");
       if (params.optFormation === 1) opts.push("Formation");
+      if (params.hasBlog === 1) opts.push("Blog");
+      if (params.nbServiceListing === 1 || params.nbServiceDetails > 0) {
+        const detailLabel = params.nbServiceDetails > 0 ? `${params.nbServiceDetails} fiches` : "listing seul";
+        const designLabel = params.serviceDesignFactor > 1 ? "design dédié" : "gabarit unique";
+        opts.push(`Services ${detailLabel} (${designLabel})`);
+      }
       if (params.nbSeoPages > 0) opts.push(`SEO x${params.nbSeoPages}`);
       if (importResult.batches > 0) opts.push(`Import ${params.importArticles} art.`);
       document.getElementById("summary-options").textContent =
         opts.length ? opts.join(" · ") : "Aucune option";
       document.getElementById("summary-import").textContent =
-        importResult.batches > 0
-          ? `${params.importArticles} art. / ${importResult.batches} batchs → ${fmtEuro(importResult.cost, 0)}`
-          : "Pas d'import d'articles";
+        params.hasBlog === 0
+          ? "Blog non prévu"
+          : importResult.batches > 0
+            ? `Blog activé · ${params.importArticles} art. / ${importResult.batches} batchs → ${fmtEuro(importResult.cost, 0)}`
+            : "Blog activé · pas d'import";
 
       // Détail des tâches
       const tbody = document.getElementById("tasks-body");
@@ -1297,6 +1410,10 @@
         "param_nb_pages",
         "param_nb_legal",
         "param_nb_seo",
+        "param_service_listing",
+        "param_service_details",
+        "param_service_design_mode",
+        "param_has_blog",
         "param_opt_logo",
         "param_opt_formation",
         "param_margin",
