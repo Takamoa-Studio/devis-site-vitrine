@@ -110,7 +110,7 @@
 
     main {
       display: grid;
-      grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+      grid-template-columns: minmax(0, 1.5fr) minmax(0, 0.5fr);
       gap: 20px;
       align-items: flex-start;
     }
@@ -338,6 +338,11 @@
       box-shadow: 0 14px 28px rgba(56, 189, 248, 0.25);
     }
 
+    .sticky-card {
+      position: sticky;
+      top: 16px;
+    }
+
     .totals {
       display: flex;
       flex-direction: column;
@@ -381,7 +386,7 @@
         </div>
       </section>
 
-      <section class="card">
+      <section class="card sticky-card">
         <div class="card-header">
           <div>
             <h2><span class="icon">🧾</span> Récapitulatif du devis</h2>
