@@ -548,6 +548,33 @@
     .footer-note span {
       color: var(--accent);
     }
+
+    .card-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .file-input-label {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .file-input-label input[type="file"] {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      cursor: pointer;
+    }
+
+    .import-status {
+      font-size: 0.75rem;
+      color: var(--muted);
+    }
+    .import-status.error { color: var(--danger); }
   </style>
 </head>
 <body>
@@ -576,6 +603,15 @@
               <span class="tag-dot"></span>
               Mode freelance · multi-rôles
             </div>
+          </div>
+
+          <div class="card-actions" aria-label="Import et export des paramètres du calculateur">
+            <button type="button" id="export_params" class="ghost-button">Exporter les paramètres</button>
+            <label class="ghost-button file-input-label">
+              Importer un fichier
+              <input type="file" id="import_params" accept="application/json" aria-label="Importer des paramètres JSON">
+            </label>
+            <span id="import_status" class="import-status" aria-live="polite"></span>
           </div>
 
           <div class="field-groups">
@@ -1269,6 +1305,29 @@
       recalcAll();
     }
 
+    const PARAM_INPUT_IDS = [
+      "param_complexity",
+      "param_nb_home",
+      "param_nb_pages",
+      "param_nb_legal",
+      "param_nb_seo",
+      "param_service_listing",
+      "param_service_details",
+      "param_service_design_mode",
+      "param_has_blog",
+      "param_opt_logo",
+      "param_opt_formation",
+      "param_margin",
+      "param_fx",
+      "param_buffer",
+      "param_import_articles",
+      "param_import_batch_size",
+      "param_import_base_cost",
+      "param_import_degressif"
+    ];
+
+    const ALL_INPUT_IDS = [...PARAM_INPUT_IDS, "param_type_site", "param_comment"];
+
     function readParams() {
       const nbHome = Math.max(1, safeNumber(document.getElementById("param_nb_home").value, 1));
       const nbPages = Math.max(0, safeNumber(document.getElementById("param_nb_pages").value, 0));
@@ -1520,28 +1579,7 @@
     }
 
     function bindParamEvents() {
-      const ids = [
-        "param_complexity",
-        "param_nb_home",
-        "param_nb_pages",
-        "param_nb_legal",
-        "param_nb_seo",
-        "param_service_listing",
-        "param_service_details",
-        "param_service_design_mode",
-        "param_has_blog",
-        "param_opt_logo",
-        "param_opt_formation",
-        "param_margin",
-        "param_fx",
-        "param_buffer",
-        "param_import_articles",
-        "param_import_batch_size",
-        "param_import_base_cost",
-        "param_import_degressif"
-      ];
-
-      ids.forEach(id => {
+      PARAM_INPUT_IDS.forEach(id => {
         const el = document.getElementById(id);
         if (!el) return;
         const evt = el.tagName === "SELECT" ? "change" : "input";
@@ -1566,11 +1604,120 @@
       }
     }
 
+    function setImportStatus(message, isError = false) {
+      const status = document.getElementById("import_status");
+      if (!status) return;
+      status.textContent = message;
+      status.classList.toggle("error", Boolean(isError));
+    }
+
+    function serializeInputs() {
+      const inputs = {};
+      ALL_INPUT_IDS.forEach(id => {
+        const el = document.getElementById(id);
+        if (!el) return;
+        inputs[id] = el.value;
+      });
+      return inputs;
+    }
+
+    function refreshRoleInputs() {
+      document.querySelectorAll('#roles-body input[data-role-id]').forEach(input => {
+        const role = rolesById[input.dataset.roleId];
+        if (role) {
+          input.value = role.rate;
+        }
+      });
+    }
+
+    function buildExportState() {
+      return {
+        meta: {
+          exportedAt: new Date().toISOString()
+        },
+        inputs: serializeInputs(),
+        roles: roles.map(role => ({ id: role.id, rate: role.rate }))
+      };
+    }
+
+    function slugifyComment(comment) {
+      const base = comment.trim().toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+      return base || "calculateur-devis";
+    }
+
+    function exportParams() {
+      const state = buildExportState();
+      const comment = document.getElementById("param_comment")?.value || "";
+      const date = new Date();
+      const stamp = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
+      const filename = `${slugifyComment(comment)}-${stamp}.json`;
+      const blob = new Blob([JSON.stringify(state, null, 2)], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = filename;
+      link.click();
+      URL.revokeObjectURL(url);
+      setImportStatus(`Export prêt (${filename})`);
+    }
+
+    function applyImportedState(data) {
+      if (!data || typeof data !== "object") {
+        throw new Error("Fichier invalide");
+      }
+
+      const inputs = data.inputs || {};
+      ALL_INPUT_IDS.forEach(id => {
+        if (!Object.prototype.hasOwnProperty.call(inputs, id)) return;
+        const el = document.getElementById(id);
+        if (el) {
+          el.value = inputs[id];
+        }
+      });
+
+      if (Array.isArray(data.roles)) {
+        data.roles.forEach(r => {
+          if (!r || typeof r !== "object") return;
+          const role = rolesById[r.id];
+          const rate = safeNumber(r.rate, role?.rate ?? 0);
+          if (role) {
+            role.rate = rate;
+          }
+        });
+        refreshRoleInputs();
+      }
+
+      recalcAll();
+      setImportStatus("Paramètres importés avec succès");
+    }
+
+    function handleImportFile(event) {
+      const file = event.target.files?.[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = () => {
+        try {
+          const data = JSON.parse(reader.result);
+          applyImportedState(data);
+        } catch (err) {
+          setImportStatus("Import impossible : fichier invalide", true);
+        }
+      };
+      reader.onerror = () => setImportStatus("Import impossible : lecture échouée", true);
+      reader.readAsText(file);
+
+      // reset input value to allow re-importing the same file
+      event.target.value = "";
+    }
+
     document.addEventListener("DOMContentLoaded", () => {
       initRolesTable();
       initTasksTable();
       bindPresetControls();
       bindParamEvents();
+      document.getElementById("export_params")?.addEventListener("click", exportParams);
+      document.getElementById("import_params")?.addEventListener("change", handleImportFile);
       const presetSelect = document.getElementById("param_type_site");
       const initialPreset = presetSelect?.value ?? "vitrine";
       applyPreset(initialPreset);
