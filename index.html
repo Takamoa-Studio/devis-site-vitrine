@@ -1345,6 +1345,11 @@
           <div class="section">
             <div class="summary-row">
               <div class="summary-card">
+                <div class="summary-label">Freelances</div>
+                <div class="summary-value" id="summary-cost-freelance">—</div>
+                <div class="summary-chip muted">Total coûts avant buffer</div>
+              </div>
+              <div class="summary-card">
                 <div class="summary-label">Coût interne estimé</div>
                 <div class="summary-value" id="summary-cost-internal">—</div>
                 <div class="summary-chip muted">Freelances + buffer imprévus</div>
@@ -2443,6 +2448,7 @@
       const priceSell = internalWithBuffer * params.margin;
       const priceSellMGA = priceSell * params.fx;
 
+      document.getElementById("summary-cost-freelance").textContent = fmtEuro(totalCost, 0);
       document.getElementById("summary-cost-internal").textContent = fmtEuro(internalWithBuffer, 0);
       document.getElementById("summary-price-sell").textContent = fmtEuro(priceSell, 0);
       document.getElementById("summary-price-sell-mga").textContent = fmtMGA(priceSellMGA);
