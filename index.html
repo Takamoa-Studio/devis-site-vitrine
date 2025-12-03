@@ -512,11 +512,12 @@
     }
 
     .summary-card-highlight {
-      background: linear-gradient(135deg, rgba(14, 165, 233, 0.16), rgba(56, 189, 248, 0.06) 35%, rgba(15, 23, 42, 0.95) 70%);
-      border-color: rgba(56, 189, 248, 0.6);
-      box-shadow: 0 18px 38px rgba(14, 165, 233, 0.35);
+      background: linear-gradient(135deg, #ff4ecd 0%, #7c3aed 45%, #0ea5e9 100%);
+      border-color: rgba(255, 78, 205, 0.7);
+      box-shadow: 0 18px 38px rgba(124, 58, 237, 0.45);
       position: relative;
       overflow: hidden;
+      color: #f8fbff;
     }
 
     .summary-card-highlight::after {
@@ -525,9 +526,19 @@
       inset: -20% auto auto 50%;
       width: 120%;
       height: 120%;
-      background: radial-gradient(circle at top, rgba(94, 234, 212, 0.15), transparent 55%);
+      background: radial-gradient(circle at top, rgba(255, 255, 255, 0.18), transparent 60%);
       pointer-events: none;
       transform: translateX(-50%);
+    }
+
+    .summary-card-highlight .summary-label,
+    .summary-card-highlight .summary-chip {
+      color: rgba(248, 251, 255, 0.9);
+    }
+
+    .summary-card-highlight .summary-value,
+    .summary-card-highlight .summary-chip-strong {
+      color: #fefefe;
     }
 
     .summary-label {
@@ -591,6 +602,11 @@
       margin-top: 2px;
       font-size: 0.72rem;
       color: var(--muted);
+    }
+
+    .summary-chip-strong {
+      font-weight: 600;
+      letter-spacing: 0.01em;
     }
 
     .summary-value.accent {
@@ -1640,7 +1656,9 @@
               <div class="summary-card summary-card-highlight" id="summary-chatbot-card">
                 <div class="summary-label">Option ChatBot IA</div>
                 <div class="summary-value" id="summary-cost-chatbot">—</div>
-                <div class="summary-chip">Abonnement mensuel (visible si activé)</div>
+                <div class="summary-chip summary-chip-strong" id="summary-chatbot-hours">Temps de mise en place : —</div>
+                <div class="summary-chip summary-chip-strong" id="summary-chatbot-setup-cost">Coût mise en place : —</div>
+                <div class="summary-chip" id="summary-chatbot-subscription">Abonnement mensuel (visible si activé)</div>
               </div>
               <div class="summary-card">
                 <div class="summary-label">Coût interne estimé</div>
@@ -2964,10 +2982,27 @@
       document.getElementById("summary-cost-freelance").textContent = fmtEuro(totalCost, 0);
       document.getElementById("summary-cost-hosting").textContent = fmtEuro(hostingDomainCost, 0);
       const chatbotHoursTotal = params.chatbotSetupHours + params.chatbotIntegrationHours + params.chatbotTrainingHours;
+      const chatbotSetupCost =
+        (params.chatbotSetupHours * (rolesById["cp"]?.rate || 0)) +
+        (params.chatbotIntegrationHours * (rolesById["dev"]?.rate || 0)) +
+        (params.chatbotTrainingHours * (rolesById["seo"]?.rate || 0));
       const chatbotSummaryLabel = params.optChatbot
-        ? `${params.chatbotOfferLabel} · ${fmtEuro(chatbotCost, 0)}/mois · ${fmtHours(chatbotHoursTotal)}`
+        ? `${params.chatbotOfferLabel} · ${fmtEuro(chatbotCost, 0)}/mois · ${fmtHours(chatbotHoursTotal)}h`
         : fmtEuro(0, 0);
+      const chatbotHoursLabel = params.optChatbot
+        ? `Temps de mise en place : ${fmtHours(chatbotHoursTotal)}h`
+        : "Temps de mise en place : —";
+      const chatbotSetupCostLabel = params.optChatbot
+        ? `Coût mise en place : ${fmtEuro(chatbotSetupCost, 0)}`
+        : "Coût mise en place : —";
+      const chatbotSubscriptionLabel = params.optChatbot
+        ? `Abonnement mensuel : ${fmtEuro(chatbotCost, 0)}/mois`
+        : "Abonnement mensuel : —";
+
       document.getElementById("summary-cost-chatbot").textContent = chatbotSummaryLabel;
+      document.getElementById("summary-chatbot-hours").textContent = chatbotHoursLabel;
+      document.getElementById("summary-chatbot-setup-cost").textContent = chatbotSetupCostLabel;
+      document.getElementById("summary-chatbot-subscription").textContent = chatbotSubscriptionLabel;
 
       const hostingCard = document.getElementById("summary-hosting-card");
       const chatbotCard = document.getElementById("summary-chatbot-card");
