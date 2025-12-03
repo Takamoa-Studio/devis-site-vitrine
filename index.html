@@ -1656,7 +1656,6 @@
               <div class="summary-card summary-card-highlight" id="summary-chatbot-card">
                 <div class="summary-label">Option ChatBot IA</div>
                 <div class="summary-value" id="summary-cost-chatbot">—</div>
-                <div class="summary-chip summary-chip-strong" id="summary-chatbot-setup-cost">Coût mise en place : —</div>
                 <div class="summary-chip" id="summary-chatbot-details">Pas de chatbot activé</div>
               </div>
               <div class="summary-card">
@@ -2988,13 +2987,9 @@
       const chatbotDetailsLabel = params.optChatbot
         ? `${params.chatbotOfferLabel} · ${fmtEuro(chatbotCost, 0)}/mois · ${fmtHours(chatbotHoursTotal)}h`
         : "Pas de chatbot activé";
-      const chatbotSetupCostLabel = params.optChatbot
-        ? `Coût mise en place : ${fmtEuro(chatbotSetupCost, 0)}`
-        : "Coût mise en place : —";
 
       document.getElementById("summary-cost-chatbot").textContent =
         params.optChatbot ? fmtEuro(chatbotSetupCost, 0) : fmtEuro(0, 0);
-      document.getElementById("summary-chatbot-setup-cost").textContent = chatbotSetupCostLabel;
       document.getElementById("summary-chatbot-details").textContent = chatbotDetailsLabel;
 
       const hostingCard = document.getElementById("summary-hosting-card");
