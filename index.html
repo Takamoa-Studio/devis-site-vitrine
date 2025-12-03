@@ -186,6 +186,10 @@
       gap: 12px 14px;
     }
 
+    .grid.grid-single {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
     .field-groups {
       display: flex;
       flex-direction: column;
@@ -1319,85 +1323,98 @@
                 <h3 class="group-title"><span class="icon">🧰</span> Options & accompagnement</h3>
                 <p class="group-sub">Services complémentaires à activer.</p>
               </div>
-              <div class="grid" aria-label="Options et accompagnement">
-                <div class="field">
-                  <label for="param_opt_formation">
-                    Formation client ?
-                    <span class="hint-icon" data-tooltip="0 = non, 1 = oui" role="note" tabindex="0" aria-label="0 = non, 1 = oui">?</span>
-                  </label>
-                  <input type="number" id="param_opt_formation" min="0" max="1" step="1" value="1">
+              <div class="field-subsection">
+                <p class="field-subtitle">Formation & transfert</p>
+                <div class="grid grid-single" aria-label="Formation et prise en main">
+                  <div class="field">
+                    <label for="param_opt_formation">
+                      Formation client ?
+                      <span class="hint-icon" data-tooltip="0 = non, 1 = oui" role="note" tabindex="0" aria-label="0 = non, 1 = oui">?</span>
+                    </label>
+                    <input type="number" id="param_opt_formation" min="0" max="1" step="1" value="1">
+                  </div>
                 </div>
+              </div>
 
-                <div class="field">
-                  <label for="param_opt_hosting">
-                    Hébergement géré ?
-                    <span class="hint-icon" data-tooltip="0 = non, 1 = oui" role="note" tabindex="0" aria-label="0 = non, 1 = oui">?</span>
-                  </label>
-                  <input type="number" id="param_opt_hosting" min="0" max="1" step="1" value="0">
+              <div class="field-subsection">
+                <p class="field-subtitle">Hébergement & domaine</p>
+                <div class="grid" aria-label="Hébergement géré et nom de domaine">
+                  <div class="field">
+                    <label for="param_opt_hosting">
+                      Hébergement géré ?
+                      <span class="hint-icon" data-tooltip="0 = non, 1 = oui" role="note" tabindex="0" aria-label="0 = non, 1 = oui">?</span>
+                    </label>
+                    <input type="number" id="param_opt_hosting" min="0" max="1" step="1" value="0">
+                  </div>
+
+                  <div class="field">
+                    <label for="param_hosting_cost">
+                      Budget hébergement (€/an)
+                      <span class="hint-icon" data-tooltip="Coût récurrent si activé" role="note" tabindex="0" aria-label="Coût récurrent si activé">?</span>
+                    </label>
+                    <input type="number" id="param_hosting_cost" min="0" step="10" value="300">
+                  </div>
+
+                  <div class="field">
+                    <label for="param_opt_domain">
+                      Nom de domaine ?
+                      <span class="hint-icon" data-tooltip="0 = non, 1 = oui" role="note" tabindex="0" aria-label="0 = non, 1 = oui">?</span>
+                    </label>
+                    <input type="number" id="param_opt_domain" min="0" max="1" step="1" value="1">
+                  </div>
+
+                  <div class="field">
+                    <label for="param_domain_cost">
+                      Budget nom de domaine (€/an)
+                      <span class="hint-icon" data-tooltip="Coût récurrent si activé" role="note" tabindex="0" aria-label="Coût récurrent si activé">?</span>
+                    </label>
+                    <input type="number" id="param_domain_cost" min="0" step="5" value="20">
+                  </div>
                 </div>
+              </div>
 
-                <div class="field">
-                  <label for="param_hosting_cost">
-                    Budget hébergement (€/an)
-                    <span class="hint-icon" data-tooltip="Coût récurrent si activé" role="note" tabindex="0" aria-label="Coût récurrent si activé">?</span>
-                  </label>
-                  <input type="number" id="param_hosting_cost" min="0" step="10" value="300">
-                </div>
+              <div class="field-subsection">
+                <p class="field-subtitle">Chatbot IA & automatisation</p>
+                <div class="grid" aria-label="Paramètres chatbot IA et automatisation">
+                  <div class="field">
+                    <label for="param_opt_chatbot">
+                      Intégration Chatbot IA ?
+                      <span class="hint-icon" data-tooltip="0 = non, 1 = oui" role="note" tabindex="0" aria-label="0 = non, 1 = oui">?</span>
+                    </label>
+                    <input type="number" id="param_opt_chatbot" min="0" max="1" step="1" value="0">
+                  </div>
 
-                <div class="field">
-                  <label for="param_opt_domain">
-                    Nom de domaine ?
-                    <span class="hint-icon" data-tooltip="0 = non, 1 = oui" role="note" tabindex="0" aria-label="0 = non, 1 = oui">?</span>
-                  </label>
-                  <input type="number" id="param_opt_domain" min="0" max="1" step="1" value="1">
-                </div>
+                  <div class="field">
+                    <label for="param_chatbot_setup_hours">
+                      Ateliers & prompts (h)
+                      <span class="hint-icon" data-tooltip="Cadrage, scénarios, tonalité" role="note" tabindex="0" aria-label="Cadrage, scénarios, tonalité">?</span>
+                    </label>
+                    <input type="number" id="param_chatbot_setup_hours" min="0" step="1" value="6">
+                  </div>
 
-                <div class="field">
-                  <label for="param_domain_cost">
-                    Budget nom de domaine (€/an)
-                    <span class="hint-icon" data-tooltip="Coût récurrent si activé" role="note" tabindex="0" aria-label="Coût récurrent si activé">?</span>
-                  </label>
-                  <input type="number" id="param_domain_cost" min="0" step="5" value="20">
-                </div>
+                  <div class="field">
+                    <label for="param_chatbot_integration_hours">
+                      Intégration & front (h)
+                      <span class="hint-icon" data-tooltip="Widget, connecteurs, tests" role="note" tabindex="0" aria-label="Widget, connecteurs, tests">?</span>
+                    </label>
+                    <input type="number" id="param_chatbot_integration_hours" min="0" step="1" value="8">
+                  </div>
 
-                <div class="field">
-                  <label for="param_opt_chatbot">
-                    Intégration Chatbot IA ?
-                    <span class="hint-icon" data-tooltip="0 = non, 1 = oui" role="note" tabindex="0" aria-label="0 = non, 1 = oui">?</span>
-                  </label>
-                  <input type="number" id="param_opt_chatbot" min="0" max="1" step="1" value="0">
-                </div>
+                  <div class="field">
+                    <label for="param_chatbot_training_hours">
+                      Entraînement / FAQ (h)
+                      <span class="hint-icon" data-tooltip="Structure de la base de connaissances" role="note" tabindex="0" aria-label="Structure de la base de connaissances">?</span>
+                    </label>
+                    <input type="number" id="param_chatbot_training_hours" min="0" step="1" value="5">
+                  </div>
 
-                <div class="field">
-                  <label for="param_chatbot_setup_hours">
-                    Ateliers & prompts (h)
-                    <span class="hint-icon" data-tooltip="Cadrage, scénarios, tonalité" role="note" tabindex="0" aria-label="Cadrage, scénarios, tonalité">?</span>
-                  </label>
-                  <input type="number" id="param_chatbot_setup_hours" min="0" step="1" value="6">
-                </div>
-
-                <div class="field">
-                  <label for="param_chatbot_integration_hours">
-                    Intégration & front (h)
-                    <span class="hint-icon" data-tooltip="Widget, connecteurs, tests" role="note" tabindex="0" aria-label="Widget, connecteurs, tests">?</span>
-                  </label>
-                  <input type="number" id="param_chatbot_integration_hours" min="0" step="1" value="8">
-                </div>
-
-                <div class="field">
-                  <label for="param_chatbot_training_hours">
-                    Entraînement / FAQ (h)
-                    <span class="hint-icon" data-tooltip="Structure de la base de connaissances" role="note" tabindex="0" aria-label="Structure de la base de connaissances">?</span>
-                  </label>
-                  <input type="number" id="param_chatbot_training_hours" min="0" step="1" value="5">
-                </div>
-
-                <div class="field">
-                  <label for="param_chatbot_subscription">
-                    Abonnement IA (€/mois)
-                    <span class="hint-icon" data-tooltip="Licences ou crédits d'API" role="note" tabindex="0" aria-label="Licences ou crédits d'API">?</span>
-                  </label>
-                  <input type="number" id="param_chatbot_subscription" min="0" step="10" value="0">
+                  <div class="field">
+                    <label for="param_chatbot_subscription">
+                      Abonnement IA (€/mois)
+                      <span class="hint-icon" data-tooltip="Licences ou crédits d'API" role="note" tabindex="0" aria-label="Licences ou crédits d'API">?</span>
+                    </label>
+                    <input type="number" id="param_chatbot_subscription" min="0" step="10" value="0">
+                  </div>
                 </div>
               </div>
             </div>
