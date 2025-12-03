@@ -1274,77 +1274,13 @@
                 <h3 class="group-title"><span class="icon">🧰</span> Options & accompagnement</h3>
                 <p class="group-sub">Services complémentaires à activer.</p>
               </div>
-              <div class="field-subsection">
-                <p class="field-subtitle">Transfert & accompagnement</p>
-                <div class="grid" aria-label="Options et accompagnement">
-                  <div class="field">
-                    <label for="param_opt_formation">
-                      Formation client ?
-                      <span class="hint-icon" data-tooltip="0 = non, 1 = oui" role="note" tabindex="0" aria-label="0 = non, 1 = oui">?</span>
-                    </label>
-                    <input type="number" id="param_opt_formation" min="0" max="1" step="1" value="1">
-                  </div>
-
-                  <div class="field">
-                    <label for="param_opt_hosting">
-                      Fournir l'hébergement ?
-                      <span class="hint-icon" data-tooltip="0 = non, 1 = oui" role="note" tabindex="0" aria-label="0 = non, 1 = oui">?</span>
-                    </label>
-                    <input type="number" id="param_opt_hosting" min="0" max="1" step="1" value="1">
-                  </div>
-
-                  <div class="field">
-                    <label for="param_hosting_cost">
-                      Coût hébergement (€)
-                      <span class="hint-icon" data-tooltip="Budget annuel ou refacturation" role="note" tabindex="0" aria-label="Budget annuel ou refacturation">?</span>
-                    </label>
-                    <input type="number" id="param_hosting_cost" min="0" step="10" value="180">
-                  </div>
-
-                  <div class="field">
-                    <label for="param_opt_domain">
-                      Réserver le nom de domaine ?
-                      <span class="hint-icon" data-tooltip="0 = non, 1 = oui" role="note" tabindex="0" aria-label="0 = non, 1 = oui">?</span>
-                    </label>
-                    <input type="number" id="param_opt_domain" min="0" max="1" step="1" value="1">
-                  </div>
-
-                  <div class="field">
-                    <label for="param_domain_cost">
-                      Coût nom de domaine (€)
-                      <span class="hint-icon" data-tooltip="enregistrement ou renouvellement" role="note" tabindex="0" aria-label="enregistrement ou renouvellement">?</span>
-                    </label>
-                    <input type="number" id="param_domain_cost" min="0" step="5" value="25">
-                  </div>
-                </div>
-              </div>
-
-              <div class="field-subsection">
-                <p class="field-subtitle">Expériences avancées</p>
-                <div class="grid" aria-label="Options avancées">
-                  <div class="field">
-                    <label for="param_opt_chatbot">
-                      Activer un ChatBot IA ?
-                      <span class="hint-icon" data-tooltip="0 = non, 1 = oui" role="note" tabindex="0" aria-label="0 = non, 1 = oui">?</span>
-                    </label>
-                    <input type="number" id="param_opt_chatbot" min="0" max="1" step="1" value="0">
-                  </div>
-
-                  <div class="field">
-                    <label for="param_chatbot_hours">
-                      Charge dev ChatBot (h)
-                      <span class="hint-icon" data-tooltip="Personnalisation, intégration front et API" role="note" tabindex="0" aria-label="Personnalisation, intégration front et API">?</span>
-                    </label>
-                    <input type="number" id="param_chatbot_hours" min="0" step="1" value="8">
-                  </div>
-
-                  <div class="field">
-                    <label for="param_chatbot_cost">
-                      Coût outil / tokens (€)
-                      <span class="hint-icon" data-tooltip="Crédits API, licence ou forfait" role="note" tabindex="0" aria-label="Crédits API, licence ou forfait">?</span>
-                    </label>
-                    <input type="number" id="param_chatbot_cost" min="0" step="10" value="120">
-                  </div>
+              <div class="grid" aria-label="Options et accompagnement">
+                <div class="field">
+                  <label for="param_opt_formation">
+                    Formation client ?
+                    <span class="hint-icon" data-tooltip="0 = non, 1 = oui" role="note" tabindex="0" aria-label="0 = non, 1 = oui">?</span>
+                  </label>
+                  <input type="number" id="param_opt_formation" min="0" max="1" step="1" value="1">
                 </div>
               </div>
             </div>
@@ -1418,7 +1354,7 @@
             <div class="section-header">
               <div class="chip-group">
                 <span class="chip"><strong>Pages</strong> : home + internes</span>
-                <span class="chip"><strong>Options</strong> : logo, formation, hébergement, SEO</span>
+                <span class="chip"><strong>Options</strong> : logo, formation, SEO</span>
               </div>
             </div>
             <div class="summary-row">
@@ -1435,7 +1371,7 @@
               <div class="summary-card">
                 <div class="summary-label">Options activées</div>
                 <div class="summary-value" id="summary-options">—</div>
-                <div class="summary-chip muted">Identité visuelle, services/réas, blog, SEO, formation, hébergement, domaine, ChatBot</div>
+                <div class="summary-chip muted">Identité visuelle, services/réas, blog, SEO, formation</div>
               </div>
             </div>
             <div class="summary-row">
@@ -1896,48 +1832,6 @@
         baseHours: 3,
         volumeKey: "const"
       },
-      // Options & services additionnels
-      {
-        id: "hosting",
-        phase: "Options",
-        label: "Hébergement / infogérance",
-        roleId: "cp",
-        baseHours: 0,
-        volumeKey: "optHosting",
-        type: "fixed",
-        costKey: "hostingCost"
-      },
-      {
-        id: "domain",
-        phase: "Options",
-        label: "Nom de domaine",
-        roleId: "cp",
-        baseHours: 0,
-        volumeKey: "optDomain",
-        type: "fixed",
-        costKey: "domainCost"
-      },
-      {
-        id: "chatbot_setup",
-        phase: "Développement",
-        label: "Intégration / orchestration ChatBot IA",
-        roleId: "dev",
-        baseHours: 0,
-        volumeKey: "optChatbot",
-        type: "custom-hours",
-        hoursKey: "chatbotHours",
-        applyComplexity: false
-      },
-      {
-        id: "chatbot_budget",
-        phase: "Options",
-        label: "Budget solution ChatBot (API / licence)",
-        roleId: "cp",
-        baseHours: 0,
-        volumeKey: "optChatbot",
-        type: "fixed",
-        costKey: "chatbotBudget"
-      },
       // SEO
       {
         id: "seo_articles",
@@ -2007,13 +1901,6 @@
           param_brand_guidelines: 0,
           param_brand_templates: 0,
           param_opt_formation: 0,
-          param_opt_hosting: 1,
-          param_hosting_cost: 180,
-          param_opt_domain: 1,
-          param_domain_cost: 25,
-          param_opt_chatbot: 0,
-          param_chatbot_hours: 8,
-          param_chatbot_cost: 120,
           param_complexity: 1,
           param_margin: 1.3,
           param_fx: 5000,
@@ -2052,13 +1939,6 @@
           param_brand_guidelines: 1,
           param_brand_templates: 2,
           param_opt_formation: 0,
-          param_opt_hosting: 1,
-          param_hosting_cost: 180,
-          param_opt_domain: 1,
-          param_domain_cost: 25,
-          param_opt_chatbot: 0,
-          param_chatbot_hours: 8,
-          param_chatbot_cost: 120,
           param_complexity: 1.2,
           param_margin: 1.3,
           param_fx: 5000,
@@ -2097,13 +1977,6 @@
           param_brand_guidelines: 1.6,
           param_brand_templates: 3,
           param_opt_formation: 1,
-          param_opt_hosting: 1,
-          param_hosting_cost: 220,
-          param_opt_domain: 1,
-          param_domain_cost: 30,
-          param_opt_chatbot: 0,
-          param_chatbot_hours: 12,
-          param_chatbot_cost: 180,
           param_complexity: 1.5,
           param_margin: 1.35,
           param_fx: 5000,
@@ -2188,13 +2061,6 @@
       "param_brand_guidelines",
       "param_brand_templates",
       "param_opt_formation",
-      "param_opt_hosting",
-      "param_hosting_cost",
-      "param_opt_domain",
-      "param_domain_cost",
-      "param_opt_chatbot",
-      "param_chatbot_hours",
-      "param_chatbot_cost",
       "param_margin",
       "param_fx",
       "param_buffer",
@@ -2238,17 +2104,6 @@
       const brandTemplatesRaw = Math.max(0, safeNumber(document.getElementById("param_brand_templates").value, 2));
       const brandTemplates = optLogo ? brandTemplatesRaw : 0;
       const optFormation = Math.max(0, Math.min(1, safeNumber(document.getElementById("param_opt_formation").value, 0)));
-      const optHosting = Math.max(0, Math.min(1, safeNumber(document.getElementById("param_opt_hosting").value, 0)));
-      const hostingCostRaw = Math.max(0, safeNumber(document.getElementById("param_hosting_cost").value, 0));
-      const hostingCost = optHosting ? hostingCostRaw : 0;
-      const optDomain = Math.max(0, Math.min(1, safeNumber(document.getElementById("param_opt_domain").value, 0)));
-      const domainCostRaw = Math.max(0, safeNumber(document.getElementById("param_domain_cost").value, 0));
-      const domainCost = optDomain ? domainCostRaw : 0;
-      const optChatbot = Math.max(0, Math.min(1, safeNumber(document.getElementById("param_opt_chatbot").value, 0)));
-      const chatbotHoursRaw = Math.max(0, safeNumber(document.getElementById("param_chatbot_hours").value, 0));
-      const chatbotHours = optChatbot ? chatbotHoursRaw : 0;
-      const chatbotBudgetRaw = Math.max(0, safeNumber(document.getElementById("param_chatbot_cost").value, 0));
-      const chatbotBudget = optChatbot ? chatbotBudgetRaw : 0;
       const complexity = safeNumber(document.getElementById("param_complexity").value, 1);
       const margin = Math.max(1, safeNumber(document.getElementById("param_margin").value, 1.3));
       const fx = Math.max(1, safeNumber(document.getElementById("param_fx").value, 5000));
@@ -2299,13 +2154,6 @@
         brandGuidelinesMode,
         brandTemplates,
         optFormation,
-        optHosting,
-        hostingCost,
-        optDomain,
-        domainCost,
-        optChatbot,
-        chatbotHours,
-        chatbotBudget,
         complexity,
         margin,
         fx,
@@ -2343,10 +2191,6 @@
         case "brandGuidelines": return params.brandGuidelinesMode;
         case "brandTemplates": return params.brandTemplates;
         case "optFormation": return params.optFormation;
-        case "optHosting": return params.optHosting;
-        case "optDomain": return params.optDomain;
-        case "optChatbot": return params.optChatbot;
-        case "chatbotHours": return params.chatbotHours;
         case "serviceListing": return params.nbServiceListing;
         case "serviceDetailsWeighted": return params.nbServiceDetails * params.serviceDesignFactor;
         case "serviceContentPages": return params.serviceContentPages;
@@ -2563,15 +2407,6 @@
       const opts = [];
       if (params.optLogo === 1) opts.push("Logo");
       if (params.optFormation === 1) opts.push("Formation");
-      if (params.optHosting === 1) opts.push(`Hébergement ${fmtEuro(params.hostingCost, 0)}`);
-      if (params.optDomain === 1) opts.push(`Nom de domaine ${fmtEuro(params.domainCost, 0)}`);
-      if (params.optChatbot === 1) {
-        const chatbotParts = [];
-        if (params.chatbotHours > 0) chatbotParts.push(`${params.chatbotHours}h dev`);
-        if (params.chatbotBudget > 0) chatbotParts.push(fmtEuro(params.chatbotBudget, 0));
-        const chatbotLabel = chatbotParts.length ? ` (${chatbotParts.join(" + ")})` : "";
-        opts.push(`ChatBot IA${chatbotLabel}`);
-      }
       if (params.hasBlog === 1) opts.push("Blog");
       if (params.nbServiceListing === 1 || params.nbServiceDetails > 0) {
         const detailLabel = params.nbServiceDetails > 0 ? `${params.nbServiceDetails} fiches` : "listing seul";
@@ -2631,18 +2466,6 @@
         let volume = getTaskVolume(task, params);
         let hours = task.baseHours * volume * params.complexity;
         let cost = hours * rate;
-
-        if (task.type === "fixed") {
-          baseHours = 0;
-          hours = 0;
-          cost = volume > 0 ? (params[task.costKey] ?? 0) : 0;
-        } else if (task.type === "custom-hours") {
-          const customHours = (params[task.hoursKey] ?? task.baseHours) * volume;
-          baseHours = params[task.hoursKey] ?? task.baseHours;
-          const shouldApplyComplexity = task.applyComplexity !== false;
-          hours = shouldApplyComplexity ? customHours * params.complexity : customHours;
-          cost = hours * rate;
-        }
 
         if (isImportTask) {
           volume = params.importArticles;
