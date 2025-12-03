@@ -1656,9 +1656,8 @@
               <div class="summary-card summary-card-highlight" id="summary-chatbot-card">
                 <div class="summary-label">Option ChatBot IA</div>
                 <div class="summary-value" id="summary-cost-chatbot">—</div>
-                <div class="summary-chip summary-chip-strong" id="summary-chatbot-hours">Temps de mise en place : —</div>
                 <div class="summary-chip summary-chip-strong" id="summary-chatbot-setup-cost">Coût mise en place : —</div>
-                <div class="summary-chip" id="summary-chatbot-subscription">Abonnement mensuel (visible si activé)</div>
+                <div class="summary-chip" id="summary-chatbot-details">Pas de chatbot activé</div>
               </div>
               <div class="summary-card">
                 <div class="summary-label">Coût interne estimé</div>
@@ -2986,23 +2985,17 @@
         (params.chatbotSetupHours * (rolesById["cp"]?.rate || 0)) +
         (params.chatbotIntegrationHours * (rolesById["dev"]?.rate || 0)) +
         (params.chatbotTrainingHours * (rolesById["seo"]?.rate || 0));
-      const chatbotSummaryLabel = params.optChatbot
+      const chatbotDetailsLabel = params.optChatbot
         ? `${params.chatbotOfferLabel} · ${fmtEuro(chatbotCost, 0)}/mois · ${fmtHours(chatbotHoursTotal)}h`
-        : fmtEuro(0, 0);
-      const chatbotHoursLabel = params.optChatbot
-        ? `Temps de mise en place : ${fmtHours(chatbotHoursTotal)}h`
-        : "Temps de mise en place : —";
+        : "Pas de chatbot activé";
       const chatbotSetupCostLabel = params.optChatbot
         ? `Coût mise en place : ${fmtEuro(chatbotSetupCost, 0)}`
         : "Coût mise en place : —";
-      const chatbotSubscriptionLabel = params.optChatbot
-        ? `Abonnement mensuel : ${fmtEuro(chatbotCost, 0)}/mois`
-        : "Abonnement mensuel : —";
 
-      document.getElementById("summary-cost-chatbot").textContent = chatbotSummaryLabel;
-      document.getElementById("summary-chatbot-hours").textContent = chatbotHoursLabel;
+      document.getElementById("summary-cost-chatbot").textContent =
+        params.optChatbot ? fmtEuro(chatbotSetupCost, 0) : fmtEuro(0, 0);
       document.getElementById("summary-chatbot-setup-cost").textContent = chatbotSetupCostLabel;
-      document.getElementById("summary-chatbot-subscription").textContent = chatbotSubscriptionLabel;
+      document.getElementById("summary-chatbot-details").textContent = chatbotDetailsLabel;
 
       const hostingCard = document.getElementById("summary-hosting-card");
       const chatbotCard = document.getElementById("summary-chatbot-card");
