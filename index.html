@@ -519,6 +519,51 @@
       font-weight: 600;
     }
 
+    .summary-value.options-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+
+    .option-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: linear-gradient(120deg, rgba(56, 189, 248, 0.12), rgba(74, 222, 128, 0.1));
+      border: 1px solid rgba(148, 163, 184, 0.2);
+      color: var(--text);
+      line-height: 1.1;
+    }
+
+    .option-pill .pill-icon {
+      font-size: 0.9rem;
+      opacity: 0.9;
+    }
+
+    .option-pill .pill-label {
+      font-size: 0.86rem;
+    }
+
+    .option-pill.accent {
+      background: linear-gradient(120deg, rgba(56, 189, 248, 0.18), rgba(56, 189, 248, 0.1));
+      border-color: rgba(56, 189, 248, 0.35);
+    }
+
+    .option-pill.success {
+      background: linear-gradient(120deg, rgba(74, 222, 128, 0.18), rgba(22, 163, 74, 0.12));
+      border-color: rgba(74, 222, 128, 0.35);
+    }
+
+    .option-pill.muted {
+      background: rgba(148, 163, 184, 0.12);
+      border-color: rgba(148, 163, 184, 0.3);
+      color: var(--muted);
+    }
+
     .summary-chip {
       margin-top: 2px;
       font-size: 0.72rem;
@@ -1282,6 +1327,78 @@
                   </label>
                   <input type="number" id="param_opt_formation" min="0" max="1" step="1" value="1">
                 </div>
+
+                <div class="field">
+                  <label for="param_opt_hosting">
+                    Hébergement géré ?
+                    <span class="hint-icon" data-tooltip="0 = non, 1 = oui" role="note" tabindex="0" aria-label="0 = non, 1 = oui">?</span>
+                  </label>
+                  <input type="number" id="param_opt_hosting" min="0" max="1" step="1" value="0">
+                </div>
+
+                <div class="field">
+                  <label for="param_hosting_cost">
+                    Budget hébergement (€/an)
+                    <span class="hint-icon" data-tooltip="Coût récurrent si activé" role="note" tabindex="0" aria-label="Coût récurrent si activé">?</span>
+                  </label>
+                  <input type="number" id="param_hosting_cost" min="0" step="10" value="300">
+                </div>
+
+                <div class="field">
+                  <label for="param_opt_domain">
+                    Nom de domaine ?
+                    <span class="hint-icon" data-tooltip="0 = non, 1 = oui" role="note" tabindex="0" aria-label="0 = non, 1 = oui">?</span>
+                  </label>
+                  <input type="number" id="param_opt_domain" min="0" max="1" step="1" value="1">
+                </div>
+
+                <div class="field">
+                  <label for="param_domain_cost">
+                    Budget nom de domaine (€/an)
+                    <span class="hint-icon" data-tooltip="Coût récurrent si activé" role="note" tabindex="0" aria-label="Coût récurrent si activé">?</span>
+                  </label>
+                  <input type="number" id="param_domain_cost" min="0" step="5" value="20">
+                </div>
+
+                <div class="field">
+                  <label for="param_opt_chatbot">
+                    Intégration Chatbot IA ?
+                    <span class="hint-icon" data-tooltip="0 = non, 1 = oui" role="note" tabindex="0" aria-label="0 = non, 1 = oui">?</span>
+                  </label>
+                  <input type="number" id="param_opt_chatbot" min="0" max="1" step="1" value="0">
+                </div>
+
+                <div class="field">
+                  <label for="param_chatbot_setup_hours">
+                    Ateliers & prompts (h)
+                    <span class="hint-icon" data-tooltip="Cadrage, scénarios, tonalité" role="note" tabindex="0" aria-label="Cadrage, scénarios, tonalité">?</span>
+                  </label>
+                  <input type="number" id="param_chatbot_setup_hours" min="0" step="1" value="6">
+                </div>
+
+                <div class="field">
+                  <label for="param_chatbot_integration_hours">
+                    Intégration & front (h)
+                    <span class="hint-icon" data-tooltip="Widget, connecteurs, tests" role="note" tabindex="0" aria-label="Widget, connecteurs, tests">?</span>
+                  </label>
+                  <input type="number" id="param_chatbot_integration_hours" min="0" step="1" value="8">
+                </div>
+
+                <div class="field">
+                  <label for="param_chatbot_training_hours">
+                    Entraînement / FAQ (h)
+                    <span class="hint-icon" data-tooltip="Structure de la base de connaissances" role="note" tabindex="0" aria-label="Structure de la base de connaissances">?</span>
+                  </label>
+                  <input type="number" id="param_chatbot_training_hours" min="0" step="1" value="5">
+                </div>
+
+                <div class="field">
+                  <label for="param_chatbot_subscription">
+                    Abonnement IA (€/mois)
+                    <span class="hint-icon" data-tooltip="Licences ou crédits d'API" role="note" tabindex="0" aria-label="Licences ou crédits d'API">?</span>
+                  </label>
+                  <input type="number" id="param_chatbot_subscription" min="0" step="10" value="0">
+                </div>
               </div>
             </div>
 
@@ -1370,8 +1487,8 @@
               </div>
               <div class="summary-card">
                 <div class="summary-label">Options activées</div>
-                <div class="summary-value" id="summary-options">—</div>
-                <div class="summary-chip muted">Identité visuelle, services/réas, blog, SEO, formation</div>
+                <div class="summary-value options-badges" id="summary-options">—</div>
+                <div class="summary-chip muted">Identité, contenus, SEO, blog, formation, chatbot, hébergement…</div>
               </div>
             </div>
             <div class="summary-row">
@@ -1400,19 +1517,19 @@
           <div class="section">
             <div class="summary-row">
               <div class="summary-card">
-                <div class="summary-label">Freelances</div>
+                <div class="summary-label">Production & options</div>
                 <div class="summary-value" id="summary-cost-freelance">—</div>
-                <div class="summary-chip muted">Total coûts avant buffer</div>
+                <div class="summary-chip muted">Coûts HT avant buffer (freelances + options fixes)</div>
               </div>
               <div class="summary-card">
                 <div class="summary-label">Coût interne estimé</div>
                 <div class="summary-value" id="summary-cost-internal">—</div>
-                <div class="summary-chip muted">Freelances + buffer imprévus</div>
+                <div class="summary-chip muted">Base précédente + buffer imprévus</div>
               </div>
               <div class="summary-card">
                 <div class="summary-label">Prix conseillé HT (€)</div>
                 <div class="summary-value success" id="summary-price-sell">—</div>
-                <div class="summary-chip">Marge agence + buffer imprévus</div>
+                <div class="summary-chip">Coût interne × marge agence</div>
               </div>
               <div class="summary-card">
                 <div class="summary-label">Prix conseillé HT (MGA)</div>
@@ -1858,6 +1975,31 @@
         baseHours: 4,
         volumeKey: "const"
       },
+      // IA / Chatbot
+      {
+        id: "chatbot_workshop",
+        phase: "IA & automatisation",
+        label: "Ateliers, parcours & prompts IA",
+        roleId: "cp",
+        baseHours: 1,
+        volumeKey: "chatbotSetupHours"
+      },
+      {
+        id: "chatbot_integration",
+        phase: "IA & automatisation",
+        label: "Intégration chatbot (widget & connecteurs)",
+        roleId: "dev",
+        baseHours: 1,
+        volumeKey: "chatbotIntegrationHours"
+      },
+      {
+        id: "chatbot_training",
+        phase: "IA & automatisation",
+        label: "Entraînement / FAQ alimentée",
+        roleId: "seo",
+        baseHours: 1,
+        volumeKey: "chatbotTrainingHours"
+      },
       // Formation
       {
         id: "formation",
@@ -1901,6 +2043,15 @@
           param_brand_guidelines: 0,
           param_brand_templates: 0,
           param_opt_formation: 0,
+          param_opt_hosting: 0,
+          param_hosting_cost: 300,
+          param_opt_domain: 1,
+          param_domain_cost: 20,
+          param_opt_chatbot: 0,
+          param_chatbot_setup_hours: 4,
+          param_chatbot_integration_hours: 6,
+          param_chatbot_training_hours: 3,
+          param_chatbot_subscription: 0,
           param_complexity: 1,
           param_margin: 1.3,
           param_fx: 5000,
@@ -1939,6 +2090,15 @@
           param_brand_guidelines: 1,
           param_brand_templates: 2,
           param_opt_formation: 0,
+          param_opt_hosting: 0,
+          param_hosting_cost: 300,
+          param_opt_domain: 1,
+          param_domain_cost: 20,
+          param_opt_chatbot: 0,
+          param_chatbot_setup_hours: 6,
+          param_chatbot_integration_hours: 8,
+          param_chatbot_training_hours: 4,
+          param_chatbot_subscription: 0,
           param_complexity: 1.2,
           param_margin: 1.3,
           param_fx: 5000,
@@ -1977,6 +2137,15 @@
           param_brand_guidelines: 1.6,
           param_brand_templates: 3,
           param_opt_formation: 1,
+          param_opt_hosting: 1,
+          param_hosting_cost: 420,
+          param_opt_domain: 1,
+          param_domain_cost: 30,
+          param_opt_chatbot: 1,
+          param_chatbot_setup_hours: 8,
+          param_chatbot_integration_hours: 10,
+          param_chatbot_training_hours: 6,
+          param_chatbot_subscription: 120,
           param_complexity: 1.5,
           param_margin: 1.35,
           param_fx: 5000,
@@ -2061,6 +2230,15 @@
       "param_brand_guidelines",
       "param_brand_templates",
       "param_opt_formation",
+      "param_opt_hosting",
+      "param_hosting_cost",
+      "param_opt_domain",
+      "param_domain_cost",
+      "param_opt_chatbot",
+      "param_chatbot_setup_hours",
+      "param_chatbot_integration_hours",
+      "param_chatbot_training_hours",
+      "param_chatbot_subscription",
       "param_margin",
       "param_fx",
       "param_buffer",
@@ -2104,6 +2282,21 @@
       const brandTemplatesRaw = Math.max(0, safeNumber(document.getElementById("param_brand_templates").value, 2));
       const brandTemplates = optLogo ? brandTemplatesRaw : 0;
       const optFormation = Math.max(0, Math.min(1, safeNumber(document.getElementById("param_opt_formation").value, 0)));
+      const optHosting = Math.max(0, Math.min(1, safeNumber(document.getElementById("param_opt_hosting").value, 0)));
+      const hostingCostRaw = Math.max(0, safeNumber(document.getElementById("param_hosting_cost").value, 0));
+      const hostingCost = optHosting ? hostingCostRaw : 0;
+      const optDomain = Math.max(0, Math.min(1, safeNumber(document.getElementById("param_opt_domain").value, 0)));
+      const domainCostRaw = Math.max(0, safeNumber(document.getElementById("param_domain_cost").value, 0));
+      const domainCost = optDomain ? domainCostRaw : 0;
+      const optChatbot = Math.max(0, Math.min(1, safeNumber(document.getElementById("param_opt_chatbot").value, 0)));
+      const chatbotSetupHoursRaw = Math.max(0, safeNumber(document.getElementById("param_chatbot_setup_hours").value, 0));
+      const chatbotIntegrationHoursRaw = Math.max(0, safeNumber(document.getElementById("param_chatbot_integration_hours").value, 0));
+      const chatbotTrainingHoursRaw = Math.max(0, safeNumber(document.getElementById("param_chatbot_training_hours").value, 0));
+      const chatbotSubscriptionRaw = Math.max(0, safeNumber(document.getElementById("param_chatbot_subscription").value, 0));
+      const chatbotSetupHours = optChatbot ? chatbotSetupHoursRaw : 0;
+      const chatbotIntegrationHours = optChatbot ? chatbotIntegrationHoursRaw : 0;
+      const chatbotTrainingHours = optChatbot ? chatbotTrainingHoursRaw : 0;
+      const chatbotSubscription = optChatbot ? chatbotSubscriptionRaw : 0;
       const complexity = safeNumber(document.getElementById("param_complexity").value, 1);
       const margin = Math.max(1, safeNumber(document.getElementById("param_margin").value, 1.3));
       const fx = Math.max(1, safeNumber(document.getElementById("param_fx").value, 5000));
@@ -2154,6 +2347,15 @@
         brandGuidelinesMode,
         brandTemplates,
         optFormation,
+        optHosting,
+        hostingCost,
+        optDomain,
+        domainCost,
+        optChatbot,
+        chatbotSetupHours,
+        chatbotIntegrationHours,
+        chatbotTrainingHours,
+        chatbotSubscription,
         complexity,
         margin,
         fx,
@@ -2203,6 +2405,9 @@
         case "articleVisuals": return params.articleVisualsVolume;
         case "articleSeo": return params.articleSeoVolume;
         case "hasBlog": return params.hasBlog;
+        case "chatbotSetupHours": return params.chatbotSetupHours;
+        case "chatbotIntegrationHours": return params.chatbotIntegrationHours;
+        case "chatbotTrainingHours": return params.chatbotTrainingHours;
         case "const":
         default:
           return 1;
@@ -2276,6 +2481,32 @@
       }
 
       feedback.innerHTML = `Filtre par rôle <b>${roleLabel}</b> appliqué`;
+    }
+
+    function renderOptionBadges(options) {
+      const container = document.getElementById("summary-options");
+      if (!container) return;
+
+      container.innerHTML = "";
+
+      const items = options.length ? options : [{ label: "Aucune option", icon: "⌀", tone: "muted" }];
+
+      items.forEach(opt => {
+        const pill = document.createElement("span");
+        pill.className = `option-pill ${opt.tone || ""}`.trim();
+
+        const icon = document.createElement("span");
+        icon.className = "pill-icon";
+        icon.textContent = opt.icon || "•";
+        pill.appendChild(icon);
+
+        const label = document.createElement("span");
+        label.className = "pill-label";
+        label.textContent = opt.label;
+        pill.appendChild(label);
+
+        container.appendChild(pill);
+      });
     }
 
     function updateZeroToggleLabel(checked) {
@@ -2405,30 +2636,36 @@
           ? `${params.nbLegal} pages légales incluses`
           : "Aucune page légale";
       const opts = [];
-      if (params.optLogo === 1) opts.push("Logo");
-      if (params.optFormation === 1) opts.push("Formation");
-      if (params.hasBlog === 1) opts.push("Blog");
+      if (params.optLogo === 1) {
+        const label = params.brandGuidelinesMode > 0 ? "Identité visuelle + charte" : "Identité visuelle";
+        opts.push({ label, icon: "🎨", tone: "accent" });
+      }
+      if (params.optFormation === 1) opts.push({ label: "Formation client", icon: "🎓", tone: "success" });
+      if (params.hasBlog === 1) {
+        const blogLabel = params.blogArticles > 0 ? `Blog (${params.blogArticles} art.)` : "Blog activé";
+        opts.push({ label: blogLabel, icon: "✍️" });
+      }
       if (params.nbServiceListing === 1 || params.nbServiceDetails > 0) {
         const detailLabel = params.nbServiceDetails > 0 ? `${params.nbServiceDetails} fiches` : "listing seul";
         const designLabel = params.serviceDesignFactor > 1 ? "design dédié" : "gabarit unique";
-        opts.push(`Services ${detailLabel} (${designLabel})`);
+        opts.push({ label: `Services ${detailLabel} (${designLabel})`, icon: "🛠️" });
       }
       if (params.serviceContentMode === 1 && params.serviceContentPages > 0) {
-        opts.push(`Rédac/SEO services x${params.serviceContentPages}`);
+        opts.push({ label: `Rédac/SEO services x${params.serviceContentPages}` , icon: "🖋️" });
       }
       if (params.serviceVisualsVolume > 0) {
-        opts.push(`Visuels services x${params.serviceVisualsVolume}`);
+        opts.push({ label: `Visuels services x${params.serviceVisualsVolume}`, icon: "🖼️" });
       }
       if (params.nbReaListing === 1 || params.nbReaDetails > 0) {
         const detailLabel = params.nbReaDetails > 0 ? `${params.nbReaDetails} cas` : "listing seul";
         const designLabel = params.reaDesignFactor > 1 ? "design dédié" : "gabarit unique";
-        opts.push(`Réalisations ${detailLabel} (${designLabel})`);
+        opts.push({ label: `Réalisations ${detailLabel} (${designLabel})`, icon: "🏆" });
       }
       if (params.reaContentMode === 1 && params.reaContentPages > 0) {
-        opts.push(`Rédac/SEO réas x${params.reaContentPages}`);
+        opts.push({ label: `Rédac/SEO réas x${params.reaContentPages}`, icon: "🖋️" });
       }
       if (params.reaVisualsVolume > 0) {
-        opts.push(`Visuels réas x${params.reaVisualsVolume}`);
+        opts.push({ label: `Visuels réas x${params.reaVisualsVolume}`, icon: "🖼️" });
       }
       if (params.nbSeoPages > 0) {
         const seoParts = [];
@@ -2437,11 +2674,27 @@
         if (params.serviceContentPages > 0) seoParts.push(`services ${params.serviceContentPages}`);
         if (params.reaContentPages > 0) seoParts.push(`réas ${params.reaContentPages}`);
         const seoBreakdown = seoParts.length ? ` (${seoParts.join(" / ")})` : "";
-        opts.push(`SEO x${params.nbSeoPages}${seoBreakdown}`);
+        opts.push({ label: `SEO x${params.nbSeoPages}${seoBreakdown}`, icon: "🔍", tone: "accent" });
       }
-      if (importResult.batches > 0) opts.push(`Import ${params.importArticles} art.`);
-      document.getElementById("summary-options").textContent =
-        opts.length ? opts.join(" · ") : "Aucune option";
+      if (importResult.batches > 0) {
+        opts.push({ label: `Import ${params.importArticles} art.`, icon: "⬇️" });
+      }
+      if (params.optHosting === 1) {
+        opts.push({ label: `Hébergement ${fmtEuro(params.hostingCost, 0)}`, icon: "☁️", tone: "success" });
+      }
+      if (params.optDomain === 1) {
+        opts.push({ label: `Nom de domaine ${fmtEuro(params.domainCost, 0)}`, icon: "🌐" });
+      }
+      if (params.optChatbot === 1) {
+        const totalChatbotHours = params.chatbotSetupHours + params.chatbotIntegrationHours + params.chatbotTrainingHours;
+        const chatbotSubscriptionLabel = params.chatbotSubscription > 0 ? ` + ${fmtEuro(params.chatbotSubscription, 0)}/mois` : "";
+        opts.push({
+          label: `Chatbot IA (${totalChatbotHours}h${chatbotSubscriptionLabel})`,
+          icon: "🤖",
+          tone: "accent"
+        });
+      }
+      renderOptionBadges(opts);
       document.getElementById("summary-import").textContent =
         params.hasBlog === 0
           ? "Blog non prévu"
@@ -2491,26 +2744,33 @@
         row.querySelector('td[data-type="cost"]').textContent = fmtEuro(cost, 0);
       });
 
+      const optionExtras =
+        (params.optHosting ? params.hostingCost : 0) +
+        (params.optDomain ? params.domainCost : 0) +
+        (params.optChatbot ? params.chatbotSubscription : 0);
+
+      const totalBeforeBuffer = totalCost + optionExtras;
+
       document.getElementById("tfoot-hours").textContent = fmtHours(totalHours);
-      document.getElementById("tfoot-cost").textContent = fmtEuro(totalCost, 0);
-      document.getElementById("tfoot-prebuffer").textContent = fmtEuro(totalCost, 0);
+      document.getElementById("tfoot-cost").textContent = fmtEuro(totalBeforeBuffer, 0);
+      document.getElementById("tfoot-prebuffer").textContent = fmtEuro(totalBeforeBuffer, 0);
 
       // Buffer imprévus
-      const bufferAmount = totalCost * (params.bufferPercent / 100);
-      const internalWithBuffer = totalCost + bufferAmount;
+      const bufferAmount = totalBeforeBuffer * (params.bufferPercent / 100);
+      const internalWithBuffer = totalBeforeBuffer + bufferAmount;
 
       // Prix de vente
       const priceSell = internalWithBuffer * params.margin;
       const priceSellMGA = priceSell * params.fx;
 
-      document.getElementById("summary-cost-freelance").textContent = fmtEuro(totalCost, 0);
+      document.getElementById("summary-cost-freelance").textContent = fmtEuro(totalBeforeBuffer, 0);
       document.getElementById("summary-cost-internal").textContent = fmtEuro(internalWithBuffer, 0);
       document.getElementById("summary-price-sell").textContent = fmtEuro(priceSell, 0);
       document.getElementById("summary-price-sell-mga").textContent = fmtMGA(priceSellMGA);
 
       lastTotals = {
         hours: totalHours,
-        cost: totalCost,
+        cost: totalBeforeBuffer,
         internal: internalWithBuffer,
         sell: priceSell
       };
