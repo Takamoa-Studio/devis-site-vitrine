@@ -1394,45 +1394,120 @@
 
               <div class="field-subsection">
                 <p class="field-subtitle">Chatbot IA & automatisation</p>
-                <div class="grid" aria-label="Paramètres chatbot IA et automatisation">
+                <div class="grid grid-single" aria-label="Pack chatbot IA">
                   <div class="field">
-                    <label for="param_opt_chatbot">
-                      Intégration Chatbot IA ?
-                      <span class="hint-icon" data-tooltip="0 = non, 1 = oui" role="note" tabindex="0" aria-label="0 = non, 1 = oui">?</span>
+                    <label for="param_chatbot_offer">
+                      Offre chatbot IA
+                      <span class="hint-icon" data-tooltip="Choisis le niveau d'intégration : plugin, solution externe ou API sur mesure" role="note" tabindex="0" aria-label="Choisis le niveau d'intégration : plugin, solution externe ou API sur mesure">?</span>
                     </label>
-                    <input type="number" id="param_opt_chatbot" min="0" max="1" step="1" value="0">
+                    <select id="param_chatbot_offer">
+                      <option value="none">Pas de chatbot</option>
+                      <option value="plugin">Plugin "clé en main" (No-code / Low-code)</option>
+                      <option value="external">Intégrer un chatbot externe (Intercom, Crisp, Tidio...)</option>
+                      <option value="custom">Intégration sur mesure via API OpenAI / LLM</option>
+                    </select>
                   </div>
+                </div>
 
-                  <div class="field">
-                    <label for="param_chatbot_setup_hours">
-                      Ateliers & prompts (h)
-                      <span class="hint-icon" data-tooltip="Cadrage, scénarios, tonalité" role="note" tabindex="0" aria-label="Cadrage, scénarios, tonalité">?</span>
-                    </label>
-                    <input type="number" id="param_chatbot_setup_hours" min="0" step="1" value="6">
+                <div class="field-subsection chatbot-offer-block" data-chatbot-offer="plugin" aria-label="Paramètres plugin clé en main">
+                  <p class="field-subtitle">Plugin "clé en main" (No-code / Low-code)</p>
+                  <div class="grid" aria-label="Paramétrage plugin no-code">
+                    <div class="field">
+                      <label for="param_chatbot_plugin_setup_hours">
+                        Ateliers & configuration (h)
+                        <span class="hint-icon" data-tooltip="Cadrage des parcours, prompts et tonalité" role="note" tabindex="0" aria-label="Cadrage des parcours, prompts et tonalité">?</span>
+                      </label>
+                      <input type="number" id="param_chatbot_plugin_setup_hours" min="0" step="1" value="4">
+                    </div>
+                    <div class="field">
+                      <label for="param_chatbot_plugin_integration_hours">
+                        Connexions & automatisations (h)
+                        <span class="hint-icon" data-tooltip="Scénarios no-code, handover vers email/CRM" role="note" tabindex="0" aria-label="Scénarios no-code, handover vers email/CRM">?</span>
+                      </label>
+                      <input type="number" id="param_chatbot_plugin_integration_hours" min="0" step="1" value="4">
+                    </div>
+                    <div class="field">
+                      <label for="param_chatbot_plugin_training_hours">
+                        FAQ / base de connaissances (h)
+                        <span class="hint-icon" data-tooltip="Structuration d'une FAQ importée ou manuelle" role="note" tabindex="0" aria-label="Structuration d'une FAQ importée ou manuelle">?</span>
+                      </label>
+                      <input type="number" id="param_chatbot_plugin_training_hours" min="0" step="1" value="2">
+                    </div>
+                    <div class="field">
+                      <label for="param_chatbot_plugin_subscription">
+                        Abonnement plugin (€/mois)
+                        <span class="hint-icon" data-tooltip="Licences du plugin no-code" role="note" tabindex="0" aria-label="Licences du plugin no-code">?</span>
+                      </label>
+                      <input type="number" id="param_chatbot_plugin_subscription" min="0" step="10" value="40">
+                    </div>
                   </div>
+                </div>
 
-                  <div class="field">
-                    <label for="param_chatbot_integration_hours">
-                      Intégration & front (h)
-                      <span class="hint-icon" data-tooltip="Widget, connecteurs, tests" role="note" tabindex="0" aria-label="Widget, connecteurs, tests">?</span>
-                    </label>
-                    <input type="number" id="param_chatbot_integration_hours" min="0" step="1" value="8">
+                <div class="field-subsection chatbot-offer-block" data-chatbot-offer="external" aria-label="Paramètres chatbot externe">
+                  <p class="field-subtitle">Chatbot externe (Intercom-like, Crisp, Tidio…)</p>
+                  <div class="grid" aria-label="Paramétrage chatbot externe">
+                    <div class="field">
+                      <label for="param_chatbot_external_setup_hours">
+                        Cadrage & parcours (h)
+                        <span class="hint-icon" data-tooltip="Scripts de conversations, persona, escalades" role="note" tabindex="0" aria-label="Scripts de conversations, persona, escalades">?</span>
+                      </label>
+                      <input type="number" id="param_chatbot_external_setup_hours" min="0" step="1" value="6">
+                    </div>
+                    <div class="field">
+                      <label for="param_chatbot_external_integration_hours">
+                        Intégration widget & CRM (h)
+                        <span class="hint-icon" data-tooltip="SDK, connecteurs, routage vers support" role="note" tabindex="0" aria-label="SDK, connecteurs, routage vers support">?</span>
+                      </label>
+                      <input type="number" id="param_chatbot_external_integration_hours" min="0" step="1" value="8">
+                    </div>
+                    <div class="field">
+                      <label for="param_chatbot_external_training_hours">
+                        FAQ / knowledge base (h)
+                        <span class="hint-icon" data-tooltip="Import / structuration de la base documentaire" role="note" tabindex="0" aria-label="Import / structuration de la base documentaire">?</span>
+                      </label>
+                      <input type="number" id="param_chatbot_external_training_hours" min="0" step="1" value="4">
+                    </div>
+                    <div class="field">
+                      <label for="param_chatbot_external_subscription">
+                        Abonnement solution (€/mois)
+                        <span class="hint-icon" data-tooltip="Plan mensuel Intercom/Crisp/Tidio" role="note" tabindex="0" aria-label="Plan mensuel Intercom/Crisp/Tidio">?</span>
+                      </label>
+                      <input type="number" id="param_chatbot_external_subscription" min="0" step="10" value="70">
+                    </div>
                   </div>
+                </div>
 
-                  <div class="field">
-                    <label for="param_chatbot_training_hours">
-                      Entraînement / FAQ (h)
-                      <span class="hint-icon" data-tooltip="Structure de la base de connaissances" role="note" tabindex="0" aria-label="Structure de la base de connaissances">?</span>
-                    </label>
-                    <input type="number" id="param_chatbot_training_hours" min="0" step="1" value="5">
-                  </div>
-
-                  <div class="field">
-                    <label for="param_chatbot_subscription">
-                      Abonnement IA (€/mois)
-                      <span class="hint-icon" data-tooltip="Licences ou crédits d'API" role="note" tabindex="0" aria-label="Licences ou crédits d'API">?</span>
-                    </label>
-                    <input type="number" id="param_chatbot_subscription" min="0" step="10" value="0">
+                <div class="field-subsection chatbot-offer-block" data-chatbot-offer="custom" aria-label="Paramètres intégration sur mesure">
+                  <p class="field-subtitle">Intégration sur mesure API OpenAI / LLM</p>
+                  <div class="grid" aria-label="Paramétrage sur mesure API">
+                    <div class="field">
+                      <label for="param_chatbot_custom_workshop_hours">
+                        Discovery & prompt engineering (h)
+                        <span class="hint-icon" data-tooltip="Ateliers métiers, scénarios complexes" role="note" tabindex="0" aria-label="Ateliers métiers, scénarios complexes">?</span>
+                      </label>
+                      <input type="number" id="param_chatbot_custom_workshop_hours" min="0" step="1" value="8">
+                    </div>
+                    <div class="field">
+                      <label for="param_chatbot_custom_dev_hours">
+                        Dev front + backend (h)
+                        <span class="hint-icon" data-tooltip="UI du widget, appels API, logs, sécurité" role="note" tabindex="0" aria-label="UI du widget, appels API, logs, sécurité">?</span>
+                      </label>
+                      <input type="number" id="param_chatbot_custom_dev_hours" min="0" step="1" value="12">
+                    </div>
+                    <div class="field">
+                      <label for="param_chatbot_custom_training_hours">
+                        Données / RAG / QA (h)
+                        <span class="hint-icon" data-tooltip="Préparation du corpus, tests et alignement" role="note" tabindex="0" aria-label="Préparation du corpus, tests et alignement">?</span>
+                      </label>
+                      <input type="number" id="param_chatbot_custom_training_hours" min="0" step="1" value="6">
+                    </div>
+                    <div class="field">
+                      <label for="param_chatbot_custom_subscription">
+                        Coûts API & infra (€/mois)
+                        <span class="hint-icon" data-tooltip="Crédits OpenAI / hébergement du service" role="note" tabindex="0" aria-label="Crédits OpenAI / hébergement du service">?</span>
+                      </label>
+                      <input type="number" id="param_chatbot_custom_subscription" min="0" step="10" value="120">
+                    </div>
                   </div>
                 </div>
               </div>
@@ -2093,11 +2168,19 @@
           param_hosting_cost: 300,
           param_opt_domain: 1,
           param_domain_cost: 20,
-          param_opt_chatbot: 0,
-          param_chatbot_setup_hours: 4,
-          param_chatbot_integration_hours: 6,
-          param_chatbot_training_hours: 3,
-          param_chatbot_subscription: 0,
+          param_chatbot_offer: "none",
+          param_chatbot_plugin_setup_hours: 4,
+          param_chatbot_plugin_integration_hours: 4,
+          param_chatbot_plugin_training_hours: 2,
+          param_chatbot_plugin_subscription: 40,
+          param_chatbot_external_setup_hours: 6,
+          param_chatbot_external_integration_hours: 8,
+          param_chatbot_external_training_hours: 4,
+          param_chatbot_external_subscription: 70,
+          param_chatbot_custom_workshop_hours: 8,
+          param_chatbot_custom_dev_hours: 12,
+          param_chatbot_custom_training_hours: 6,
+          param_chatbot_custom_subscription: 120,
           param_complexity: 1,
           param_margin: 1.3,
           param_fx: 5000,
@@ -2140,11 +2223,19 @@
           param_hosting_cost: 300,
           param_opt_domain: 1,
           param_domain_cost: 20,
-          param_opt_chatbot: 0,
-          param_chatbot_setup_hours: 6,
-          param_chatbot_integration_hours: 8,
-          param_chatbot_training_hours: 4,
-          param_chatbot_subscription: 0,
+          param_chatbot_offer: "none",
+          param_chatbot_plugin_setup_hours: 4,
+          param_chatbot_plugin_integration_hours: 4,
+          param_chatbot_plugin_training_hours: 2,
+          param_chatbot_plugin_subscription: 40,
+          param_chatbot_external_setup_hours: 6,
+          param_chatbot_external_integration_hours: 8,
+          param_chatbot_external_training_hours: 4,
+          param_chatbot_external_subscription: 70,
+          param_chatbot_custom_workshop_hours: 8,
+          param_chatbot_custom_dev_hours: 12,
+          param_chatbot_custom_training_hours: 6,
+          param_chatbot_custom_subscription: 120,
           param_complexity: 1.2,
           param_margin: 1.3,
           param_fx: 5000,
@@ -2187,11 +2278,19 @@
           param_hosting_cost: 420,
           param_opt_domain: 1,
           param_domain_cost: 30,
-          param_opt_chatbot: 1,
-          param_chatbot_setup_hours: 8,
-          param_chatbot_integration_hours: 10,
-          param_chatbot_training_hours: 6,
-          param_chatbot_subscription: 120,
+          param_chatbot_offer: "custom",
+          param_chatbot_plugin_setup_hours: 4,
+          param_chatbot_plugin_integration_hours: 4,
+          param_chatbot_plugin_training_hours: 2,
+          param_chatbot_plugin_subscription: 40,
+          param_chatbot_external_setup_hours: 6,
+          param_chatbot_external_integration_hours: 8,
+          param_chatbot_external_training_hours: 4,
+          param_chatbot_external_subscription: 70,
+          param_chatbot_custom_workshop_hours: 8,
+          param_chatbot_custom_dev_hours: 12,
+          param_chatbot_custom_training_hours: 6,
+          param_chatbot_custom_subscription: 120,
           param_complexity: 1.5,
           param_margin: 1.35,
           param_fx: 5000,
@@ -2280,11 +2379,19 @@
       "param_hosting_cost",
       "param_opt_domain",
       "param_domain_cost",
-      "param_opt_chatbot",
-      "param_chatbot_setup_hours",
-      "param_chatbot_integration_hours",
-      "param_chatbot_training_hours",
-      "param_chatbot_subscription",
+      "param_chatbot_offer",
+      "param_chatbot_plugin_setup_hours",
+      "param_chatbot_plugin_integration_hours",
+      "param_chatbot_plugin_training_hours",
+      "param_chatbot_plugin_subscription",
+      "param_chatbot_external_setup_hours",
+      "param_chatbot_external_integration_hours",
+      "param_chatbot_external_training_hours",
+      "param_chatbot_external_subscription",
+      "param_chatbot_custom_workshop_hours",
+      "param_chatbot_custom_dev_hours",
+      "param_chatbot_custom_training_hours",
+      "param_chatbot_custom_subscription",
       "param_margin",
       "param_fx",
       "param_buffer",
@@ -2334,15 +2441,45 @@
       const optDomain = Math.max(0, Math.min(1, safeNumber(document.getElementById("param_opt_domain").value, 0)));
       const domainCostRaw = Math.max(0, safeNumber(document.getElementById("param_domain_cost").value, 0));
       const domainCost = optDomain ? domainCostRaw : 0;
-      const optChatbot = Math.max(0, Math.min(1, safeNumber(document.getElementById("param_opt_chatbot").value, 0)));
-      const chatbotSetupHoursRaw = Math.max(0, safeNumber(document.getElementById("param_chatbot_setup_hours").value, 0));
-      const chatbotIntegrationHoursRaw = Math.max(0, safeNumber(document.getElementById("param_chatbot_integration_hours").value, 0));
-      const chatbotTrainingHoursRaw = Math.max(0, safeNumber(document.getElementById("param_chatbot_training_hours").value, 0));
-      const chatbotSubscriptionRaw = Math.max(0, safeNumber(document.getElementById("param_chatbot_subscription").value, 0));
-      const chatbotSetupHours = optChatbot ? chatbotSetupHoursRaw : 0;
-      const chatbotIntegrationHours = optChatbot ? chatbotIntegrationHoursRaw : 0;
-      const chatbotTrainingHours = optChatbot ? chatbotTrainingHoursRaw : 0;
-      const chatbotSubscription = optChatbot ? chatbotSubscriptionRaw : 0;
+      const chatbotOffer = document.getElementById("param_chatbot_offer")?.value || "none";
+
+      const chatbotPlugin = {
+        setupHours: Math.max(0, safeNumber(document.getElementById("param_chatbot_plugin_setup_hours").value, 0)),
+        integrationHours: Math.max(0, safeNumber(document.getElementById("param_chatbot_plugin_integration_hours").value, 0)),
+        trainingHours: Math.max(0, safeNumber(document.getElementById("param_chatbot_plugin_training_hours").value, 0)),
+        subscription: Math.max(0, safeNumber(document.getElementById("param_chatbot_plugin_subscription").value, 0)),
+        label: "Plugin \"clé en main\""
+      };
+
+      const chatbotExternal = {
+        setupHours: Math.max(0, safeNumber(document.getElementById("param_chatbot_external_setup_hours").value, 0)),
+        integrationHours: Math.max(0, safeNumber(document.getElementById("param_chatbot_external_integration_hours").value, 0)),
+        trainingHours: Math.max(0, safeNumber(document.getElementById("param_chatbot_external_training_hours").value, 0)),
+        subscription: Math.max(0, safeNumber(document.getElementById("param_chatbot_external_subscription").value, 0)),
+        label: "Chatbot externe"
+      };
+
+      const chatbotCustom = {
+        setupHours: Math.max(0, safeNumber(document.getElementById("param_chatbot_custom_workshop_hours").value, 0)),
+        integrationHours: Math.max(0, safeNumber(document.getElementById("param_chatbot_custom_dev_hours").value, 0)),
+        trainingHours: Math.max(0, safeNumber(document.getElementById("param_chatbot_custom_training_hours").value, 0)),
+        subscription: Math.max(0, safeNumber(document.getElementById("param_chatbot_custom_subscription").value, 0)),
+        label: "Intégration sur mesure"
+      };
+
+      const chatbotOffers = {
+        plugin: chatbotPlugin,
+        external: chatbotExternal,
+        custom: chatbotCustom
+      };
+
+      const selectedChatbotOffer = chatbotOffers[chatbotOffer];
+      const optChatbot = selectedChatbotOffer ? 1 : 0;
+
+      const chatbotSetupHours = selectedChatbotOffer?.setupHours ?? 0;
+      const chatbotIntegrationHours = selectedChatbotOffer?.integrationHours ?? 0;
+      const chatbotTrainingHours = selectedChatbotOffer?.trainingHours ?? 0;
+      const chatbotSubscription = selectedChatbotOffer?.subscription ?? 0;
       const complexity = safeNumber(document.getElementById("param_complexity").value, 1);
       const margin = Math.max(1, safeNumber(document.getElementById("param_margin").value, 1.3));
       const fx = Math.max(1, safeNumber(document.getElementById("param_fx").value, 5000));
@@ -2397,6 +2534,8 @@
         hostingCost,
         optDomain,
         domainCost,
+        chatbotOffer,
+        chatbotOfferLabel: selectedChatbotOffer?.label ?? "Pas de chatbot",
         optChatbot,
         chatbotSetupHours,
         chatbotIntegrationHours,
@@ -2555,6 +2694,13 @@
       });
     }
 
+    function updateChatbotOfferVisibility(activeOffer) {
+      document.querySelectorAll(".chatbot-offer-block").forEach(block => {
+        const offer = block.getAttribute("data-chatbot-offer");
+        block.classList.toggle("is-hidden", offer !== activeOffer);
+      });
+    }
+
     function updateZeroToggleLabel(checked) {
       const label = document.getElementById("toggle-zero-cost-label");
       if (!label) return;
@@ -2672,6 +2818,8 @@
         params.importDegressive
       );
 
+      updateChatbotOfferVisibility(params.chatbotOffer);
+
       // Résumé simple
       document.getElementById("summary-pages").textContent =
         `${params.nbHome} home · ${params.totalPagesWithExtras} internes`;
@@ -2734,8 +2882,9 @@
       if (params.optChatbot === 1) {
         const totalChatbotHours = params.chatbotSetupHours + params.chatbotIntegrationHours + params.chatbotTrainingHours;
         const chatbotSubscriptionLabel = params.chatbotSubscription > 0 ? ` + ${fmtEuro(params.chatbotSubscription, 0)}/mois` : "";
+        const chatbotOfferLabel = params.chatbotOfferLabel ? `${params.chatbotOfferLabel} · ` : "";
         opts.push({
-          label: `Chatbot IA (${totalChatbotHours}h${chatbotSubscriptionLabel})`,
+          label: `Chatbot IA · ${chatbotOfferLabel}${totalChatbotHours}h${chatbotSubscriptionLabel}`,
           icon: "🤖",
           tone: "accent"
         });
@@ -2814,7 +2963,11 @@
 
       document.getElementById("summary-cost-freelance").textContent = fmtEuro(totalCost, 0);
       document.getElementById("summary-cost-hosting").textContent = fmtEuro(hostingDomainCost, 0);
-      document.getElementById("summary-cost-chatbot").textContent = fmtEuro(chatbotCost, 0);
+      const chatbotHoursTotal = params.chatbotSetupHours + params.chatbotIntegrationHours + params.chatbotTrainingHours;
+      const chatbotSummaryLabel = params.optChatbot
+        ? `${params.chatbotOfferLabel} · ${fmtEuro(chatbotCost, 0)}/mois · ${fmtHours(chatbotHoursTotal)}`
+        : fmtEuro(0, 0);
+      document.getElementById("summary-cost-chatbot").textContent = chatbotSummaryLabel;
 
       const hostingCard = document.getElementById("summary-hosting-card");
       const chatbotCard = document.getElementById("summary-chatbot-card");
