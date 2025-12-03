@@ -1,56 +1,50 @@
-# Calculateur de coût – Site vitrine
+# Calculateur de devis – site vitrine
 
-Ce projet est une page HTML autonome (`index.html`) qui calcule en temps réel le coût estimé d'un site vitrine selon plusieurs paramètres (volume de pages, complexité, options, taux horaires, marge, etc.). Le fonctionnement se fait entièrement côté client : aucune dépendance externe ni build n'est nécessaire.
+Cette page HTML autonome (`index.html`) calcule en temps réel le coût d'un site vitrine en combinant volumes, options, taux horaires, marge et conversion monétaire. Aucune dépendance externe n'est requise : il suffit d'ouvrir le fichier dans un navigateur moderne.
 
-## Comment utiliser la page
+## Utiliser le calculateur
 
-1. **Ouvrir l'outil**
-   - Ouvre directement `index.html` dans ton navigateur. Tout le code (style et script) est embarqué dans le fichier.
+1. **Ouvrir et choisir un preset**
+   - Ouvre `index.html` dans le navigateur puis sélectionne un **type de site** (landing, vitrine, vitrine avancée). Chaque preset injecte une série de valeurs par défaut pour les champs du formulaire. 【F:index.html†L1875-L1990】
+   - Le bouton **Reset** réapplique les valeurs du preset actuellement sélectionné. 【F:index.html†L2530-L2545】
 
-2. **Renseigner les paramètres projet**
-   - Choisis le **type de site** (vitrine, vitrine avancée, e-commerce) depuis la liste déroulante ; cela sert surtout à l'intitulé.
-   - Sélectionne la **complexité globale** (x1.0, x1.2 ou x1.5) qui multiplie toutes les tâches.
-   - Saisis le nombre de **pages d'accueil** (variantes) et de **pages internes** ; ces valeurs pilotent le volume de design et de développement.
-   - Indique le nombre de **pages optimisées SEO** à traiter.
-   - Active ou non les options : **logo** (`0`/`1`) et **formation** (`0`/`1`).
-   - Ajuste les paramètres financiers : **coefficient de marge** (ex. `1.3` pour +30 %), **taux de change** €→MGA, et **buffer imprévus** en %.
-   - (Optionnel) Ajoute un **intitulé de projet** pour tes exports ou captures.
+2. **Renseigner les paramètres de production**
+   - Saisis les volumes de pages (home, internes, légales) et la **complexité globale** qui servira de multiplicateur. 【F:index.html†L2075-L2104】【F:index.html†L2465-L2469】
+   - Active les options de **services**, **réalisations**, **blog**, **logo/charte** et **formation** selon le périmètre voulu ; les champs associés sont neutralisés si l'option est désactivée (ex. blog absent ⇒ import et articles à 0). 【F:index.html†L2105-L2138】【F:index.html†L2147-L2168】
+   - Ajuste les paramètres financiers : **buffer imprévus** (en %), **marge de vente**, **taux de change €→MGA**. 【F:index.html†L2169-L2180】【F:index.html†L2498-L2509】
 
-3. **Explorer le résumé rapide**
-   - La section "Résumé rapide" affiche dynamiquement :
-     - le **volume de pages** (home + internes),
-     - la **complexité appliquée**,
-     - la liste des **options activées** (logo, formation, SEO).
+3. **Importer/exporter une configuration**
+   - Clique sur **Exporter les paramètres** pour télécharger un JSON contenant toutes les entrées et les taux horaires courants ; le nom de fichier est horodaté et dérivé de l'intitulé du projet. 【F:index.html†L2554-L2562】【F:index.html†L2623-L2645】
+   - Utilise **Importer un fichier** pour charger un JSON précédemment exporté : les champs sont renseignés, les taux horaires mis à jour puis un recalcul global est déclenché. 【F:index.html†L2626-L2641】
 
-4. **Ajuster les taux horaires par rôle**
-   - Dans la table "Taux horaires" tu peux modifier le **taux €/h** de chaque rôle (chef de projet, webdesigner, développeur, graphiste, SEO, QA). Chaque saisie déclenche un recalcul instantané.
+4. **Explorer les résultats**
+   - Le bloc **Résumé rapide** liste le volume de pages, la complexité appliquée, les pages légales et les options actives (services, réalisations, SEO, blog/import). 【F:index.html†L2398-L2450】
+   - Le bloc **Résumé financier** affiche le coût total freelance, le coût interne avec buffer, puis le prix conseillé HT en euros et en MGA. 【F:index.html†L2498-L2509】
+   - La table **Taux horaires** permet de modifier le tarif de chaque rôle ; chaque saisie relance le calcul. 【F:index.html†L1498-L1551】【F:index.html†L2223-L2235】
+   - Le tableau **Détail des tâches & temps estimés** se filtre par rôle, peut masquer les tâches à 0 €, et propose un export CSV des lignes visibles. 【F:index.html†L2230-L2330】【F:index.html†L2452-L2492】【F:index.html†L2573-L2580】
 
-5. **Consulter le résumé financier**
-   - Le bloc "Résumé financier" affiche automatiquement :
-     - le **coût interne estimé** (somme des coûts des tâches + buffer imprévus),
-     - le **prix conseillé HT en €** (coût interne x marge),
-     - le **prix conseillé HT en MGA** (conversion par le taux de change saisi).
+## Comment sont faits les calculs
 
-6. **Détails des tâches et calculs**
-   - La table "Détail des tâches & temps estimés" est générée depuis la liste `tasks` du script :
-     - Chaque ligne indique la **phase**, la **tâche**, le **rôle** associé, les **heures de base**, le **volume** appliqué, les **heures totales** (base × volume × complexité), le **taux horaire** et le **coût calculé**.
-     - Le pied de tableau cumule le **total heures** et le **coût total**.
+- **Lecture des paramètres** : `readParams()` sécurise les entrées (bornes min/max) et construit les variables métier : volumes de pages, activation des options, intensité SEO, volumes de contenus/visuels, réglages financiers et paramètres d'import. 【F:index.html†L2075-L2180】
+- **Coût d'import** : `computeImportCost()` calcule le coût total d'import d'articles par batch avec dégressivité (`coût × dégressif^batchIndex`) et renvoie le nombre de batchs. 【F:index.html†L2181-L2196】
+- **Volume par tâche** : `getTaskVolume()` associe une clé de volume à chaque tâche (pages, options, blog, etc.) pour multiplier les heures de base. 【F:index.html†L2197-L2228】
+- **Heures et coûts** : `recalcAll()` lit les paramètres, calcule pour chaque tâche : `heures = baseHours × volume × complexité` puis `coût = heures × taux horaire`. Les tâches d'import utilisent le coût calculé par `computeImportCost`. 【F:index.html†L2389-L2492】
+- **Totaux et prix de vente** : le total des coûts alimente le **buffer imprévus** (`coût × buffer/100`), puis le **prix conseillé** (`(coût + buffer) × marge`) et sa conversion MGA (`prix × taux de change`). 【F:index.html†L2494-L2509】
+- **Mises à jour UI** : les totaux, résumés et filtres sont rafraîchis après chaque modification de champ ou de filtre, et l'état peut être exporté/importé en JSON ou en CSV pour les tâches visibles. 【F:index.html†L2521-L2562】【F:index.html†L2573-L2644】
 
-7. **Boucler sur les réglages**
-   - Toute modification de paramètre (volume, complexité, options, taux, marge, buffer) déclenche `recalcAll()` : le résumé rapide, les totaux et la table des tâches se mettent à jour en temps réel.
+## Variables et constantes clés
 
-## Structure interne
+- **Rôles** : liste `roles` avec identifiant, libellé, taux horaire par défaut, note et icône (Chef de projet, Webdesigner, Développeur WordPress, Graphiste, Rédacteur/SEO, QA). 【F:index.html†L1498-L1551】
+- **Tâches** : tableau `tasks` décrivant la phase, le rôle, les heures de base et la clé de volume associée pour chaque activité (cadrage, design, graphisme, développement, contenus, SEO, recette, formation). 【F:index.html†L1597-L1870】
+- **Presets de site** : objet `SITE_PRESETS` pour les types *landing*, *vitrine* et *vitrine avancée* ; chaque preset remplit les champs du formulaire (pages, options, SEO, marge, buffer, import). 【F:index.html†L1875-L1990】
+- **Paramètres surveillés** : `PARAM_INPUT_IDS`/`ALL_INPUT_IDS` répertorient les champs pris en compte pour les calculs et les exports (volumes, options, finance, import, commentaire). 【F:index.html†L2046-L2074】【F:index.html†L2554-L2562】
+- **Filtres et états UI** : `activeRoleFilter`, `hideZeroCost` et `lastTotals` contrôlent respectivement le filtre par rôle, l'affichage des tâches à 0 € et la comparaison des totaux. 【F:index.html†L1543-L1550】【F:index.html†L2265-L2329】
 
-- **Données** :
-  - `roles` contient les rôles avec leurs taux par défaut et une note explicative.
-  - `tasks` décrit chaque tâche (phase, rôle, heures de base, clé de volume).
-- **Helpers** : `safeNumber`, `fmtEuro`, `fmtMGA`, `fmtHours` gèrent les conversions et formats.
-- **Calculs** :
-  - `readParams()` lit et sécurise les valeurs des champs.
-  - `getTaskVolume()` renvoie le multiplicateur propre à chaque tâche (pages, options, etc.).
-  - `recalcAll()` orchestre le calcul des volumes, heures, coûts, buffer, marge et conversions, puis met à jour le DOM.
-- **Initialisation** : `initRolesTable()` et `initTasksTable()` génèrent les tableaux dynamiquement, `bindParamEvents()` attache les listeners, et l'événement `DOMContentLoaded` lance l'initialisation + un premier calcul.
+## Pistes d'amélioration
 
-## Besoins techniques
+- **Personnalisation avancée des tâches** : permettre d'ajouter/éditer des tâches et de choisir le rôle associé directement dans l'interface, avec persistance dans l'export JSON.
+- **Décomposition des phases** : autoriser des coefficients spécifiques par phase (design, dev, SEO…) pour moduler la complexité autrement que par un facteur global.
+- **Bibliothèque de presets** : offrir l'enregistrement de presets personnalisés (par secteur, par stack technique) et un partage facile via URL ou QR code.
+- **Gestion des risques** : ajouter des lignes de contingence paramétrables (maintenance, TMA, hébergement) et des marges distinctes par type de coût.
+- **Accessibilité et collaboration** : prévoir un mode impression/PDF, un verrouillage des champs pour partager un chiffrage en lecture seule, et une option multi-devise avec taux de change multiples.
 
-- Aucun serveur ni dépendance : un simple navigateur moderne suffit. Le fichier est responsive et fonctionne en local.
