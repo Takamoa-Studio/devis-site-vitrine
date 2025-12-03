@@ -503,6 +503,19 @@
       gap: 8px;
     }
 
+    .tasks-toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .tasks-toolbar select {
+      min-width: 220px;
+    }
+
     .chip-group {
       display: flex;
       flex-wrap: wrap;
@@ -535,6 +548,10 @@
       font-size: 0.78rem;
       text-transform: uppercase;
       letter-spacing: 0.09em;
+    }
+
+    .is-hidden {
+      display: none !important;
     }
 
     tfoot td {
@@ -1203,6 +1220,11 @@
           <span class="muted">Les heures tiennent compte du volume, de la complexité et des options activées.</span>
         </div>
 
+        <div class="tasks-toolbar" aria-label="Filtrer les tâches par rôle">
+          <label for="tasks-role-filter" class="muted">Filtrer par rôle</label>
+          <select id="tasks-role-filter"></select>
+        </div>
+
         <div class="tasks-table-wrapper" aria-label="Détail des tâches et calculs">
           <table>
             <thead>
@@ -1226,10 +1248,6 @@
                 <td class="align-right" id="tfoot-hours">—</td>
                 <td></td>
                 <td class="align-right" id="tfoot-cost">—</td>
-              </tr>
-              <tr>
-                <td colspan="7" class="align-right">Blog : importation d'articles (refonte)</td>
-                <td class="align-right" id="tfoot-import">—</td>
               </tr>
               <tr>
                 <td colspan="7" class="align-right">Total coûts avant buffer</td>
@@ -1283,6 +1301,8 @@
         note: "Recette, tests responsive"
       }
     ];
+
+    let activeRoleFilter = "all";
 
     const tasks = [
       // Cadrage
@@ -1456,6 +1476,15 @@
         roleId: "dev",
         baseHours: 5,
         volumeKey: "hasBlog"
+      },
+      {
+        id: "dev_import_articles",
+        phase: "Développement",
+        label: "Blog : importation d'articles (refonte)",
+        roleId: "dev",
+        baseHours: 0,
+        volumeKey: "const",
+        type: "import"
       },
       {
         id: "content_articles",
@@ -1926,12 +1955,38 @@
       });
     }
 
+    function initRoleFilter() {
+      const select = document.getElementById("tasks-role-filter");
+      if (!select) return;
+
+      select.innerHTML = "";
+
+      const optionAll = document.createElement("option");
+      optionAll.value = "all";
+      optionAll.textContent = "Tous les rôles";
+      select.appendChild(optionAll);
+
+      roles.forEach(role => {
+        const option = document.createElement("option");
+        option.value = role.id;
+        option.textContent = role.name;
+        select.appendChild(option);
+      });
+
+      select.value = activeRoleFilter;
+      select.addEventListener("change", () => {
+        activeRoleFilter = select.value;
+        recalcAll();
+      });
+    }
+
     function initTasksTable() {
       const tbody = document.getElementById("tasks-body");
       tbody.innerHTML = "";
       tasks.forEach(task => {
         const tr = document.createElement("tr");
         tr.dataset.taskId = task.id;
+        tr.dataset.roleId = task.roleId;
 
         const tdPhase = document.createElement("td");
         tdPhase.innerHTML = `<span class="tasks-phase">${task.phase}</span>`;
@@ -1944,6 +1999,7 @@
 
         const tdBase = document.createElement("td");
         tdBase.className = "align-right";
+        tdBase.dataset.type = "base";
         tdBase.textContent = fmtHours(task.baseHours);
 
         const tdVolume = document.createElement("td");
@@ -2053,14 +2109,29 @@
         const row = tbody.querySelector(`tr[data-task-id="${task.id}"]`);
         if (!row) return;
 
-        const volume = getTaskVolume(task, params);
-        const hours = task.baseHours * volume * params.complexity;
         const rate = rolesById[task.roleId]?.rate ?? 0;
-        const cost = hours * rate;
+        const isImportTask = task.type === "import";
+        const matchesFilter = activeRoleFilter === "all" || task.roleId === activeRoleFilter;
 
-        totalHours += hours;
-        totalCost += cost;
+        let baseHours = task.baseHours;
+        let volume = getTaskVolume(task, params);
+        let hours = task.baseHours * volume * params.complexity;
+        let cost = hours * rate;
 
+        if (isImportTask) {
+          volume = params.importArticles;
+          baseHours = rate > 0 ? params.importBaseCost / rate : 0;
+          hours = rate > 0 ? importResult.cost / rate : 0;
+          cost = importResult.cost;
+        }
+
+        if (matchesFilter) {
+          totalHours += hours;
+          totalCost += cost;
+        }
+
+        row.classList.toggle("is-hidden", !matchesFilter);
+        row.querySelector('td[data-type="base"]').textContent = fmtHours(baseHours);
         row.querySelector('td[data-type="volume"]').textContent =
           volume.toLocaleString("fr-FR", { maximumFractionDigits: 1 });
         row.querySelector('td[data-type="hours"]').textContent = fmtHours(hours);
@@ -2070,12 +2141,11 @@
 
       document.getElementById("tfoot-hours").textContent = fmtHours(totalHours);
       document.getElementById("tfoot-cost").textContent = fmtEuro(totalCost, 0);
-      document.getElementById("tfoot-import").textContent = fmtEuro(importResult.cost, 0);
-      document.getElementById("tfoot-prebuffer").textContent = fmtEuro(totalCost + importResult.cost, 0);
+      document.getElementById("tfoot-prebuffer").textContent = fmtEuro(totalCost, 0);
 
       // Buffer imprévus
-      const bufferAmount = (totalCost + importResult.cost) * (params.bufferPercent / 100);
-      const internalWithBuffer = totalCost + importResult.cost + bufferAmount;
+      const bufferAmount = totalCost * (params.bufferPercent / 100);
+      const internalWithBuffer = totalCost + bufferAmount;
 
       // Prix de vente
       const priceSell = internalWithBuffer * params.margin;
@@ -2221,6 +2291,7 @@
 
     document.addEventListener("DOMContentLoaded", () => {
       initRolesTable();
+      initRoleFilter();
       initTasksTable();
       bindPresetControls();
       bindParamEvents();
