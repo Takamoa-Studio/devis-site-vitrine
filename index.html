@@ -511,6 +511,25 @@
       gap: 4px;
     }
 
+    .summary-card-highlight {
+      background: linear-gradient(135deg, rgba(14, 165, 233, 0.16), rgba(56, 189, 248, 0.06) 35%, rgba(15, 23, 42, 0.95) 70%);
+      border-color: rgba(56, 189, 248, 0.6);
+      box-shadow: 0 18px 38px rgba(14, 165, 233, 0.35);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .summary-card-highlight::after {
+      content: "";
+      position: absolute;
+      inset: -20% auto auto 50%;
+      width: 120%;
+      height: 120%;
+      background: radial-gradient(circle at top, rgba(94, 234, 212, 0.15), transparent 55%);
+      pointer-events: none;
+      transform: translateX(-50%);
+    }
+
     .summary-label {
       font-size: 0.72rem;
       color: var(--muted);
@@ -1534,9 +1553,19 @@
           <div class="section">
             <div class="summary-row">
               <div class="summary-card">
-                <div class="summary-label">Production & options</div>
+                <div class="summary-label">Freelances - Coûts HT avant buffer</div>
                 <div class="summary-value" id="summary-cost-freelance">—</div>
-                <div class="summary-chip muted">Coûts HT avant buffer (freelances + options fixes)</div>
+                <div class="summary-chip muted">Production (hors hébergement, domaine, chatbot)</div>
+              </div>
+              <div class="summary-card" id="summary-hosting-card">
+                <div class="summary-label">Hébergement &amp; Domaine</div>
+                <div class="summary-value" id="summary-cost-hosting">—</div>
+                <div class="summary-chip muted">Options fixes activées</div>
+              </div>
+              <div class="summary-card summary-card-highlight" id="summary-chatbot-card">
+                <div class="summary-label">Option ChatBot IA</div>
+                <div class="summary-value" id="summary-cost-chatbot">—</div>
+                <div class="summary-chip">Abonnement mensuel (visible si activé)</div>
               </div>
               <div class="summary-card">
                 <div class="summary-label">Coût interne estimé</div>
@@ -2761,12 +2790,15 @@
         row.querySelector('td[data-type="cost"]').textContent = fmtEuro(cost, 0);
       });
 
-      const optionExtras =
+      const hostingDomainCost =
         (params.optHosting ? params.hostingCost : 0) +
-        (params.optDomain ? params.domainCost : 0) +
-        (params.optChatbot ? params.chatbotSubscription : 0);
+        (params.optDomain ? params.domainCost : 0);
 
-      const totalBeforeBuffer = totalCost + optionExtras;
+      const hostingActive = params.optHosting === 1 || params.optDomain === 1;
+
+      const chatbotCost = params.optChatbot ? params.chatbotSubscription : 0;
+
+      const totalBeforeBuffer = totalCost + hostingDomainCost + chatbotCost;
 
       document.getElementById("tfoot-hours").textContent = fmtHours(totalHours);
       document.getElementById("tfoot-cost").textContent = fmtEuro(totalBeforeBuffer, 0);
@@ -2780,7 +2812,15 @@
       const priceSell = internalWithBuffer * params.margin;
       const priceSellMGA = priceSell * params.fx;
 
-      document.getElementById("summary-cost-freelance").textContent = fmtEuro(totalBeforeBuffer, 0);
+      document.getElementById("summary-cost-freelance").textContent = fmtEuro(totalCost, 0);
+      document.getElementById("summary-cost-hosting").textContent = fmtEuro(hostingDomainCost, 0);
+      document.getElementById("summary-cost-chatbot").textContent = fmtEuro(chatbotCost, 0);
+
+      const hostingCard = document.getElementById("summary-hosting-card");
+      const chatbotCard = document.getElementById("summary-chatbot-card");
+
+      if (hostingCard) hostingCard.classList.toggle("is-hidden", !hostingActive);
+      if (chatbotCard) chatbotCard.classList.toggle("is-hidden", params.optChatbot !== 1);
       document.getElementById("summary-cost-internal").textContent = fmtEuro(internalWithBuffer, 0);
       document.getElementById("summary-price-sell").textContent = fmtEuro(priceSell, 0);
       document.getElementById("summary-price-sell-mga").textContent = fmtMGA(priceSellMGA);
