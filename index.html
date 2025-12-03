@@ -2963,7 +2963,7 @@
 
       const chatbotCost = params.optChatbot ? params.chatbotSubscription : 0;
 
-      const includeOptionCosts = activeRoleFilter === "all";
+      const includeOptionCosts = !activeRoleFilter || activeRoleFilter === "all";
       const optionCosts = includeOptionCosts ? hostingDomainCost + chatbotCost : 0;
       const totalBeforeBuffer = totalCost + optionCosts;
 
