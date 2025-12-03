@@ -349,6 +349,13 @@
       overflow-y: auto;
       max-height: 58vh;
       padding-right: 4px;
+      transition: background 120ms ease, border-color 120ms ease;
+      border-radius: var(--radius-md);
+    }
+
+    .task-list-panel .list-scroller.dragging-active {
+      background: linear-gradient(180deg, rgba(56, 189, 248, 0.08), rgba(56, 189, 248, 0.02));
+      border: 1px dashed rgba(56, 189, 248, 0.45);
     }
 
     .task-list-panel .list-scroller::-webkit-scrollbar {
@@ -386,11 +393,71 @@
       flex-direction: column;
       gap: 8px;
       position: relative;
+      cursor: pointer;
+      transition: transform 140ms ease, border-color 140ms ease, box-shadow 140ms ease, background 140ms ease;
     }
 
     .task-pill.active {
       border-image: linear-gradient(135deg, rgba(168, 85, 247, 0.9), rgba(56, 189, 248, 0.85)) 1;
       box-shadow: 0 10px 30px rgba(99, 102, 241, 0.15);
+    }
+
+    .task-pill.dragging {
+      opacity: 0.75;
+      transform: scale(0.995);
+      border-color: rgba(56, 189, 248, 0.4);
+      box-shadow: 0 16px 40px rgba(15, 23, 42, 0.8);
+    }
+
+    .task-pill.drag-over-top::before,
+    .task-pill.drag-over-bottom::after {
+      content: "";
+      position: absolute;
+      left: 8px;
+      right: 8px;
+      height: 3px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, rgba(56, 189, 248, 0.2), rgba(56, 189, 248, 0.85), rgba(56, 189, 248, 0.2));
+      box-shadow: 0 4px 18px rgba(56, 189, 248, 0.4);
+    }
+
+    .task-pill.drag-over-top::before {
+      top: -6px;
+    }
+
+    .task-pill.drag-over-bottom::after {
+      bottom: -6px;
+    }
+
+    .task-pill .pill-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .task-pill .drag-handle {
+      min-width: 34px;
+      height: 34px;
+      border-radius: 10px;
+      border: 1px solid rgba(148, 163, 184, 0.25);
+      background: rgba(56, 189, 248, 0.08);
+      color: var(--accent);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: grab;
+      transition: all 140ms ease;
+      box-shadow: var(--shadow-chip);
+    }
+
+    .task-pill .drag-handle:active {
+      cursor: grabbing;
+      transform: scale(0.96);
+    }
+
+    .task-pill .drag-handle:hover {
+      border-color: rgba(56, 189, 248, 0.5);
+      background: rgba(56, 189, 248, 0.15);
     }
 
     .task-pill strong {
@@ -2197,7 +2264,7 @@
         <div class="task-list-panel" aria-live="polite" aria-label="Liste des tâches personnalisables">
           <div class="list-header">
             <h3><span class="icon">🗂️</span> Tâches configurées</h3>
-            <p class="sub">Fais défiler pour consulter et éditer rapidement.</p>
+            <p class="sub">Glisse-dépose les cartes pour réorganiser l'ordre d'affichage du tableau.</p>
           </div>
           <div class="list-scroller">
             <div class="task-pills" id="task-list" aria-live="polite" aria-label="Liste des tâches personnalisables"></div>
@@ -2641,6 +2708,8 @@
     ];
 
     let editingTaskId = null;
+    let draggedTaskId = null;
+    let hasTaskDnDListeners = false;
 
     const RATE_PRESETS = {
       freelance_mada: {
@@ -3205,18 +3274,134 @@
       renderTaskPills();
     }
 
+    function clearTaskDragDecorations() {
+      document.querySelectorAll(".task-pill").forEach(pill => {
+        pill.classList.remove("drag-over-top", "drag-over-bottom", "dragging");
+      });
+
+      const scroller = document.querySelector(".task-list-panel .list-scroller");
+      if (scroller) scroller.classList.remove("dragging-active");
+      draggedTaskId = null;
+    }
+
+    function startTaskDrag(event, taskId, pill) {
+      draggedTaskId = taskId;
+      pill.classList.add("dragging");
+      const scroller = document.querySelector(".task-list-panel .list-scroller");
+      if (scroller) scroller.classList.add("dragging-active");
+      if (event.dataTransfer) {
+        event.dataTransfer.effectAllowed = "move";
+        event.dataTransfer.setData("text/plain", taskId);
+      }
+    }
+
+    function handleTaskDragOver(event, targetTaskId, pill) {
+      if (!draggedTaskId || draggedTaskId === targetTaskId) return;
+      event.preventDefault();
+      if (event.dataTransfer) event.dataTransfer.dropEffect = "move";
+
+      const rect = pill.getBoundingClientRect();
+      const isBefore = event.clientY < rect.top + rect.height / 2;
+      pill.classList.toggle("drag-over-top", isBefore);
+      pill.classList.toggle("drag-over-bottom", !isBefore);
+    }
+
+    function handleTaskDrop(event, targetTaskId) {
+      if (!draggedTaskId || draggedTaskId === targetTaskId) {
+        clearTaskDragDecorations();
+        return;
+      }
+
+      event.preventDefault();
+      event.stopPropagation();
+      const pill = event.currentTarget;
+      const rect = pill.getBoundingClientRect();
+      const insertBefore = event.clientY < rect.top + rect.height / 2;
+      const changed = reorderTasks(draggedTaskId, targetTaskId, insertBefore ? "before" : "after");
+
+      clearTaskDragDecorations();
+
+      if (changed) {
+        syncTasksUI();
+      } else {
+        renderTaskPills();
+      }
+    }
+
+    function handleContainerDragOver(event) {
+      if (!draggedTaskId) return;
+      event.preventDefault();
+      const scroller = event.currentTarget;
+      scroller.classList.add("dragging-active");
+      if (event.dataTransfer) event.dataTransfer.dropEffect = "move";
+    }
+
+    function handleContainerDrop(event) {
+      if (!draggedTaskId) return;
+      event.preventDefault();
+      const lastTaskId = tasks[tasks.length - 1]?.id;
+      const changed = lastTaskId ? reorderTasks(draggedTaskId, lastTaskId, "after") : false;
+      clearTaskDragDecorations();
+      if (changed) {
+        syncTasksUI();
+      } else {
+        renderTaskPills();
+      }
+    }
+
+    function reorderTasks(draggedId, targetId, position = "before") {
+      if (draggedId === targetId) return false;
+
+      const currentIndex = tasks.findIndex(task => task.id === draggedId);
+      const targetIndex = tasks.findIndex(task => task.id === targetId);
+      if (currentIndex === -1 || targetIndex === -1) return false;
+
+      const [movedTask] = tasks.splice(currentIndex, 1);
+      let adjustedTargetIndex = targetIndex;
+      if (currentIndex < targetIndex) {
+        adjustedTargetIndex -= 1;
+      }
+
+      let insertionIndex = adjustedTargetIndex + (position === "after" ? 1 : 0);
+      insertionIndex = Math.max(0, Math.min(tasks.length, insertionIndex));
+      tasks.splice(insertionIndex, 0, movedTask);
+      return insertionIndex !== currentIndex;
+    }
+
     function renderTaskPills() {
       const container = document.getElementById("task-list");
       if (!container) return;
       container.innerHTML = "";
+
+      if (!hasTaskDnDListeners) {
+        container.addEventListener("dragover", handleContainerDragOver);
+        container.addEventListener("drop", handleContainerDrop);
+        hasTaskDnDListeners = true;
+      }
 
       tasks.forEach(task => {
         const pill = document.createElement("div");
         const isActive = editingTaskId === task.id;
         pill.className = `task-pill${isActive ? " active" : ""}`;
 
+        const row = document.createElement("div");
+        row.className = "pill-row";
+
+        const dragHandle = document.createElement("button");
+        dragHandle.type = "button";
+        dragHandle.className = "drag-handle";
+        dragHandle.setAttribute("aria-label", `Réordonner ${task.label}`);
+        dragHandle.setAttribute("draggable", "true");
+        dragHandle.innerHTML = "⠿";
+        dragHandle.addEventListener("dragstart", event => startTaskDrag(event, task.id, pill));
+        dragHandle.addEventListener("dragend", clearTaskDragDecorations);
+        ["click", "mousedown"].forEach(evt => dragHandle.addEventListener(evt, e => e.stopPropagation()));
+
         const title = document.createElement("strong");
         title.textContent = task.label;
+
+        row.appendChild(dragHandle);
+        row.appendChild(title);
 
         const meta = document.createElement("div");
         meta.className = "meta";
@@ -3244,8 +3429,12 @@
         }
 
         pill.addEventListener("click", () => loadTaskIntoForm(task.id));
+        pill.addEventListener("dragover", event => handleTaskDragOver(event, task.id, pill));
+        pill.addEventListener("dragenter", event => handleTaskDragOver(event, task.id, pill));
+        pill.addEventListener("dragleave", () => pill.classList.remove("drag-over-top", "drag-over-bottom"));
+        pill.addEventListener("drop", event => handleTaskDrop(event, task.id));
 
-        pill.appendChild(title);
+        pill.appendChild(row);
         pill.appendChild(meta);
         container.appendChild(pill);
       });
