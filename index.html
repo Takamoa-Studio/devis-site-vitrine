@@ -982,18 +982,70 @@
 
             <div class="field-group">
               <div class="group-header">
+                <h3 class="group-title"><span class="icon">🎨</span> Identité visuelle</h3>
+                <p class="group-sub">Module logo, déclinaisons, charte et templates.</p>
+              </div>
+              <div class="field-subsection">
+                <p class="field-subtitle">Logo & pistes créatives</p>
+                <div class="grid" aria-label="Paramètres identité visuelle">
+                  <div class="field">
+                    <label for="param_opt_logo">
+                      Inclure la création / refonte de logo ?
+                      <span class="hint">0 = non, 1 = oui</span>
+                    </label>
+                    <input type="number" id="param_opt_logo" min="0" max="1" step="1" value="1">
+                  </div>
+
+                  <div class="field">
+                    <label for="param_logo_concepts">
+                      Nb. de pistes logo à présenter
+                      <span class="hint">impacte le volume de design</span>
+                    </label>
+                    <input type="number" id="param_logo_concepts" min="0" step="1" value="2">
+                  </div>
+
+                  <div class="field">
+                    <label for="param_logo_exports">
+                      Déclinaisons & exports (formats)
+                      <span class="hint">logos secondaires, déclinaisons</span>
+                    </label>
+                    <input type="number" id="param_logo_exports" min="0" step="1" value="3">
+                  </div>
+                </div>
+              </div>
+
+              <div class="field-subsection">
+                <p class="field-subtitle">Charte & templates</p>
+                <div class="grid" aria-label="Charte graphique et kits">
+                  <div class="field">
+                    <label for="param_brand_guidelines">
+                      Niveau de charte graphique
+                      <span class="hint">impacte le temps de formalisation</span>
+                    </label>
+                    <select id="param_brand_guidelines">
+                      <option value="0">Pas de charte dédiée</option>
+                      <option value="1" selected>Guide express (x1)</option>
+                      <option value="1.6">Charte complète (x1.6)</option>
+                    </select>
+                  </div>
+
+                  <div class="field">
+                    <label for="param_brand_templates">
+                      Templates réseaux / papeterie
+                      <span class="hint">0 = non prévu</span>
+                    </label>
+                    <input type="number" id="param_brand_templates" min="0" step="1" value="2">
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="field-group">
+              <div class="group-header">
                 <h3 class="group-title"><span class="icon">🧰</span> Options & accompagnement</h3>
                 <p class="group-sub">Services complémentaires à activer.</p>
               </div>
               <div class="grid" aria-label="Options et accompagnement">
-                <div class="field">
-                  <label for="param_opt_logo">
-                    Création / refonte de logo ?
-                    <span class="hint">0 = non, 1 = oui</span>
-                  </label>
-                  <input type="number" id="param_opt_logo" min="0" max="1" step="1" value="1">
-                </div>
-
                 <div class="field">
                   <label for="param_opt_formation">
                     Formation client ?
@@ -1309,12 +1361,44 @@
       },
       // Graphisme
       {
-        id: "logo",
+        id: "logo_discovery",
         phase: "Graphisme",
-        label: "Création / refonte de logo",
+        label: "Moodboard & orientation créative",
         roleId: "graph",
-        baseHours: 5,
-        volumeKey: "optLogo"
+        baseHours: 2,
+        volumeKey: "identityPack"
+      },
+      {
+        id: "logo_concepts",
+        phase: "Graphisme",
+        label: "Pistes logo à développer",
+        roleId: "graph",
+        baseHours: 2.8,
+        volumeKey: "logoConcepts"
+      },
+      {
+        id: "logo_exports",
+        phase: "Graphisme",
+        label: "Déclinaisons & exports du logo",
+        roleId: "graph",
+        baseHours: 1,
+        volumeKey: "logoExports"
+      },
+      {
+        id: "brand_guidelines",
+        phase: "Graphisme",
+        label: "Mini charte graphique / brandbook",
+        roleId: "graph",
+        baseHours: 3.5,
+        volumeKey: "brandGuidelines"
+      },
+      {
+        id: "brand_templates",
+        phase: "Graphisme",
+        label: "Templates réseaux sociaux / papeterie",
+        roleId: "graph",
+        baseHours: 1.2,
+        volumeKey: "brandTemplates"
       },
       // Développement
       {
@@ -1493,6 +1577,10 @@
           param_blog_visuals: 1,
           param_blog_seo: 1,
           param_opt_logo: 0,
+          param_logo_concepts: 0,
+          param_logo_exports: 0,
+          param_brand_guidelines: 0,
+          param_brand_templates: 0,
           param_opt_formation: 0,
           param_complexity: 1,
           param_margin: 1.3,
@@ -1527,6 +1615,10 @@
           param_blog_visuals: 1,
           param_blog_seo: 1,
           param_opt_logo: 0,
+          param_logo_concepts: 2,
+          param_logo_exports: 3,
+          param_brand_guidelines: 1,
+          param_brand_templates: 2,
           param_opt_formation: 0,
           param_complexity: 1.2,
           param_margin: 1.3,
@@ -1561,6 +1653,10 @@
           param_blog_visuals: 1,
           param_blog_seo: 1,
           param_opt_logo: 1,
+          param_logo_concepts: 3,
+          param_logo_exports: 4,
+          param_brand_guidelines: 1.6,
+          param_brand_templates: 3,
           param_opt_formation: 1,
           param_complexity: 1.5,
           param_margin: 1.35,
@@ -1641,6 +1737,10 @@
       "param_blog_visuals",
       "param_blog_seo",
       "param_opt_logo",
+      "param_logo_concepts",
+      "param_logo_exports",
+      "param_brand_guidelines",
+      "param_brand_templates",
       "param_opt_formation",
       "param_margin",
       "param_fx",
@@ -1677,6 +1777,13 @@
       const articleVisualsVolume = blogArticles * wantsBlogVisuals;
       const articleSeoVolume = blogArticles * wantsBlogSeo;
       const optLogo = Math.max(0, Math.min(1, safeNumber(document.getElementById("param_opt_logo").value, 0)));
+      const logoConceptsRaw = Math.max(0, safeNumber(document.getElementById("param_logo_concepts").value, 2));
+      const logoConcepts = optLogo ? logoConceptsRaw : 0;
+      const logoExportsRaw = Math.max(0, safeNumber(document.getElementById("param_logo_exports").value, 3));
+      const logoExports = optLogo ? logoExportsRaw : 0;
+      const brandGuidelinesMode = optLogo ? Math.max(0, safeNumber(document.getElementById("param_brand_guidelines").value, 1)) : 0;
+      const brandTemplatesRaw = Math.max(0, safeNumber(document.getElementById("param_brand_templates").value, 2));
+      const brandTemplates = optLogo ? brandTemplatesRaw : 0;
       const optFormation = Math.max(0, Math.min(1, safeNumber(document.getElementById("param_opt_formation").value, 0)));
       const complexity = safeNumber(document.getElementById("param_complexity").value, 1);
       const margin = Math.max(1, safeNumber(document.getElementById("param_margin").value, 1.3));
@@ -1723,6 +1830,10 @@
         articleVisualsVolume,
         articleSeoVolume,
         optLogo,
+        logoConcepts,
+        logoExports,
+        brandGuidelinesMode,
+        brandTemplates,
         optFormation,
         complexity,
         margin,
@@ -1755,7 +1866,11 @@
         case "nbHome": return params.nbHome;
         case "nbInternalPages": return params.totalInternalPages;
         case "nbSeoPages": return params.nbSeoPages;
-        case "optLogo": return params.optLogo;
+        case "identityPack": return params.optLogo;
+        case "logoConcepts": return params.logoConcepts;
+        case "logoExports": return params.logoExports;
+        case "brandGuidelines": return params.brandGuidelinesMode;
+        case "brandTemplates": return params.brandTemplates;
         case "optFormation": return params.optFormation;
         case "serviceListing": return params.nbServiceListing;
         case "serviceDetailsWeighted": return params.nbServiceDetails * params.serviceDesignFactor;
