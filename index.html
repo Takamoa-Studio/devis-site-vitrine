@@ -2123,15 +2123,15 @@
       const feedback = document.getElementById("filter-feedback");
       if (!feedback) return;
 
-      const roleLabel = roleId === "all"
-        ? "tous les rôles"
-        : `profil ${rolesById[roleId]?.name ?? roleId}`;
+      const defaultMessage = "Utilises le filtre par rôle pour voir le résumé financier du profil sélectionné.";
+      const roleLabel = rolesById[roleId]?.name ?? roleId;
 
-      if (hasChanged) {
-        feedback.innerHTML = `Filtre <span>${roleLabel}</span> appliqué : les totaux sont recalculés (${fmtEuro(lastTotals.internal, 0)} internes · ${fmtEuro(lastTotals.sell, 0)} conseillé).`;
-      } else {
-        feedback.textContent = "Le filtre par rôle mettra à jour automatiquement les heures, les coûts et les prix conseillés selon la sélection.";
+      if (roleId === "all") {
+        feedback.textContent = defaultMessage;
+        return;
       }
+
+      feedback.innerHTML = `Filtre par rôle <b>${roleLabel}</b> appliqué`;
     }
 
     function initRoleFilter() {
