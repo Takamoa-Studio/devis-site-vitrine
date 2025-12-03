@@ -537,53 +537,46 @@
 
     .filter-select {
       position: relative;
-      min-width: 250px;
+      min-width: 230px;
       display: inline-flex;
       align-items: center;
-      gap: 10px;
-      padding: 10px 12px;
+      gap: 8px;
+      padding: 8px 10px;
       border-radius: var(--radius-md);
-      background: linear-gradient(120deg, rgba(15, 23, 42, 0.95), rgba(15, 23, 42, 0.85));
-      border: 1px solid rgba(148, 163, 184, 0.3);
-      box-shadow: var(--shadow-chip);
+      background: rgba(15, 23, 42, 0.75);
+      border: 1px solid rgba(148, 163, 184, 0.25);
     }
 
     .filter-select .filter-icon {
-      width: 34px;
-      height: 34px;
-      border-radius: 12px;
-      background: var(--accent-soft);
+      width: 30px;
+      height: 30px;
+      border-radius: 10px;
+      background: rgba(56, 189, 248, 0.08);
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      font-size: 0.95rem;
+      font-size: 0.9rem;
       color: var(--accent);
-      border: 1px solid rgba(56, 189, 248, 0.35);
-      box-shadow: var(--shadow-chip);
+      border: 1px solid rgba(56, 189, 248, 0.22);
       flex-shrink: 0;
     }
 
     .filter-select select {
       appearance: none;
-      background: rgba(15, 23, 42, 0.65);
-      border: 1px solid rgba(148, 163, 184, 0.35);
-      border-radius: 10px;
+      background: transparent;
+      border: 1px solid rgba(148, 163, 184, 0.3);
+      border-radius: 8px;
       color: var(--text);
-      font-size: 0.95rem;
-      padding: 10px 36px 10px 8px;
-      min-width: 200px;
+      font-size: 0.92rem;
+      padding: 8px 32px 8px 10px;
+      min-width: 190px;
       cursor: pointer;
+      transition: border-color 0.12s ease;
     }
 
     .filter-select select:focus {
-      outline: 2px solid rgba(56, 189, 248, 0.5);
-      border-radius: 10px;
-      box-shadow: 0 0 0 6px rgba(56, 189, 248, 0.12);
-    }
-
-    .filter-select:focus-within {
-      border-color: rgba(56, 189, 248, 0.5);
-      box-shadow: 0 0 0 8px rgba(56, 189, 248, 0.1);
+      outline: none;
+      border-color: rgba(56, 189, 248, 0.6);
     }
 
     .filter-select select option {
@@ -600,8 +593,8 @@
     .filter-select .select-caret {
       position: absolute;
       right: 12px;
-      color: var(--accent);
-      font-size: 0.9rem;
+      color: var(--muted);
+      font-size: 0.82rem;
       pointer-events: none;
     }
 
@@ -1294,8 +1287,8 @@
             </div>
           </div>
 
-          <p class="footer-note">
-            Astuce : tu peux dupliquer ce modèle et fixer le résultat comme <span>base de devis</span> pour ton client.
+          <p class="footer-note" id="filter-feedback" aria-live="polite">
+            Le filtre par rôle mettra à jour automatiquement les heures, les coûts et les prix conseillés selon la sélection.
           </p>
         </section>
       </div>
@@ -1405,6 +1398,12 @@
     ];
 
     let activeRoleFilter = "all";
+    let lastTotals = {
+      hours: 0,
+      cost: 0,
+      internal: 0,
+      sell: 0
+    };
 
     const roleIconStyles = {
       all: {
@@ -2113,6 +2112,28 @@
       iconEl.style.borderColor = style.border;
     }
 
+    function totalsChanged(prev, next) {
+      if (!prev || !next) return false;
+      return ["hours", "cost", "internal", "sell"].some(key => {
+        return Math.round((prev[key] ?? 0) * 100) !== Math.round((next[key] ?? 0) * 100);
+      });
+    }
+
+    function updateFilterFeedback(roleId, hasChanged) {
+      const feedback = document.getElementById("filter-feedback");
+      if (!feedback) return;
+
+      const roleLabel = roleId === "all"
+        ? "tous les rôles"
+        : `profil ${rolesById[roleId]?.name ?? roleId}`;
+
+      if (hasChanged) {
+        feedback.innerHTML = `Filtre <span>${roleLabel}</span> appliqué : les totaux sont recalculés (${fmtEuro(lastTotals.internal, 0)} internes · ${fmtEuro(lastTotals.sell, 0)} conseillé).`;
+      } else {
+        feedback.textContent = "Le filtre par rôle mettra à jour automatiquement les heures, les coûts et les prix conseillés selon la sélection.";
+      }
+    }
+
     function initRoleFilter() {
       const select = document.getElementById("tasks-role-filter");
       if (!select) return;
@@ -2137,9 +2158,11 @@
       applyFilterIcon(select.value);
 
       select.addEventListener("change", () => {
+        const previousTotals = { ...lastTotals };
         activeRoleFilter = select.value;
         applyFilterIcon(activeRoleFilter);
-        recalcAll();
+        const newTotals = recalcAll();
+        updateFilterFeedback(activeRoleFilter, totalsChanged(previousTotals, newTotals));
       });
     }
 
@@ -2317,6 +2340,15 @@
       document.getElementById("summary-cost-internal").textContent = fmtEuro(internalWithBuffer, 0);
       document.getElementById("summary-price-sell").textContent = fmtEuro(priceSell, 0);
       document.getElementById("summary-price-sell-mga").textContent = fmtMGA(priceSellMGA);
+
+      lastTotals = {
+        hours: totalHours,
+        cost: totalCost,
+        internal: internalWithBuffer,
+        sell: priceSell
+      };
+
+      return lastTotals;
     }
 
     function bindParamEvents() {
@@ -2463,6 +2495,7 @@
       const presetSelect = document.getElementById("param_type_site");
       const initialPreset = presetSelect?.value ?? "vitrine";
       applyPreset(initialPreset);
+      updateFilterFeedback(activeRoleFilter, false);
     });
   </script>
 </body>
