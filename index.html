@@ -177,7 +177,6 @@
       font-size: 0.78rem;
       color: var(--muted);
       margin: 0;
-      max-width: 220px;
     }
 
     .card-header .small-action {
@@ -275,6 +274,7 @@
       grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
       gap: 10px 14px;
       align-items: flex-start;
+      flex: 1;
     }
 
     .task-editor-grid .full-span {
@@ -340,7 +340,7 @@
 
     .task-list-panel .list-scroller {
       overflow-y: auto;
-      max-height: 52vh;
+      max-height: 58vh;
       padding-right: 4px;
     }
 
@@ -379,6 +379,11 @@
       flex-direction: column;
       gap: 8px;
       position: relative;
+    }
+
+    .task-pill.active {
+      border-image: linear-gradient(135deg, rgba(168, 85, 247, 0.9), rgba(56, 189, 248, 0.85)) 1;
+      box-shadow: 0 10px 30px rgba(99, 102, 241, 0.15);
     }
 
     .task-pill strong {
@@ -447,6 +452,19 @@
       align-items: center;
       justify-content: space-between;
       gap: 12px;
+    }
+
+    .modal-title-block {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .modal-logo {
+      width: 150px;
+      height: auto;
+      display: block;
+      filter: drop-shadow(0 10px 30px rgba(56, 189, 248, 0.25));
     }
 
     .modal-actions {
@@ -566,8 +584,8 @@
       }
 
       .checkbox-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        display: flex;
+        flex-direction: column;
         gap: 8px 12px;
       }
 
@@ -2079,7 +2097,8 @@
     <div class="modal-overlay" data-close="tasks-modal" aria-hidden="true"></div>
     <div class="modal-content card" role="document">
       <div class="card-header modal-header">
-        <div>
+        <div class="modal-title-block">
+          <img src="assets/logo.webp" alt="Logo du site" class="modal-logo" loading="lazy">
           <h2 id="tasks-custom-title"><span class="icon">🛠️</span> Personnalisation avancée des tâches</h2>
           <p class="sub">Ajoute ou modifie les tâches et choisis le rôle associé. Les changements sont exportés dans le JSON.</p>
         </div>
@@ -3184,6 +3203,7 @@
       editingTaskId = null;
       if (status) status.textContent = "Mode ajout";
       if (saveBtn) saveBtn.textContent = "Enregistrer la tâche";
+      renderTaskPills();
     }
 
     function renderTaskPills() {
@@ -3193,7 +3213,8 @@
 
       tasks.forEach(task => {
         const pill = document.createElement("div");
-        pill.className = "task-pill";
+        const isActive = editingTaskId === task.id;
+        pill.className = `task-pill${isActive ? " active" : ""}`;
 
         const title = document.createElement("strong");
         title.textContent = task.label;
@@ -3214,15 +3235,19 @@
         meta.appendChild(volumeLabel);
         meta.appendChild(hours);
 
-        const editBtn = document.createElement("button");
-        editBtn.type = "button";
-        editBtn.className = "edit-btn";
-        editBtn.textContent = "Modifier";
-        editBtn.addEventListener("click", () => loadTaskIntoForm(task.id));
+        if (!isActive) {
+          const editBtn = document.createElement("button");
+          editBtn.type = "button";
+          editBtn.className = "edit-btn";
+          editBtn.textContent = "Modifier";
+          editBtn.addEventListener("click", () => loadTaskIntoForm(task.id));
+          pill.appendChild(editBtn);
+        }
+
+        pill.addEventListener("click", () => loadTaskIntoForm(task.id));
 
         pill.appendChild(title);
         pill.appendChild(meta);
-        pill.appendChild(editBtn);
         container.appendChild(pill);
       });
     }
@@ -3280,6 +3305,7 @@
       const saveBtn = document.getElementById("save_task");
       if (status) status.textContent = `Modification : ${task.label}`;
       if (saveBtn) saveBtn.textContent = "Mettre à jour";
+      renderTaskPills();
     }
 
     function renderTasksTable() {
