@@ -523,6 +523,14 @@
       gap: 4px;
     }
 
+    .tasks-toolbar .toolbar-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
     .tasks-toolbar .toolbar-text label {
       font-size: 0.82rem;
       color: var(--text);
@@ -596,6 +604,66 @@
       color: var(--muted);
       font-size: 0.82rem;
       pointer-events: none;
+    }
+
+    .toggle {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 10px;
+      border-radius: var(--radius-md);
+      border: 1px solid rgba(148, 163, 184, 0.22);
+      background: rgba(15, 23, 42, 0.8);
+      cursor: pointer;
+      transition: border-color 0.15s ease, background 0.15s ease;
+    }
+
+    .toggle:hover {
+      border-color: rgba(56, 189, 248, 0.4);
+      background: rgba(56, 189, 248, 0.06);
+    }
+
+    .toggle input {
+      display: none;
+    }
+
+    .toggle-switch {
+      position: relative;
+      width: 42px;
+      height: 22px;
+      border-radius: 999px;
+      background: rgba(148, 163, 184, 0.4);
+      border: 1px solid rgba(148, 163, 184, 0.3);
+      transition: background 0.2s ease, border-color 0.2s ease;
+    }
+
+    .toggle-switch::after {
+      content: "";
+      position: absolute;
+      top: 2px;
+      left: 2px;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: #0b1220;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+      transition: transform 0.2s ease, background 0.2s ease;
+    }
+
+    .toggle input:checked + .toggle-switch {
+      background: rgba(74, 222, 128, 0.5);
+      border-color: rgba(74, 222, 128, 0.6);
+    }
+
+    .toggle input:checked + .toggle-switch::after {
+      transform: translateX(20px);
+      background: #22c55e;
+    }
+
+    .toggle-label {
+      font-size: 0.82rem;
+      color: var(--text);
+      white-space: nowrap;
     }
 
     .chip-group {
@@ -719,6 +787,13 @@
       background: rgba(56, 189, 248, 0.12);
       border-color: rgba(56, 189, 248, 0.32);
       color: var(--accent);
+    }
+
+    .ghost-button--compact {
+      padding: 8px 10px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
     }
   </style>
 </head>
@@ -1307,10 +1382,18 @@
             <label for="tasks-role-filter">Filtrer par rôle</label>
             <span class="label-sub">Affiche uniquement les tâches liées au profil choisi.</span>
           </div>
-          <div class="filter-select">
-            <span class="filter-icon" aria-hidden="true">🎚️</span>
-            <select id="tasks-role-filter"></select>
-            <span class="select-caret" aria-hidden="true">▾</span>
+          <div class="toolbar-actions">
+            <label class="toggle" for="toggle-zero-cost">
+              <input type="checkbox" id="toggle-zero-cost">
+              <span class="toggle-switch" aria-hidden="true"></span>
+              <span class="toggle-label" id="toggle-zero-cost-label">Tâches à 0€ affichées</span>
+            </label>
+            <div class="filter-select">
+              <span class="filter-icon" aria-hidden="true">🔍</span>
+              <select id="tasks-role-filter"></select>
+              <span class="select-caret" aria-hidden="true">▾</span>
+            </div>
+            <button type="button" id="export_tasks" class="ghost-button ghost-button--compact" aria-label="Exporter les tâches visibles en CSV">📤 Export CSV</button>
           </div>
         </div>
 
@@ -1398,6 +1481,7 @@
     ];
 
     let activeRoleFilter = "all";
+    let hideZeroCost = false;
     let lastTotals = {
       hours: 0,
       cost: 0,
@@ -2134,6 +2218,25 @@
       feedback.innerHTML = `Filtre par rôle <b>${roleLabel}</b> appliqué`;
     }
 
+    function updateZeroToggleLabel(checked) {
+      const label = document.getElementById("toggle-zero-cost-label");
+      if (!label) return;
+      label.textContent = checked ? "Tâches à 0€ masquées" : "Tâches à 0€ affichées";
+    }
+
+    function initZeroCostToggle() {
+      const toggle = document.getElementById("toggle-zero-cost");
+      if (!toggle) return;
+
+      updateZeroToggleLabel(toggle.checked);
+
+      toggle.addEventListener("change", () => {
+        hideZeroCost = toggle.checked;
+        updateZeroToggleLabel(toggle.checked);
+        recalcAll();
+      });
+    }
+
     function initRoleFilter() {
       const select = document.getElementById("tasks-role-filter");
       if (!select) return;
@@ -2316,7 +2419,10 @@
           totalCost += cost;
         }
 
-        row.classList.toggle("is-hidden", !matchesFilter);
+        const isZeroCost = Math.abs(cost) < 0.0001;
+        const isVisible = matchesFilter && !(hideZeroCost && isZeroCost);
+
+        row.classList.toggle("is-hidden", !isVisible);
         row.querySelector('td[data-type="base"]').textContent = fmtHours(baseHours);
         row.querySelector('td[data-type="volume"]').textContent =
           volume.toLocaleString("fr-FR", { maximumFractionDigits: 1 });
@@ -2403,6 +2509,63 @@
       });
     }
 
+    function escapeCsvValue(value) {
+      const normalized = String(value ?? "").replace(/\u00A0/g, " ").trim();
+      return `"${normalized.replace(/"/g, '""')}"`;
+    }
+
+    function getVisibleTaskRows() {
+      return Array.from(document.querySelectorAll("#tasks-body tr")).filter(row => !row.classList.contains("is-hidden"));
+    }
+
+    function exportTasksCsv() {
+      const table = document.querySelector(".tasks-table-wrapper table");
+      if (!table) return;
+
+      const headerCells = Array.from(table.querySelectorAll("thead th")).map(cell => cell.textContent.trim());
+      const visibleRows = getVisibleTaskRows();
+      const rows = [];
+
+      const filterLabel = activeRoleFilter === "all"
+        ? "Tous les rôles"
+        : (rolesById[activeRoleFilter]?.name ?? activeRoleFilter);
+
+      rows.push(["Filtre par rôle", filterLabel]);
+      rows.push(["Tâches visibles", String(visibleRows.length)]);
+      rows.push([]);
+
+      rows.push(headerCells);
+      visibleRows.forEach(row => {
+        const cells = Array.from(row.querySelectorAll("td")).map(cell => cell.textContent.trim());
+        rows.push(cells);
+      });
+
+      rows.push([]);
+      const footerRows = Array.from(table.querySelectorAll("tfoot tr"));
+      footerRows.forEach(tr => {
+        const cells = Array.from(tr.querySelectorAll("td")).map(cell => cell.textContent.trim());
+        rows.push(cells);
+      });
+
+      const csvContent = rows
+        .map(columns => columns.map(escapeCsvValue).join(";"))
+        .join("\n");
+
+      const date = new Date();
+      const stamp = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
+      const projectSlug = slugifyComment(document.getElementById("param_comment")?.value || "devis");
+      const filterSlug = slugifyComment(filterLabel);
+      const filename = `${projectSlug}-taches-${filterSlug}-${stamp}.csv`;
+
+      const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = filename;
+      link.click();
+      URL.revokeObjectURL(url);
+    }
+
     function buildExportState() {
       return {
         meta: {
@@ -2487,9 +2650,11 @@
     document.addEventListener("DOMContentLoaded", () => {
       initRolesTable();
       initRoleFilter();
+      initZeroCostToggle();
       initTasksTable();
       bindPresetControls();
       bindParamEvents();
+      document.getElementById("export_tasks")?.addEventListener("click", exportTasksCsv);
       document.getElementById("export_params")?.addEventListener("click", exportParams);
       document.getElementById("import_params")?.addEventListener("change", handleImportFile);
       const presetSelect = document.getElementById("param_type_site");
