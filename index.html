@@ -266,6 +266,17 @@
       align-items: flex-start;
     }
 
+    .task-editor-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px 16px;
+      align-items: flex-start;
+    }
+
+    .task-editor-grid .full-span {
+      grid-column: 1 / -1;
+    }
+
     .task-editor .actions {
       display: flex;
       gap: 10px;
@@ -398,6 +409,12 @@
 
     @media (max-width: 600px) {
       .grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    @media (max-width: 780px) {
+      .task-editor-grid {
         grid-template-columns: minmax(0, 1fr);
       }
     }
@@ -1938,23 +1955,29 @@
       </div>
 
       <form class="task-editor" id="task-editor" aria-label="Éditeur de tâches personnalisées">
-        <div class="grid grid-single">
+        <div class="task-editor-grid">
           <div class="field">
             <label for="task_label">Intitulé de la tâche</label>
             <input type="text" id="task_label" required placeholder="Ex. Ajustements responsive">
-          </div>
-        </div>
-        <div class="grid">
-          <div class="field">
-            <label for="task_phase">Phase</label>
-            <input type="text" id="task_phase" required placeholder="Design, Développement, QA…">
           </div>
           <div class="field">
             <label for="task_role">Rôle associé</label>
             <select id="task_role" required></select>
           </div>
-        </div>
-        <div class="grid">
+          <div class="field">
+            <label for="task_phase">Phase</label>
+            <input type="text" id="task_phase" required placeholder="Design, Développement, QA…">
+          </div>
+          <div class="field">
+            <label for="task_type">Type de tâche</label>
+            <select id="task_type" required>
+              <option value="standard">Standard</option>
+              <option value="seo">SEO</option>
+              <option value="import">Import</option>
+              <option value="design">Design</option>
+              <option value="content">Contenus</option>
+            </select>
+          </div>
           <div class="field">
             <label for="task_hours">Heures de base</label>
             <input type="number" id="task_hours" min="0" step="0.5" required placeholder="ex. 3">
@@ -1991,24 +2014,10 @@
               <option value="const_low">Constant (×0,6)</option>
             </select>
           </div>
-        </div>
-        <div class="grid">
-          <div class="field">
-            <label for="task_type">Type de tâche</label>
-            <select id="task_type" required>
-              <option value="standard">Standard</option>
-              <option value="seo">SEO</option>
-              <option value="import">Import</option>
-              <option value="design">Design</option>
-              <option value="content">Contenus</option>
-            </select>
-          </div>
-          <div class="field">
+          <div class="field full-span">
             <label for="task_notes">Notes internes</label>
             <input type="text" id="task_notes" placeholder="Commentaire sur la tâche">
           </div>
-        </div>
-        <div class="grid">
           <label class="checkbox">
             <input type="checkbox" id="task_zero_cost">
             <span>Ne pas facturer (coût = 0€)</span>
@@ -2017,7 +2026,7 @@
             <input type="checkbox" id="task_volume_optional">
             <span>Volume / option activable</span>
           </label>
-          <label class="checkbox">
+          <label class="checkbox full-span">
             <input type="checkbox" id="task_hidden">
             <span>Masquer par défaut (affiché uniquement en filtre)</span>
           </label>
