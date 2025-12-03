@@ -180,6 +180,26 @@
       max-width: 220px;
     }
 
+    .card-header .small-action {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.35);
+      background: rgba(15, 23, 42, 0.6);
+      color: var(--text);
+      font-size: 0.8rem;
+      cursor: pointer;
+      transition: all 150ms ease;
+    }
+
+    .card-header .small-action:hover {
+      background: rgba(56, 189, 248, 0.12);
+      border-color: rgba(56, 189, 248, 0.4);
+      color: var(--accent);
+    }
+
     .grid {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -233,6 +253,78 @@
       margin: 0;
       font-size: 0.78rem;
       color: var(--muted);
+    }
+
+    .task-editor {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      margin-top: 8px;
+    }
+
+    .task-editor .grid {
+      align-items: flex-start;
+    }
+
+    .task-editor .actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .task-editor small {
+      color: var(--muted);
+    }
+
+    .task-pills {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .task-pill {
+      border: 1px solid rgba(148, 163, 184, 0.25);
+      border-radius: var(--radius-md);
+      padding: 10px;
+      background: rgba(15, 23, 42, 0.65);
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      position: relative;
+    }
+
+    .task-pill strong {
+      font-size: 0.92rem;
+      letter-spacing: 0.02em;
+    }
+
+    .task-pill .meta {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      align-items: center;
+      color: var(--muted);
+      font-size: 0.82rem;
+    }
+
+    .task-pill .edit-btn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      border: 1px solid rgba(56, 189, 248, 0.4);
+      background: rgba(56, 189, 248, 0.12);
+      color: var(--accent);
+      border-radius: 8px;
+      padding: 6px 10px;
+      font-size: 0.78rem;
+      cursor: pointer;
+      transition: all 120ms ease;
+    }
+
+    .task-pill .edit-btn:hover {
+      background: rgba(56, 189, 248, 0.2);
     }
 
     @media (max-width: 600px) {
@@ -1602,6 +1694,53 @@
             </table>
           </div>
         </section>
+
+        <section class="card" aria-labelledby="tasks-custom-title">
+          <div class="card-header">
+            <div>
+              <h2 id="tasks-custom-title"><span class="icon">🛠️</span> Personnalisation avancée des tâches</h2>
+              <p class="sub">Ajoute ou modifie les tâches et choisis le rôle associé. Les changements sont exportés dans le JSON.</p>
+            </div>
+            <button type="button" id="reset_tasks" class="small-action">↺ Réinitialiser</button>
+          </div>
+
+          <form class="task-editor" id="task-editor" aria-label="Éditeur de tâches personnalisées">
+            <div class="grid grid-single">
+              <div class="field">
+                <label for="task_label">Intitulé de la tâche</label>
+                <input type="text" id="task_label" required placeholder="Ex. Ajustements responsive">
+              </div>
+            </div>
+            <div class="grid">
+              <div class="field">
+                <label for="task_phase">Phase</label>
+                <input type="text" id="task_phase" required placeholder="Design, Développement, QA…">
+              </div>
+              <div class="field">
+                <label for="task_role">Rôle associé</label>
+                <select id="task_role" required></select>
+              </div>
+            </div>
+            <div class="grid">
+              <div class="field">
+                <label for="task_volume">Volume / déclencheur</label>
+                <select id="task_volume" required></select>
+                <small id="task_volume_hint">Associe la tâche à un volume (pages, options…)</small>
+              </div>
+              <div class="field">
+                <label for="task_hours">Heures de base</label>
+                <input type="number" id="task_hours" min="0" step="0.1" value="1" required>
+              </div>
+            </div>
+            <div class="actions">
+              <button type="submit" class="ghost-button" id="save_task">Enregistrer la tâche</button>
+              <button type="button" class="ghost-button ghost-button--compact" id="cancel_task">Annuler</button>
+              <small id="task_form_status">Mode ajout</small>
+            </div>
+          </form>
+
+          <div class="task-pills" id="task-list" aria-live="polite" aria-label="Liste des tâches personnalisables"></div>
+        </section>
       </div>
 
       <div class="column-stack sticky-summary">
@@ -1867,7 +2006,7 @@
       }
     };
 
-    const tasks = [
+    const defaultTasks = [
       // Cadrage
       {
         id: "atelier",
@@ -2166,6 +2305,39 @@
         volumeKey: "optFormation"
       }
     ];
+
+    let tasks = defaultTasks.map(task => ({ ...task }));
+
+    const volumeOptions = [
+      { value: "const", label: "Valeur fixe (1x)", hint: "Toujours comptée, sans multiplicateur." },
+      { value: "nbHome", label: "Page d'accueil", hint: "Multiplié par le nombre de home." },
+      { value: "nbInternalPages", label: "Pages internes", hint: "Prend en compte le volume total des pages internes." },
+      { value: "nbSeoPages", label: "Pages SEO", hint: "Calqué sur le volume SEO défini." },
+      { value: "identityPack", label: "Pack identité", hint: "Activé si l'option identité est cochée." },
+      { value: "logoConcepts", label: "Concepts logo", hint: "Multiplié par le nombre de concepts de logo." },
+      { value: "logoExports", label: "Déclinaisons logo", hint: "Basé sur le nombre d'exports/formats." },
+      { value: "brandGuidelines", label: "Charte graphique", hint: "Active si la charte est demandée." },
+      { value: "brandTemplates", label: "Templates réseaux", hint: "Multiplié par le nombre de templates." },
+      { value: "optFormation", label: "Option formation", hint: "Activé uniquement si la formation est cochée." },
+      { value: "serviceListing", label: "Page services", hint: "S'active sur la page listing services." },
+      { value: "serviceDetailsWeighted", label: "Fiches services pondérées", hint: "Nombre de fiches × facteur design." },
+      { value: "serviceContentPages", label: "Rédaction services", hint: "Nombre de fiches service à rédiger." },
+      { value: "serviceVisualsVolume", label: "Visuels services", hint: "Volume de visuels pour les services." },
+      { value: "reaListing", label: "Page réalisations", hint: "S'active sur la page listing réalisations." },
+      { value: "reaDetailsWeighted", label: "Études de cas pondérées", hint: "Nombre de cas × facteur design." },
+      { value: "reaContentPages", label: "Rédaction études de cas", hint: "Volume de contenus pour les études." },
+      { value: "reaVisualsVolume", label: "Visuels études de cas", hint: "Volume de visuels pour les études." },
+      { value: "blogArticles", label: "Articles de blog", hint: "Multiplié par le nombre d'articles." },
+      { value: "articleVisuals", label: "Visuels par article", hint: "Volume de visuels liés aux articles." },
+      { value: "articleSeo", label: "Optimisation SEO", hint: "Nombre d'articles avec optimisation SEO." },
+      { value: "hasBlog", label: "Activation du blog", hint: "1 si le blog est activé, sinon 0." },
+      { value: "chatbotSetupHours", label: "Setup chatbot", hint: "Utilise les heures de setup chatbot." },
+      { value: "chatbotIntegrationHours", label: "Intégration chatbot", hint: "Utilise les heures d'intégration." },
+      { value: "chatbotTrainingHours", label: "Training chatbot", hint: "Utilise les heures de training." },
+      { value: "importArticles", label: "Import articles", hint: "Se base sur le volume d'import d'articles." }
+    ];
+
+    let editingTaskId = null;
 
     const RATE_PRESETS = {
       freelance_mada: {
@@ -2670,14 +2842,248 @@
         case "chatbotSetupHours": return params.chatbotSetupHours;
         case "chatbotIntegrationHours": return params.chatbotIntegrationHours;
         case "chatbotTrainingHours": return params.chatbotTrainingHours;
+        case "importArticles": return params.importArticles;
         case "const":
         default:
           return 1;
       }
     }
 
-    // ----- Initialisation UI -----
+    function cloneTask(task) {
+      return { ...task };
+    }
 
+    function getVolumeOption(value) {
+      return volumeOptions.find(opt => opt.value === value) || { value: "const", label: "Valeur fixe (1x)", hint: "" };
+    }
+
+    function populateTaskRoleSelect() {
+      const select = document.getElementById("task_role");
+      if (!select) return;
+      select.innerHTML = "";
+      roles.forEach(role => {
+        const option = document.createElement("option");
+        option.value = role.id;
+        option.textContent = role.name;
+        select.appendChild(option);
+      });
+    }
+
+    function populateTaskVolumeSelect() {
+      const select = document.getElementById("task_volume");
+      if (!select) return;
+      select.innerHTML = "";
+      volumeOptions.forEach(opt => {
+        const option = document.createElement("option");
+        option.value = opt.value;
+        option.textContent = opt.label;
+        select.appendChild(option);
+      });
+      updateTaskVolumeHint(select.value);
+    }
+
+    function updateTaskVolumeHint(value) {
+      const hint = document.getElementById("task_volume_hint");
+      if (!hint) return;
+      const option = getVolumeOption(value);
+      hint.textContent = option.hint || "";
+    }
+
+    function resetTaskForm() {
+      const form = document.getElementById("task-editor");
+      const status = document.getElementById("task_form_status");
+      const saveBtn = document.getElementById("save_task");
+      if (!form) return;
+      form.reset();
+      const roleSelect = document.getElementById("task_role");
+      const volumeSelect = document.getElementById("task_volume");
+      if (roleSelect && roles[0]) roleSelect.value = roles[0].id;
+      if (volumeSelect) {
+        volumeSelect.value = "const";
+        updateTaskVolumeHint(volumeSelect.value);
+      }
+      editingTaskId = null;
+      if (status) status.textContent = "Mode ajout";
+      if (saveBtn) saveBtn.textContent = "Enregistrer la tâche";
+    }
+
+    function renderTaskPills() {
+      const container = document.getElementById("task-list");
+      if (!container) return;
+      container.innerHTML = "";
+
+      tasks.forEach(task => {
+        const pill = document.createElement("div");
+        pill.className = "task-pill";
+
+        const title = document.createElement("strong");
+        title.textContent = task.label;
+
+        const meta = document.createElement("div");
+        meta.className = "meta";
+        const phase = document.createElement("span");
+        phase.textContent = `Phase : ${task.phase}`;
+        const role = document.createElement("span");
+        role.textContent = `Rôle : ${rolesById[task.roleId]?.name || "—"}`;
+        const volumeLabel = document.createElement("span");
+        volumeLabel.textContent = `Volume : ${getVolumeOption(task.volumeKey).label}`;
+        const hours = document.createElement("span");
+        hours.textContent = `Base : ${fmtHours(task.baseHours)}`;
+
+        meta.appendChild(phase);
+        meta.appendChild(role);
+        meta.appendChild(volumeLabel);
+        meta.appendChild(hours);
+
+        const editBtn = document.createElement("button");
+        editBtn.type = "button";
+        editBtn.className = "edit-btn";
+        editBtn.textContent = "Modifier";
+        editBtn.addEventListener("click", () => loadTaskIntoForm(task.id));
+
+        pill.appendChild(title);
+        pill.appendChild(meta);
+        pill.appendChild(editBtn);
+        container.appendChild(pill);
+      });
+    }
+
+    function loadTaskIntoForm(taskId) {
+      const task = tasks.find(t => t.id === taskId);
+      if (!task) return;
+      const form = document.getElementById("task-editor");
+      if (!form) return;
+      document.getElementById("task_label").value = task.label;
+      document.getElementById("task_phase").value = task.phase;
+      const roleSelect = document.getElementById("task_role");
+      const volumeSelect = document.getElementById("task_volume");
+      if (roleSelect) roleSelect.value = task.roleId;
+      if (volumeSelect) {
+        volumeSelect.value = task.volumeKey;
+        updateTaskVolumeHint(volumeSelect.value);
+      }
+      document.getElementById("task_hours").value = task.baseHours;
+      editingTaskId = task.id;
+      const status = document.getElementById("task_form_status");
+      const saveBtn = document.getElementById("save_task");
+      if (status) status.textContent = `Modification : ${task.label}`;
+      if (saveBtn) saveBtn.textContent = "Mettre à jour";
+    }
+
+    function renderTasksTable() {
+      const tbody = document.getElementById("tasks-body");
+      if (!tbody) return;
+      tbody.innerHTML = "";
+      tasks.forEach(task => {
+        const tr = document.createElement("tr");
+        tr.dataset.taskId = task.id;
+        tr.dataset.roleId = task.roleId;
+
+        const tdPhase = document.createElement("td");
+        tdPhase.innerHTML = `<span class="tasks-phase">${task.phase}</span>`;
+
+        const tdLabel = document.createElement("td");
+        tdLabel.textContent = task.label;
+
+        const tdRole = document.createElement("td");
+        tdRole.textContent = rolesById[task.roleId]?.name || "—";
+
+        const tdBase = document.createElement("td");
+        tdBase.className = "align-right";
+        tdBase.dataset.type = "base";
+        tdBase.textContent = fmtHours(task.baseHours);
+
+        const tdVolume = document.createElement("td");
+        tdVolume.className = "align-right";
+        tdVolume.textContent = "—";
+        tdVolume.dataset.type = "volume";
+
+        const tdHours = document.createElement("td");
+        tdHours.className = "align-right";
+        tdHours.textContent = "—";
+        tdHours.dataset.type = "hours";
+
+        const tdRate = document.createElement("td");
+        tdRate.className = "align-right";
+        tdRate.textContent = "—";
+        tdRate.dataset.type = "rate";
+
+        const tdCost = document.createElement("td");
+        tdCost.className = "align-right";
+        tdCost.textContent = "—";
+        tdCost.dataset.type = "cost";
+
+        tr.appendChild(tdPhase);
+        tr.appendChild(tdLabel);
+        tr.appendChild(tdRole);
+        tr.appendChild(tdBase);
+        tr.appendChild(tdVolume);
+        tr.appendChild(tdHours);
+        tr.appendChild(tdRate);
+        tr.appendChild(tdCost);
+
+        tbody.appendChild(tr);
+      });
+    }
+
+    function syncTasksUI({ recalc = true } = {}) {
+      renderTasksTable();
+      renderTaskPills();
+      if (recalc) recalcAll();
+    }
+
+    function initTaskCustomization() {
+      populateTaskRoleSelect();
+      populateTaskVolumeSelect();
+      resetTaskForm();
+      syncTasksUI({ recalc: false });
+
+      const volumeSelect = document.getElementById("task_volume");
+      if (volumeSelect) {
+        volumeSelect.addEventListener("change", () => updateTaskVolumeHint(volumeSelect.value));
+      }
+
+      const form = document.getElementById("task-editor");
+      if (form) {
+        form.addEventListener("submit", event => {
+          event.preventDefault();
+          const label = document.getElementById("task_label").value.trim();
+          const phase = document.getElementById("task_phase").value.trim();
+          const roleId = document.getElementById("task_role").value;
+          const volumeKey = document.getElementById("task_volume").value;
+          const baseHours = safeNumber(document.getElementById("task_hours").value, 0);
+          if (!label || !phase) return;
+
+          if (editingTaskId) {
+            tasks = tasks.map(task => task.id === editingTaskId
+              ? { ...task, label, phase, roleId, baseHours, volumeKey }
+              : task);
+          } else {
+            const newId = `${slugifyComment(label)}-${Date.now()}`;
+            tasks.push({ id: newId, phase, label, roleId, baseHours, volumeKey, type: "custom" });
+          }
+
+          resetTaskForm();
+          syncTasksUI();
+        });
+      }
+
+      const cancelBtn = document.getElementById("cancel_task");
+      if (cancelBtn) {
+        cancelBtn.addEventListener("click", () => resetTaskForm());
+      }
+
+      const resetBtn = document.getElementById("reset_tasks");
+      if (resetBtn) {
+        resetBtn.addEventListener("click", () => {
+          tasks = defaultTasks.map(cloneTask);
+          resetTaskForm();
+          syncTasksUI();
+        });
+      }
+    }
+
+    // ----- Initialisation UI -----
     function initRolesTable() {
       const tbody = document.getElementById("roles-body");
       tbody.innerHTML = "";
@@ -2834,61 +3240,6 @@
         applyFilterIcon(activeRoleFilter);
         const newTotals = recalcAll();
         updateFilterFeedback(activeRoleFilter, totalsChanged(previousTotals, newTotals));
-      });
-    }
-
-    function initTasksTable() {
-      const tbody = document.getElementById("tasks-body");
-      tbody.innerHTML = "";
-      tasks.forEach(task => {
-        const tr = document.createElement("tr");
-        tr.dataset.taskId = task.id;
-        tr.dataset.roleId = task.roleId;
-
-        const tdPhase = document.createElement("td");
-        tdPhase.innerHTML = `<span class="tasks-phase">${task.phase}</span>`;
-
-        const tdLabel = document.createElement("td");
-        tdLabel.textContent = task.label;
-
-        const tdRole = document.createElement("td");
-        tdRole.textContent = rolesById[task.roleId]?.name || "—";
-
-        const tdBase = document.createElement("td");
-        tdBase.className = "align-right";
-        tdBase.dataset.type = "base";
-        tdBase.textContent = fmtHours(task.baseHours);
-
-        const tdVolume = document.createElement("td");
-        tdVolume.className = "align-right";
-        tdVolume.textContent = "—";
-        tdVolume.dataset.type = "volume";
-
-        const tdHours = document.createElement("td");
-        tdHours.className = "align-right";
-        tdHours.textContent = "—";
-        tdHours.dataset.type = "hours";
-
-        const tdRate = document.createElement("td");
-        tdRate.className = "align-right";
-        tdRate.textContent = "—";
-        tdRate.dataset.type = "rate";
-
-        const tdCost = document.createElement("td");
-        tdCost.className = "align-right";
-        tdCost.textContent = "—";
-        tdCost.dataset.type = "cost";
-
-        tr.appendChild(tdPhase);
-        tr.appendChild(tdLabel);
-        tr.appendChild(tdRole);
-        tr.appendChild(tdBase);
-        tr.appendChild(tdVolume);
-        tr.appendChild(tdHours);
-        tr.appendChild(tdRate);
-        tr.appendChild(tdCost);
-
-        tbody.appendChild(tr);
       });
     }
 
@@ -3212,7 +3563,16 @@
           exportedAt: new Date().toISOString()
         },
         inputs: serializeInputs(),
-        roles: roles.map(role => ({ id: role.id, rate: role.rate }))
+        roles: roles.map(role => ({ id: role.id, rate: role.rate })),
+        tasks: tasks.map(task => ({
+          id: task.id,
+          phase: task.phase,
+          label: task.label,
+          roleId: task.roleId,
+          baseHours: task.baseHours,
+          volumeKey: task.volumeKey,
+          type: task.type
+        }))
       };
     }
 
@@ -3273,6 +3633,25 @@
         }
       }
 
+      if (Array.isArray(data.tasks)) {
+        tasks = data.tasks.map(task => {
+          const base = cloneTask(task);
+          return {
+            id: base.id || `${slugifyComment(base.label || "tache")}-${Date.now()}`,
+            phase: base.phase || "Divers",
+            label: base.label || "Tâche personnalisée",
+            roleId: base.roleId || roles[0]?.id || "cp",
+            baseHours: safeNumber(base.baseHours, 0),
+            volumeKey: base.volumeKey || "const",
+            type: base.type
+          };
+        });
+      } else {
+        tasks = defaultTasks.map(cloneTask);
+      }
+
+      syncTasksUI({ recalc: false });
+
       recalcAll();
       setImportStatus("Paramètres importés avec succès");
     }
@@ -3301,7 +3680,7 @@
       initRolesTable();
       initRoleFilter();
       initZeroCostToggle();
-      initTasksTable();
+      initTaskCustomization();
       bindPresetControls();
       bindTariffPresetControls();
       bindParamEvents();
