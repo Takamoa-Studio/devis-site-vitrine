@@ -946,10 +946,9 @@
     }
 
     .tasks-toolbar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
+      display: grid;
+      grid-template-columns: 1fr;
+      align-items: stretch;
       gap: 12px;
       margin-bottom: 12px;
       padding: 12px 14px;
@@ -959,13 +958,22 @@
       box-shadow: var(--shadow-soft);
     }
 
-    .tasks-toolbar .toolbar-text {
+    .toolbar-block {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .toolbar-text {
       display: flex;
       flex-direction: column;
       gap: 4px;
+      min-width: 200px;
     }
 
-    .tasks-toolbar .toolbar-actions {
+    .toolbar-controls {
       display: flex;
       align-items: center;
       gap: 10px;
@@ -973,6 +981,7 @@
       justify-content: flex-end;
     }
 
+    .toolbar-heading,
     .tasks-toolbar .toolbar-text label {
       font-size: 0.82rem;
       color: var(--text);
@@ -983,6 +992,23 @@
     .tasks-toolbar .label-sub {
       color: var(--muted);
       font-size: 0.78rem;
+    }
+
+    .toolbar-divider {
+      display: none;
+      border-left: 1px dashed rgba(148, 163, 184, 0.4);
+      height: 100%;
+      margin: 0 4px;
+    }
+
+    @media (min-width: 960px) {
+      .tasks-toolbar {
+        grid-template-columns: 1fr auto 1fr;
+      }
+
+      .toolbar-divider {
+        display: block;
+      }
     }
 
     .filter-select {
@@ -2007,26 +2033,39 @@
           <span class="muted">Les heures tiennent compte du volume, de la complexité et des options activées.</span>
         </div>
 
-        <div class="tasks-toolbar" aria-label="Filtrer les tâches par rôle">
-          <div class="toolbar-text">
-            <label for="tasks-role-filter">Filtrer par rôle</label>
-            <span class="label-sub">Affiche uniquement les tâches liées au profil choisi.</span>
-          </div>
-          <div class="toolbar-actions">
-            <label class="toggle" for="toggle-zero-cost">
-              <input type="checkbox" id="toggle-zero-cost">
-              <span class="toggle-switch" aria-hidden="true"></span>
-              <span class="toggle-label" id="toggle-zero-cost-label">Tâches à 0€ affichées</span>
-            </label>
-            <div class="filter-select">
-              <span class="filter-icon" aria-hidden="true">🔍</span>
-              <select id="tasks-role-filter"></select>
-              <span class="select-caret" aria-hidden="true">▾</span>
+        <div class="tasks-toolbar" aria-label="Affiner l'affichage et gérer les tâches">
+          <div class="toolbar-block">
+            <div class="toolbar-text">
+              <label for="tasks-role-filter">Filtres d'affichage</label>
+              <span class="label-sub">Choisis un rôle et ajuste les tâches à 0 €.</span>
             </div>
-            <button type="button" id="open_tasks_modal" class="ghost-button ghost-button--compact" aria-haspopup="dialog">
-              🛠️ Personnaliser
-            </button>
-            <button type="button" id="export_tasks" class="ghost-button ghost-button--compact" aria-label="Exporter les tâches visibles en CSV">📤 Export CSV</button>
+            <div class="toolbar-controls" role="group" aria-label="Filtres d'affichage des tâches">
+              <div class="filter-select">
+                <span class="filter-icon" aria-hidden="true">🔍</span>
+                <select id="tasks-role-filter"></select>
+                <span class="select-caret" aria-hidden="true">▾</span>
+              </div>
+              <label class="toggle" for="toggle-zero-cost">
+                <input type="checkbox" id="toggle-zero-cost">
+                <span class="toggle-switch" aria-hidden="true"></span>
+                <span class="toggle-label" id="toggle-zero-cost-label">Tâches à 0€ affichées</span>
+              </label>
+            </div>
+          </div>
+
+          <span class="toolbar-divider" role="presentation"></span>
+
+          <div class="toolbar-block">
+            <div class="toolbar-text">
+              <span class="toolbar-heading">Actions sur le tableau</span>
+              <span class="label-sub">Personnalise les tâches visibles ou exporte-les en CSV.</span>
+            </div>
+            <div class="toolbar-controls">
+              <button type="button" id="open_tasks_modal" class="ghost-button ghost-button--compact" aria-haspopup="dialog">
+                🛠️ Personnaliser
+              </button>
+              <button type="button" id="export_tasks" class="ghost-button ghost-button--compact" aria-label="Exporter les tâches visibles en CSV">📤 Export CSV</button>
+            </div>
           </div>
         </div>
 
