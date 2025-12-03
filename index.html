@@ -1568,6 +1568,21 @@
             </div>
           </div>
 
+          <div class="field" aria-label="Sélecteur de barème tarifaire">
+            <label for="param_tariff_preset">
+              Tarifs
+              <span class="hint-icon" data-tooltip="Applique automatiquement un barème. Les modifications basculent en personnalisé." role="note" tabindex="0" aria-label="Applique un barème de tarifs">?</span>
+            </label>
+            <div class="control-row">
+              <select id="param_tariff_preset">
+                <option value="freelance_mada">Option 1 Freelance Mada (€ / h)</option>
+                <option value="offshore" selected>Option 2 Agence Mada / Offshore (€ / h)</option>
+                <option value="europe">Option 3 Agence Europe (€ / h)</option>
+                <option value="custom">Tarifs personnalisés</option>
+              </select>
+            </div>
+          </div>
+
           <div class="roles-table-wrapper roles-table" aria-label="Table des rôles et taux horaires">
             <table>
               <thead>
@@ -1753,42 +1768,42 @@
       {
         id: "cp",
         name: "Chef de projet / Relation client",
-        rate: 30,
+        rate: 28,
         note: "Réunions, cadrage, suivi client",
         icon: "🤝"
       },
       {
         id: "ux",
         name: "Webdesigner / UX-UI",
-        rate: 35,
+        rate: 20,
         note: "Maquettes, UI, parcours utilisateur",
         icon: "🎨"
       },
       {
         id: "dev",
         name: "Développeur WordPress",
-        rate: 40,
+        rate: 25,
         note: "Intégration, thème, plugins",
         icon: "💻"
       },
       {
         id: "graph",
         name: "Graphiste",
-        rate: 28,
+        rate: 18,
         note: "Logo, charte, visuels",
         icon: "🖼️"
       },
       {
         id: "seo",
         name: "Rédacteur / SEO",
-        rate: 30,
+        rate: 16,
         note: "Contenu & on-page SEO",
         icon: "🔎"
       },
       {
         id: "qa",
         name: "QA / Tests",
-        rate: 25,
+        rate: 18,
         note: "Recette, tests responsive",
         icon: "✅"
       }
@@ -2148,6 +2163,23 @@
       }
     ];
 
+    const RATE_PRESETS = {
+      freelance_mada: {
+        label: "Option 1 Freelance Mada (€ / h)",
+        rates: { cp: 12, ux: 8, dev: 10, graph: 8, seo: 7, qa: 7 }
+      },
+      offshore: {
+        label: "Option 2 Agence Mada / Offshore (€ / h)",
+        rates: { cp: 28, ux: 20, dev: 25, graph: 18, seo: 16, qa: 18 }
+      },
+      europe: {
+        label: "Option 3 Agence Europe (€ / h)",
+        rates: { cp: 70, ux: 55, dev: 55, graph: 50, seo: 45, qa: 55 }
+      }
+    };
+
+    let isApplyingRatePreset = false;
+
     const rolesById = {};
     roles.forEach(r => rolesById[r.id] = r);
 
@@ -2351,6 +2383,31 @@
       });
     }
 
+    function applyRatePreset(key, { recalc = true } = {}) {
+      const preset = RATE_PRESETS[key];
+      const select = document.getElementById("param_tariff_preset");
+
+      if (!preset) return;
+
+      isApplyingRatePreset = true;
+      roles.forEach(role => {
+        const nextRate = preset.rates[role.id];
+        if (typeof nextRate === "number") {
+          role.rate = nextRate;
+        }
+      });
+      refreshRoleInputs();
+      isApplyingRatePreset = false;
+
+      if (select) {
+        select.value = key;
+      }
+
+      if (recalc) {
+        recalcAll();
+      }
+    }
+
     function applyPreset(key) {
       const preset = SITE_PRESETS[key];
       if (!preset) return;
@@ -2417,7 +2474,7 @@
       "param_import_degressif"
     ];
 
-    const ALL_INPUT_IDS = [...PARAM_INPUT_IDS, "param_type_site", "param_comment"];
+    const ALL_INPUT_IDS = [...PARAM_INPUT_IDS, "param_type_site", "param_comment", "param_tariff_preset"];
 
     function readParams() {
       const nbHome = Math.max(1, safeNumber(document.getElementById("param_nb_home").value, 1));
@@ -2636,6 +2693,14 @@
         input.dataset.roleId = role.id;
         input.addEventListener("input", () => {
           role.rate = safeNumber(input.value, role.rate);
+
+          if (!isApplyingRatePreset) {
+            const select = document.getElementById("param_tariff_preset");
+            if (select && select.value !== "custom") {
+              select.value = "custom";
+            }
+          }
+
           recalcAll();
         });
         tdRate.appendChild(input);
@@ -3039,6 +3104,21 @@
       }
     }
 
+    function bindTariffPresetControls() {
+      const select = document.getElementById("param_tariff_preset");
+      if (!select) return;
+
+      select.addEventListener("change", () => {
+        const value = select.value;
+        if (value === "custom") {
+          recalcAll();
+          return;
+        }
+
+        applyRatePreset(value);
+      });
+    }
+
     function setImportStatus(message, isError = false) {
       const status = document.getElementById("import_status");
       if (!status) return;
@@ -3167,6 +3247,11 @@
         }
       });
 
+      const importedTariffPreset = inputs.param_tariff_preset;
+      if (importedTariffPreset && importedTariffPreset !== "custom" && (!Array.isArray(data.roles) || data.roles.length === 0)) {
+        applyRatePreset(importedTariffPreset, { recalc: false });
+      }
+
       if (Array.isArray(data.roles)) {
         data.roles.forEach(r => {
           if (!r || typeof r !== "object") return;
@@ -3177,6 +3262,11 @@
           }
         });
         refreshRoleInputs();
+
+        const select = document.getElementById("param_tariff_preset");
+        if (select) {
+          select.value = importedTariffPreset || "custom";
+        }
       }
 
       recalcAll();
@@ -3209,12 +3299,18 @@
       initZeroCostToggle();
       initTasksTable();
       bindPresetControls();
+      bindTariffPresetControls();
       bindParamEvents();
       document.getElementById("export_tasks")?.addEventListener("click", exportTasksCsv);
       document.getElementById("export_params")?.addEventListener("click", exportParams);
       document.getElementById("import_params")?.addEventListener("change", handleImportFile);
       const presetSelect = document.getElementById("param_type_site");
       const initialPreset = presetSelect?.value ?? "vitrine";
+      const tariffSelect = document.getElementById("param_tariff_preset");
+      const initialTariffPreset = tariffSelect?.value ?? "custom";
+      if (initialTariffPreset !== "custom") {
+        applyRatePreset(initialTariffPreset, { recalc: false });
+      }
       applyPreset(initialPreset);
       updateFilterFeedback(activeRoleFilter, false);
     });
