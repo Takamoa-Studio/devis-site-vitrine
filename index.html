@@ -1643,20 +1643,20 @@
           </div>
           <div class="section">
             <div class="summary-row">
-              <div class="summary-card">
-                <div class="summary-label">Freelances - Coûts HT avant buffer</div>
-                <div class="summary-value" id="summary-cost-freelance">—</div>
-                <div class="summary-chip muted">Production (hors hébergement, domaine, chatbot)</div>
+              <div class="summary-card summary-card-highlight" id="summary-chatbot-card">
+                <div class="summary-label">Option ChatBot IA</div>
+                <div class="summary-value" id="summary-cost-chatbot">—</div>
+                <div class="summary-chip" id="summary-chatbot-details">Pas de chatbot activé</div>
               </div>
               <div class="summary-card" id="summary-hosting-card">
                 <div class="summary-label">Hébergement &amp; Domaine</div>
                 <div class="summary-value" id="summary-cost-hosting">—</div>
                 <div class="summary-chip muted">Options fixes activées</div>
               </div>
-              <div class="summary-card summary-card-highlight" id="summary-chatbot-card">
-                <div class="summary-label">Option ChatBot IA</div>
-                <div class="summary-value" id="summary-cost-chatbot">—</div>
-                <div class="summary-chip" id="summary-chatbot-details">Pas de chatbot activé</div>
+              <div class="summary-card">
+                <div class="summary-label">Freelances - Coûts HT avant buffer</div>
+                <div class="summary-value" id="summary-cost-freelance">—</div>
+                <div class="summary-chip muted">Production (hors hébergement, domaine, chatbot)</div>
               </div>
               <div class="summary-card">
                 <div class="summary-label">Coût interne estimé</div>
@@ -2963,7 +2963,9 @@
 
       const chatbotCost = params.optChatbot ? params.chatbotSubscription : 0;
 
-      const totalBeforeBuffer = totalCost + hostingDomainCost + chatbotCost;
+      const includeOptionCosts = activeRoleFilter === "all";
+      const optionCosts = includeOptionCosts ? hostingDomainCost + chatbotCost : 0;
+      const totalBeforeBuffer = totalCost + optionCosts;
 
       document.getElementById("tfoot-hours").textContent = fmtHours(totalHours);
       document.getElementById("tfoot-cost").textContent = fmtEuro(totalBeforeBuffer, 0);
