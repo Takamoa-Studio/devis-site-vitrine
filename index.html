@@ -363,6 +363,10 @@
       flex: 1 1 auto;
     }
 
+    .tariff-field {
+      margin-bottom: 10px;
+    }
+
     .ghost-button {
       background: rgba(56, 189, 248, 0.08);
       border: 1px solid rgba(56, 189, 248, 0.3);
@@ -1568,16 +1572,16 @@
             </div>
           </div>
 
-          <div class="field" aria-label="Sélecteur de barème tarifaire">
+          <div class="field tariff-field" aria-label="Sélecteur de barème tarifaire">
             <label for="param_tariff_preset">
               Tarifs
               <span class="hint-icon" data-tooltip="Applique automatiquement un barème. Les modifications basculent en personnalisé." role="note" tabindex="0" aria-label="Applique un barème de tarifs">?</span>
             </label>
             <div class="control-row">
               <select id="param_tariff_preset">
-                <option value="freelance_mada">Option 1 Freelance Mada (€ / h)</option>
-                <option value="offshore" selected>Option 2 Agence Mada / Offshore (€ / h)</option>
-                <option value="europe">Option 3 Agence Europe (€ / h)</option>
+                <option value="freelance_mada">Freelance Mada (€ / h)</option>
+                <option value="offshore" selected>Agence Mada / Offshore (€ / h)</option>
+                <option value="europe">Agence Europe (€ / h)</option>
                 <option value="custom">Tarifs personnalisés</option>
               </select>
             </div>
