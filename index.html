@@ -252,10 +252,61 @@
       font-size: 0.8rem;
     }
 
-    .field label span.hint {
-      color: #6b7280;
+    .hint-icon {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 18px;
+      height: 18px;
+      margin-left: 6px;
+      border-radius: 999px;
+      background: rgba(56, 189, 248, 0.08);
+      border: 1px solid rgba(56, 189, 248, 0.35);
+      color: var(--accent);
+      font-size: 0.68rem;
+      font-weight: 700;
+      line-height: 1;
+      cursor: help;
+      transition: border-color 0.15s ease, background 0.15s ease, color 0.15s ease, box-shadow 0.2s ease;
+    }
+
+    .hint-icon:hover,
+    .hint-icon:focus-visible {
+      background: rgba(56, 189, 248, 0.16);
+      border-color: rgba(56, 189, 248, 0.6);
+      color: #67e8f9;
+      box-shadow: 0 10px 24px rgba(56, 189, 248, 0.15);
+      outline: none;
+    }
+
+    .hint-icon::after {
+      content: attr(data-tooltip);
+      position: absolute;
+      inset: auto auto calc(100% + 10px) auto;
+      right: 0;
+      min-width: 160px;
+      max-width: 260px;
+      padding: 8px 10px;
+      border-radius: var(--radius-md);
+      background: rgba(15, 23, 42, 0.96);
+      border: 1px solid rgba(56, 189, 248, 0.25);
+      color: var(--text);
       font-size: 0.75rem;
-      text-align: end;
+      line-height: 1.3;
+      box-shadow: 0 16px 30px rgba(15, 23, 42, 0.55);
+      opacity: 0;
+      transform: translateY(6px);
+      pointer-events: none;
+      transition: opacity 0.15s ease, transform 0.15s ease;
+      white-space: normal;
+      z-index: 2;
+    }
+
+    .hint-icon:hover::after,
+    .hint-icon:focus-visible::after {
+      opacity: 1;
+      transform: translateY(0);
     }
 
     .field-subsection {
@@ -850,7 +901,7 @@
                 <div class="field">
                   <label for="param_type_site">
                     Type de site
-                    <span class="hint">applique un preset</span>
+                    <span class="hint-icon" data-tooltip="applique un preset" role="note" tabindex="0" aria-label="applique un preset">?</span>
                   </label>
                   <div class="control-row">
                     <select id="param_type_site">
@@ -865,7 +916,7 @@
                 <div class="field">
                   <label for="param_comment">
                     Intitulé du projet
-                    <span class="hint">pour tes exports</span>
+                    <span class="hint-icon" data-tooltip="pour tes exports" role="note" tabindex="0" aria-label="pour tes exports">?</span>
                   </label>
                   <input type="text" id="param_comment" placeholder="Site vitrine pour EVADIA…">
                 </div>
@@ -873,7 +924,7 @@
                 <div class="field">
                   <label for="param_complexity">
                     Complexité globale
-                    <span class="hint">multiplie toutes les tâches</span>
+                    <span class="hint-icon" data-tooltip="multiplie toutes les tâches" role="note" tabindex="0" aria-label="multiplie toutes les tâches">?</span>
                   </label>
                   <select id="param_complexity">
                     <option value="1">Simple (x1.0)</option>
@@ -885,7 +936,7 @@
                 <div class="field">
                   <label for="param_buffer">
                     Buffer imprévus
-                    <span class="hint">en % sur le coût interne</span>
+                    <span class="hint-icon" data-tooltip="en % sur le coût interne" role="note" tabindex="0" aria-label="en % sur le coût interne">?</span>
                   </label>
                   <input type="number" id="param_buffer" min="0" step="5" value="10">
                 </div>
@@ -908,7 +959,7 @@
                 <div class="field">
                   <label for="param_nb_pages">
                     Nb. pages internes
-                    <span class="hint">hors home, services, blog et pages légales</span>
+                    <span class="hint-icon" data-tooltip="hors home, services, blog et pages légales" role="note" tabindex="0" aria-label="hors home, services, blog et pages légales">?</span>
                   </label>
                   <input type="number" id="param_nb_pages" min="0" step="1" value="4">
                 </div>
@@ -916,7 +967,7 @@
                 <div class="field">
                   <label for="param_nb_legal">
                     Pages légales (incluses)
-                    <span class="hint">mentions légales, CGV, politique…</span>
+                    <span class="hint-icon" data-tooltip="mentions légales, CGV, politique…" role="note" tabindex="0" aria-label="mentions légales, CGV, politique…">?</span>
                   </label>
                   <input type="number" id="param_nb_legal" min="0" step="1" value="3">
                 </div>
@@ -931,7 +982,7 @@
                 <div class="field">
                   <label for="param_seo_mode">
                     Intensité SEO automatique
-                    <span class="hint">calcule les pages à optimiser selon le volume</span>
+                    <span class="hint-icon" data-tooltip="calcule les pages à optimiser selon le volume" role="note" tabindex="0" aria-label="calcule les pages à optimiser selon le volume">?</span>
                   </label>
                   <select id="param_seo_mode">
                     <option value="0.6">Essentiel (60% du volume)</option>
@@ -953,7 +1004,7 @@
                   <div class="field">
                     <label for="param_service_listing">
                       Page Services (listing)
-                      <span class="hint">0 = non prévue, 1 = incluse</span>
+                      <span class="hint-icon" data-tooltip="0 = non prévue, 1 = incluse" role="note" tabindex="0" aria-label="0 = non prévue, 1 = incluse">?</span>
                     </label>
                     <input type="number" id="param_service_listing" min="0" max="1" step="1" value="1">
                   </div>
@@ -961,7 +1012,7 @@
                   <div class="field">
                     <label for="param_service_details">
                       Nb. pages détail service
-                      <span class="hint">hors page listing</span>
+                      <span class="hint-icon" data-tooltip="hors page listing" role="note" tabindex="0" aria-label="hors page listing">?</span>
                     </label>
                     <input type="number" id="param_service_details" min="0" step="1" value="3">
                   </div>
@@ -969,7 +1020,7 @@
                   <div class="field">
                     <label for="param_service_design_mode">
                       Design des pages service
-                      <span class="hint">impacte les heures de design/dev</span>
+                      <span class="hint-icon" data-tooltip="impacte les heures de design/dev" role="note" tabindex="0" aria-label="impacte les heures de design/dev">?</span>
                     </label>
                     <select id="param_service_design_mode">
                       <option value="1">Gabarit unique pour tous les services</option>
@@ -985,7 +1036,7 @@
                   <div class="field">
                     <label for="param_service_content">
                       Rédaction + SEO des fiches
-                      <span class="hint">applique la SEO auto sur listing + fiches</span>
+                      <span class="hint-icon" data-tooltip="applique la SEO auto sur listing + fiches" role="note" tabindex="0" aria-label="applique la SEO auto sur listing + fiches">?</span>
                     </label>
                     <select id="param_service_content">
                       <option value="1" selected>Oui, couvrir toutes les pages services</option>
@@ -996,7 +1047,7 @@
                   <div class="field">
                     <label for="param_service_visuals">
                       Illustrations pour les services ?
-                      <span class="hint">impacts le volume rédaction/graphisme</span>
+                      <span class="hint-icon" data-tooltip="impacts le volume rédaction/graphisme" role="note" tabindex="0" aria-label="impacts le volume rédaction/graphisme">?</span>
                     </label>
                     <select id="param_service_visuals">
                       <option value="1">Oui, un visuel par fiche</option>
@@ -1018,7 +1069,7 @@
                   <div class="field">
                     <label for="param_rea_listing">
                       Page Réalisations (listing)
-                      <span class="hint">0 = non prévue, 1 = incluse</span>
+                      <span class="hint-icon" data-tooltip="0 = non prévue, 1 = incluse" role="note" tabindex="0" aria-label="0 = non prévue, 1 = incluse">?</span>
                     </label>
                     <input type="number" id="param_rea_listing" min="0" max="1" step="1" value="1">
                   </div>
@@ -1026,7 +1077,7 @@
                   <div class="field">
                     <label for="param_rea_details">
                       Nb. études de cas détaillées
-                      <span class="hint">hors page listing</span>
+                      <span class="hint-icon" data-tooltip="hors page listing" role="note" tabindex="0" aria-label="hors page listing">?</span>
                     </label>
                     <input type="number" id="param_rea_details" min="0" step="1" value="3">
                   </div>
@@ -1034,7 +1085,7 @@
                   <div class="field">
                     <label for="param_rea_design_mode">
                       Design des pages réalisations
-                      <span class="hint">impacte les heures de design/dev</span>
+                      <span class="hint-icon" data-tooltip="impacte les heures de design/dev" role="note" tabindex="0" aria-label="impacte les heures de design/dev">?</span>
                     </label>
                     <select id="param_rea_design_mode">
                       <option value="1">Gabarit unique pour toutes les études</option>
@@ -1050,7 +1101,7 @@
                   <div class="field">
                     <label for="param_rea_content">
                       Rédaction + SEO des études de cas
-                      <span class="hint">applique la SEO auto sur listing + cas</span>
+                      <span class="hint-icon" data-tooltip="applique la SEO auto sur listing + cas" role="note" tabindex="0" aria-label="applique la SEO auto sur listing + cas">?</span>
                     </label>
                     <select id="param_rea_content">
                       <option value="1" selected>Oui, couvrir toutes les réalisations</option>
@@ -1061,7 +1112,7 @@
                   <div class="field">
                     <label for="param_rea_visuals">
                       Illustrations pour les réalisations ?
-                      <span class="hint">photos, schémas ou mockups</span>
+                      <span class="hint-icon" data-tooltip="photos, schémas ou mockups" role="note" tabindex="0" aria-label="photos, schémas ou mockups">?</span>
                     </label>
                     <select id="param_rea_visuals">
                       <option value="1">Oui, un visuel par cas</option>
@@ -1083,7 +1134,7 @@
                   <div class="field">
                     <label for="param_has_blog">
                       Activer le blog ?
-                      <span class="hint">0 = non, 1 = oui</span>
+                      <span class="hint-icon" data-tooltip="0 = non, 1 = oui" role="note" tabindex="0" aria-label="0 = non, 1 = oui">?</span>
                     </label>
                     <input type="number" id="param_has_blog" min="0" max="1" step="1" value="1">
                   </div>
@@ -1091,7 +1142,7 @@
                   <div class="field">
                     <label for="param_blog_articles">
                       Articles à créer
-                      <span class="hint">hors import si refonte</span>
+                      <span class="hint-icon" data-tooltip="hors import si refonte" role="note" tabindex="0" aria-label="hors import si refonte">?</span>
                     </label>
                     <input type="number" id="param_blog_articles" min="0" step="1" value="2">
                   </div>
@@ -1099,7 +1150,7 @@
                   <div class="field">
                     <label for="param_blog_visuals">
                       Visuel dédié pour chaque article ?
-                      <span class="hint">impacte graphisme / contenus</span>
+                      <span class="hint-icon" data-tooltip="impacte graphisme / contenus" role="note" tabindex="0" aria-label="impacte graphisme / contenus">?</span>
                     </label>
                     <select id="param_blog_visuals">
                       <option value="1">Oui, un visuel par article</option>
@@ -1110,7 +1161,7 @@
                   <div class="field">
                     <label for="param_blog_seo">
                       Optimisation SEO pour chaque article ?
-                      <span class="hint">métas, maillage, balisage</span>
+                      <span class="hint-icon" data-tooltip="métas, maillage, balisage" role="note" tabindex="0" aria-label="métas, maillage, balisage">?</span>
                     </label>
                     <select id="param_blog_seo">
                       <option value="1">Oui, optimiser chaque article</option>
@@ -1126,7 +1177,7 @@
                   <div class="field">
                     <label for="param_import_articles">
                       Articles à importer (refonte)
-                      <span class="hint">uniquement si blog activé</span>
+                      <span class="hint-icon" data-tooltip="uniquement si blog activé" role="note" tabindex="0" aria-label="uniquement si blog activé">?</span>
                     </label>
                     <input type="number" id="param_import_articles" min="0" step="1" value="0">
                   </div>
@@ -1134,7 +1185,7 @@
                   <div class="field">
                     <label for="param_import_batch_size">
                       Articles par batch d'import
-                      <span class="hint">pour le calcul dégressif</span>
+                      <span class="hint-icon" data-tooltip="pour le calcul dégressif" role="note" tabindex="0" aria-label="pour le calcul dégressif">?</span>
                     </label>
                     <input type="number" id="param_import_batch_size" min="1" step="1" value="10">
                   </div>
@@ -1142,7 +1193,7 @@
                   <div class="field">
                     <label for="param_import_base_cost">
                       Coût initial par batch (€)
-                      <span class="hint">avant dégressivité</span>
+                      <span class="hint-icon" data-tooltip="avant dégressivité" role="note" tabindex="0" aria-label="avant dégressivité">?</span>
                     </label>
                     <input type="number" id="param_import_base_cost" min="0" step="10" value="120">
                   </div>
@@ -1150,7 +1201,7 @@
                   <div class="field">
                     <label for="param_import_degressif">
                       Facteur dégressif par batch
-                      <span class="hint">0.9 = -10% par batch supplémentaire</span>
+                      <span class="hint-icon" data-tooltip="0.9 = -10% par batch supplémentaire" role="note" tabindex="0" aria-label="0.9 = -10% par batch supplémentaire">?</span>
                     </label>
                     <input type="number" id="param_import_degressif" min="0" max="1.5" step="0.05" value="0.9">
                   </div>
@@ -1169,7 +1220,7 @@
                   <div class="field">
                     <label for="param_opt_logo">
                       Inclure la création / refonte de logo ?
-                      <span class="hint">0 = non, 1 = oui</span>
+                      <span class="hint-icon" data-tooltip="0 = non, 1 = oui" role="note" tabindex="0" aria-label="0 = non, 1 = oui">?</span>
                     </label>
                     <input type="number" id="param_opt_logo" min="0" max="1" step="1" value="1">
                   </div>
@@ -1177,7 +1228,7 @@
                   <div class="field">
                     <label for="param_logo_concepts">
                       Nb. de pistes logo à présenter
-                      <span class="hint">impacte le volume de design</span>
+                      <span class="hint-icon" data-tooltip="impacte le volume de design" role="note" tabindex="0" aria-label="impacte le volume de design">?</span>
                     </label>
                     <input type="number" id="param_logo_concepts" min="0" step="1" value="2">
                   </div>
@@ -1185,7 +1236,7 @@
                   <div class="field">
                     <label for="param_logo_exports">
                       Déclinaisons & exports (formats)
-                      <span class="hint">logos secondaires, déclinaisons</span>
+                      <span class="hint-icon" data-tooltip="logos secondaires, déclinaisons" role="note" tabindex="0" aria-label="logos secondaires, déclinaisons">?</span>
                     </label>
                     <input type="number" id="param_logo_exports" min="0" step="1" value="3">
                   </div>
@@ -1198,7 +1249,7 @@
                   <div class="field">
                     <label for="param_brand_guidelines">
                       Niveau de charte graphique
-                      <span class="hint">impacte le temps de formalisation</span>
+                      <span class="hint-icon" data-tooltip="impacte le temps de formalisation" role="note" tabindex="0" aria-label="impacte le temps de formalisation">?</span>
                     </label>
                     <select id="param_brand_guidelines">
                       <option value="0">Pas de charte dédiée</option>
@@ -1210,7 +1261,7 @@
                   <div class="field">
                     <label for="param_brand_templates">
                       Templates réseaux / papeterie
-                      <span class="hint">0 = non prévu</span>
+                      <span class="hint-icon" data-tooltip="0 = non prévu" role="note" tabindex="0" aria-label="0 = non prévu">?</span>
                     </label>
                     <input type="number" id="param_brand_templates" min="0" step="1" value="2">
                   </div>
@@ -1227,7 +1278,7 @@
                 <div class="field">
                   <label for="param_opt_formation">
                     Formation client ?
-                    <span class="hint">0 = non, 1 = oui</span>
+                    <span class="hint-icon" data-tooltip="0 = non, 1 = oui" role="note" tabindex="0" aria-label="0 = non, 1 = oui">?</span>
                   </label>
                   <input type="number" id="param_opt_formation" min="0" max="1" step="1" value="1">
                 </div>
@@ -1243,7 +1294,7 @@
                 <div class="field">
                   <label for="param_margin">
                     Coefficient de marge agence
-                    <span class="hint">ex : 1.3 = +30%</span>
+                    <span class="hint-icon" data-tooltip="ex : 1.3 = +30%" role="note" tabindex="0" aria-label="ex : 1.3 = +30%">?</span>
                   </label>
                   <input type="number" id="param_margin" min="1" step="0.05" value="1.3">
                 </div>
@@ -1251,7 +1302,7 @@
                 <div class="field">
                   <label for="param_fx">
                     Taux de change € → MGA
-                    <span class="hint">approximatif</span>
+                    <span class="hint-icon" data-tooltip="approximatif" role="note" tabindex="0" aria-label="approximatif">?</span>
                   </label>
                   <input type="number" id="param_fx" min="1" step="50" value="5000">
                 </div>
