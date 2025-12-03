@@ -260,6 +260,11 @@
       flex-direction: column;
       gap: 14px;
       margin-top: 8px;
+      background: rgba(15, 23, 42, 0.55);
+      border: 1px solid rgba(148, 163, 184, 0.25);
+      border-radius: var(--radius-md);
+      padding: 14px;
+      box-shadow: var(--shadow-soft);
     }
 
     .task-editor .grid {
@@ -268,8 +273,8 @@
 
     .task-editor-grid {
       display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 12px 16px;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 12px;
       align-items: flex-start;
     }
 
@@ -282,17 +287,85 @@
       gap: 10px;
       flex-wrap: wrap;
       align-items: center;
+      padding-top: 6px;
+      border-top: 1px solid rgba(148, 163, 184, 0.2);
     }
 
     .task-editor small {
       color: var(--muted);
     }
 
-    .task-pills {
+    .tasks-modal-body {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+      gap: 16px;
+      align-items: start;
+    }
+
+    .task-list-panel {
+      background: rgba(15, 23, 42, 0.55);
+      border: 1px solid rgba(148, 163, 184, 0.25);
+      border-radius: var(--radius-md);
+      padding: 12px;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
       gap: 10px;
-      margin-top: 10px;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .task-list-panel .list-header {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      margin-bottom: 4px;
+    }
+
+    .task-list-panel .list-header .sub {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.86rem;
+    }
+
+    .task-list-panel h3 {
+      margin: 0;
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--text);
+    }
+
+    .task-list-panel .list-scroller {
+      overflow-y: auto;
+      max-height: 62vh;
+      padding-right: 4px;
+    }
+
+    .task-list-panel .list-scroller::-webkit-scrollbar {
+      width: 10px;
+    }
+
+    .task-list-panel .list-scroller::-webkit-scrollbar-track {
+      background: rgba(148, 163, 184, 0.08);
+      border-radius: 999px;
+    }
+
+    .task-list-panel .list-scroller::-webkit-scrollbar-thumb {
+      background: linear-gradient(180deg, rgba(56, 189, 248, 0.4), rgba(56, 189, 248, 0.2));
+      border-radius: 999px;
+      border: 2px solid rgba(15, 23, 42, 0.55);
+    }
+
+    .task-list-panel .list-scroller::-webkit-scrollbar-thumb:hover {
+      background: linear-gradient(180deg, rgba(56, 189, 248, 0.55), rgba(56, 189, 248, 0.35));
+    }
+
+    .task-pills {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 4px;
     }
 
     .task-pill {
@@ -414,7 +487,7 @@
     }
 
     @media (max-width: 780px) {
-      .task-editor-grid {
+      .tasks-modal-body {
         grid-template-columns: minmax(0, 1fr);
       }
     }
@@ -485,11 +558,64 @@
       z-index: 2;
     }
 
-    .hint-icon:hover::after,
-    .hint-icon:focus-visible::after {
-      opacity: 1;
-      transform: translateY(0);
-    }
+      .hint-icon:hover::after,
+      .hint-icon:focus-visible::after {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .checkbox {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 10px 12px;
+        border: 1px solid rgba(148, 163, 184, 0.25);
+        border-radius: var(--radius-md);
+        background: rgba(148, 163, 184, 0.04);
+        cursor: pointer;
+        transition: all 0.15s ease;
+      }
+
+      .checkbox:hover {
+        border-color: rgba(56, 189, 248, 0.45);
+        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+      }
+
+      .checkbox input {
+        appearance: none;
+        width: 18px;
+        height: 18px;
+        border: 2px solid rgba(148, 163, 184, 0.6);
+        border-radius: 6px;
+        background: rgba(15, 23, 42, 0.7);
+        display: grid;
+        place-items: center;
+        transition: all 0.12s ease;
+        box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.25);
+      }
+
+      .checkbox input:focus-visible {
+        outline: 2px solid rgba(56, 189, 248, 0.5);
+        outline-offset: 2px;
+      }
+
+      .checkbox input:checked {
+        border-color: rgba(56, 189, 248, 0.9);
+        background: linear-gradient(135deg, rgba(56, 189, 248, 0.85), rgba(56, 189, 248, 0.6));
+        box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.15);
+      }
+
+      .checkbox input:checked::after {
+        content: "✓";
+        color: #0ea5e9;
+        font-size: 0.78rem;
+        font-weight: 800;
+        transform: translateY(-1px);
+      }
+
+      .checkbox span {
+        color: var(--text);
+      }
 
     .field-subsection {
       display: flex;
@@ -1954,91 +2080,101 @@
         </div>
       </div>
 
-      <form class="task-editor" id="task-editor" aria-label="Éditeur de tâches personnalisées">
-        <div class="task-editor-grid">
-          <div class="field">
-            <label for="task_label">Intitulé de la tâche</label>
-            <input type="text" id="task_label" required placeholder="Ex. Ajustements responsive">
+      <div class="tasks-modal-body">
+        <form class="task-editor" id="task-editor" aria-label="Éditeur de tâches personnalisées">
+          <div class="task-editor-grid">
+            <div class="field">
+              <label for="task_label">Intitulé de la tâche</label>
+              <input type="text" id="task_label" required placeholder="Ex. Ajustements responsive">
+            </div>
+            <div class="field">
+              <label for="task_role">Rôle associé</label>
+              <select id="task_role" required></select>
+            </div>
+            <div class="field">
+              <label for="task_phase">Phase</label>
+              <input type="text" id="task_phase" required placeholder="Design, Développement, QA…">
+            </div>
+            <div class="field">
+              <label for="task_type">Type de tâche</label>
+              <select id="task_type" required>
+                <option value="standard">Standard</option>
+                <option value="seo">SEO</option>
+                <option value="import">Import</option>
+                <option value="design">Design</option>
+                <option value="content">Contenus</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="task_hours">Heures de base</label>
+              <input type="number" id="task_hours" min="0" step="0.5" required placeholder="ex. 3">
+            </div>
+            <div class="field">
+              <label for="task_volume">Clé de volume</label>
+              <select id="task_volume" required>
+                <option value="const">Constant (×1)</option>
+                <option value="nbInternalPages">Pages internes</option>
+                <option value="nbServicePages">Pages services</option>
+                <option value="nbReaPages">Pages réalisations</option>
+                <option value="blogArticles">Articles de blog</option>
+                <option value="serviceListing">Page services (listing)</option>
+                <option value="serviceDetails">Détail services</option>
+                <option value="serviceDetailsWeighted">Détail services (pondéré)</option>
+                <option value="reaListing">Page réalisations (listing)</option>
+                <option value="reaDetails">Détails réalisations</option>
+                <option value="reaDetailsWeighted">Détails réalisations (pondéré)</option>
+                <option value="hasBlog">Activer blog (0/1)</option>
+                <option value="articleSeo">SEO des articles</option>
+                <option value="hasSeo">Option SEO (0/1)</option>
+                <option value="hasTraining">Formation (0/1)</option>
+                <option value="hasHosting">Hébergement (0/1)</option>
+                <option value="hasChatbot">Chatbot (0/1)</option>
+                <option value="chatbotVolume">Volume chatbot</option>
+                <option value="chatbotComplexity">Complexité chatbot</option>
+                <option value="chatbotMessages">Messages chatbot</option>
+                <option value="serviceContentPages">Contenus services</option>
+                <option value="reaContentPages">Contenus réalisations</option>
+                <option value="articleVisuals">Visuels articles</option>
+                <option value="serviceVisualsVolume">Visuels services</option>
+                <option value="reaVisualsVolume">Visuels études de cas</option>
+                <option value="const_high">Constant (×1,5)</option>
+                <option value="const_low">Constant (×0,6)</option>
+              </select>
+            </div>
+            <div class="field full-span">
+              <label for="task_notes">Notes internes</label>
+              <input type="text" id="task_notes" placeholder="Commentaire sur la tâche">
+            </div>
+            <label class="checkbox">
+              <input type="checkbox" id="task_zero_cost">
+              <span>Ne pas facturer (coût = 0€)</span>
+            </label>
+            <label class="checkbox">
+              <input type="checkbox" id="task_volume_optional">
+              <span>Volume / option activable</span>
+            </label>
+            <label class="checkbox full-span">
+              <input type="checkbox" id="task_hidden">
+              <span>Masquer par défaut (affiché uniquement en filtre)</span>
+            </label>
           </div>
-          <div class="field">
-            <label for="task_role">Rôle associé</label>
-            <select id="task_role" required></select>
+          <div class="actions">
+            <button type="submit" class="ghost-button" id="save_task">Enregistrer la tâche</button>
+            <button type="button" class="ghost-button ghost-button--compact" id="cancel_task">Annuler</button>
+            <small id="task_form_status">Mode ajout</small>
           </div>
-          <div class="field">
-            <label for="task_phase">Phase</label>
-            <input type="text" id="task_phase" required placeholder="Design, Développement, QA…">
-          </div>
-          <div class="field">
-            <label for="task_type">Type de tâche</label>
-            <select id="task_type" required>
-              <option value="standard">Standard</option>
-              <option value="seo">SEO</option>
-              <option value="import">Import</option>
-              <option value="design">Design</option>
-              <option value="content">Contenus</option>
-            </select>
-          </div>
-          <div class="field">
-            <label for="task_hours">Heures de base</label>
-            <input type="number" id="task_hours" min="0" step="0.5" required placeholder="ex. 3">
-          </div>
-          <div class="field">
-            <label for="task_volume">Clé de volume</label>
-            <select id="task_volume" required>
-              <option value="const">Constant (×1)</option>
-              <option value="nbInternalPages">Pages internes</option>
-              <option value="nbServicePages">Pages services</option>
-              <option value="nbReaPages">Pages réalisations</option>
-              <option value="blogArticles">Articles de blog</option>
-              <option value="serviceListing">Page services (listing)</option>
-              <option value="serviceDetails">Détail services</option>
-              <option value="serviceDetailsWeighted">Détail services (pondéré)</option>
-              <option value="reaListing">Page réalisations (listing)</option>
-              <option value="reaDetails">Détails réalisations</option>
-              <option value="reaDetailsWeighted">Détails réalisations (pondéré)</option>
-              <option value="hasBlog">Activer blog (0/1)</option>
-              <option value="articleSeo">SEO des articles</option>
-              <option value="hasSeo">Option SEO (0/1)</option>
-              <option value="hasTraining">Formation (0/1)</option>
-              <option value="hasHosting">Hébergement (0/1)</option>
-              <option value="hasChatbot">Chatbot (0/1)</option>
-              <option value="chatbotVolume">Volume chatbot</option>
-              <option value="chatbotComplexity">Complexité chatbot</option>
-              <option value="chatbotMessages">Messages chatbot</option>
-              <option value="serviceContentPages">Contenus services</option>
-              <option value="reaContentPages">Contenus réalisations</option>
-              <option value="articleVisuals">Visuels articles</option>
-              <option value="serviceVisualsVolume">Visuels services</option>
-              <option value="reaVisualsVolume">Visuels études de cas</option>
-              <option value="const_high">Constant (×1,5)</option>
-              <option value="const_low">Constant (×0,6)</option>
-            </select>
-          </div>
-          <div class="field full-span">
-            <label for="task_notes">Notes internes</label>
-            <input type="text" id="task_notes" placeholder="Commentaire sur la tâche">
-          </div>
-          <label class="checkbox">
-            <input type="checkbox" id="task_zero_cost">
-            <span>Ne pas facturer (coût = 0€)</span>
-          </label>
-          <label class="checkbox">
-            <input type="checkbox" id="task_volume_optional">
-            <span>Volume / option activable</span>
-          </label>
-          <label class="checkbox full-span">
-            <input type="checkbox" id="task_hidden">
-            <span>Masquer par défaut (affiché uniquement en filtre)</span>
-          </label>
-        </div>
-        <div class="actions">
-          <button type="submit" class="ghost-button" id="save_task">Enregistrer la tâche</button>
-          <button type="button" class="ghost-button ghost-button--compact" id="cancel_task">Annuler</button>
-          <small id="task_form_status">Mode ajout</small>
-        </div>
-      </form>
+        </form>
 
-      <div class="task-pills" id="task-list" aria-live="polite" aria-label="Liste des tâches personnalisables"></div>
+        <div class="task-list-panel" aria-live="polite" aria-label="Liste des tâches personnalisables">
+          <div class="list-header">
+            <h3><span class="icon">🗂️</span> Tâches configurées</h3>
+            <p class="sub">Fais défiler pour consulter et éditer rapidement.</p>
+          </div>
+          <div class="list-scroller">
+            <div class="task-pills" id="task-list" aria-live="polite" aria-label="Liste des tâches personnalisables"></div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 
