@@ -1978,22 +1978,6 @@
                     </label>
                     <input type="number" id="param_nb_shipping_profiles" min="1" step="1" value="2">
                   </div>
-
-                  <div class="field">
-                    <label for="param_woo_features">
-                      Extensions WooCommerce spécifiques
-                      <span class="hint-icon" data-tooltip="packs promo, abonnements, bundles, B2B…" role="note" tabindex="0" aria-label="packs promo, abonnements, bundles, B2B…">?</span>
-                    </label>
-                    <input type="number" id="param_woo_features" min="0" step="1" value="2">
-                  </div>
-
-                  <div class="field">
-                    <label for="param_woo_automations">
-                      Automatisations marketing
-                      <span class="hint-icon" data-tooltip="emails transactionnels enrichis, relances panier, CRM…" role="note" tabindex="0" aria-label="emails transactionnels enrichis, relances panier, CRM…">?</span>
-                    </label>
-                    <input type="number" id="param_woo_automations" min="0" step="1" value="1">
-                  </div>
                 </div>
               </div>
             </div>
@@ -2735,6 +2719,22 @@
         volumeKey: "nbInternalPages"
       },
       {
+        id: "design_legales",
+        phase: "Design",
+        label: "Maquettes pages légales",
+        roleId: "ux",
+        baseHours: 1.5,
+        volumeKey: "nbLegalPages"
+      },
+      {
+        id: "design_404",
+        phase: "Design",
+        label: "Maquette page 404",
+        roleId: "ux",
+        baseHours: 1.2,
+        volumeKey: "const"
+      },
+      {
         id: "design_services_listing",
         phase: "Design",
         label: "Maquette page Services",
@@ -2839,6 +2839,22 @@
         roleId: "dev",
         baseHours: 3,
         volumeKey: "nbInternalPages"
+      },
+      {
+        id: "dev_legales",
+        phase: "Développement",
+        label: "Intégration pages légales",
+        roleId: "dev",
+        baseHours: 1.5,
+        volumeKey: "nbLegalPages"
+      },
+      {
+        id: "dev_404",
+        phase: "Développement",
+        label: "Intégration page 404",
+        roleId: "dev",
+        baseHours: 1,
+        volumeKey: "const"
       },
       {
         id: "dev_services_listing",
@@ -2977,6 +2993,22 @@
         volumeKey: "shippingVolume"
       },
       {
+        id: "woo_account_pages_design",
+        phase: "E-commerce",
+        label: "Maquettes pages compte / login",
+        roleId: "ux",
+        baseHours: 2,
+        volumeKey: "const"
+      },
+      {
+        id: "woo_account_pages_dev",
+        phase: "E-commerce",
+        label: "Intégration pages compte / login",
+        roleId: "dev",
+        baseHours: 2,
+        volumeKey: "const"
+      },
+      {
         id: "woo_categories_listing_design",
         phase: "E-commerce",
         label: "Maquette page listing catégories",
@@ -3015,22 +3047,6 @@
         roleId: "seo",
         baseHours: 0.8,
         volumeKey: "categorySeoVolume"
-      },
-      {
-        id: "woo_extensions",
-        phase: "E-commerce",
-        label: "Intégration extensions WooCommerce",
-        roleId: "dev",
-        baseHours: 3,
-        volumeKey: "wooExtensions"
-      },
-      {
-        id: "woo_automations",
-        phase: "E-commerce",
-        label: "Automatisations marketing / CRM",
-        roleId: "cp",
-        baseHours: 2.5,
-        volumeKey: "wooAutomations"
       },
       {
         id: "dev_import_articles",
@@ -3165,6 +3181,7 @@
       { value: "const", label: "Valeur fixe (1x)", hint: "Toujours comptée, sans multiplicateur." },
       { value: "nbHome", label: "Page d'accueil", hint: "Multiplié par le nombre de home." },
       { value: "nbInternalPages", label: "Pages internes", hint: "Prend en compte le volume total des pages internes." },
+      { value: "nbLegalPages", label: "Pages légales", hint: "Nombre de pages légales incluses." },
       { value: "nbSeoPages", label: "Pages SEO", hint: "Calqué sur le volume SEO défini." },
       { value: "identityPack", label: "Pack identité", hint: "Activé si l'option identité est cochée." },
       { value: "logoConcepts", label: "Concepts logo", hint: "Multiplié par le nombre de concepts de logo." },
@@ -3195,8 +3212,6 @@
       { value: "categorySeoVolume", label: "SEO catégories", hint: "Catégories avec optimisation SEO." },
       { value: "paymentVolume", label: "Passerelles de paiement", hint: "Nombre d'options de paiement à connecter." },
       { value: "shippingVolume", label: "Profils de livraison", hint: "Zones + méthodes de livraison." },
-      { value: "wooExtensions", label: "Extensions WooCommerce", hint: "Modules avancés à intégrer." },
-      { value: "wooAutomations", label: "Automatisations marketing", hint: "Workflows e-mails / CRM / paniers." },
       { value: "chatbotSetupHours", label: "Setup chatbot", hint: "Utilise les heures de setup chatbot." },
       { value: "chatbotIntegrationHours", label: "Intégration chatbot", hint: "Utilise les heures d'intégration." },
       { value: "chatbotTrainingHours", label: "Training chatbot", hint: "Utilise les heures de training." },
@@ -3260,8 +3275,6 @@
           param_category_seo: 0,
           param_nb_payment_gateways: 1,
           param_nb_shipping_profiles: 1,
-          param_woo_features: 0,
-          param_woo_automations: 0,
           param_opt_logo: 0,
           param_logo_concepts: 0,
           param_logo_exports: 0,
@@ -3327,8 +3340,6 @@
           param_category_seo: 1,
           param_nb_payment_gateways: 1,
           param_nb_shipping_profiles: 1,
-          param_woo_features: 0,
-          param_woo_automations: 0,
           param_opt_logo: 0,
           param_logo_concepts: 2,
           param_logo_exports: 3,
@@ -3394,8 +3405,6 @@
           param_category_seo: 1,
           param_nb_payment_gateways: 2,
           param_nb_shipping_profiles: 2,
-          param_woo_features: 1,
-          param_woo_automations: 1,
           param_opt_logo: 1,
           param_logo_concepts: 3,
           param_logo_exports: 4,
@@ -3461,8 +3470,6 @@
           param_category_seo: 1,
           param_nb_payment_gateways: 2,
           param_nb_shipping_profiles: 2,
-          param_woo_features: 2,
-          param_woo_automations: 1,
           param_opt_logo: 1,
           param_logo_concepts: 2,
           param_logo_exports: 3,
@@ -3620,8 +3627,6 @@
       "param_category_seo",
       "param_nb_payment_gateways",
       "param_nb_shipping_profiles",
-      "param_woo_features",
-      "param_woo_automations",
       "param_opt_logo",
       "param_logo_concepts",
       "param_logo_exports",
@@ -3691,8 +3696,6 @@
       const categorySeoMode = Math.max(0, Math.min(1, safeNumber(document.getElementById("param_category_seo").value, 1)));
       const paymentGateways = Math.max(1, safeNumber(document.getElementById("param_nb_payment_gateways").value, 1));
       const shippingProfiles = Math.max(1, safeNumber(document.getElementById("param_nb_shipping_profiles").value, 1));
-      const wooFeatures = Math.max(0, safeNumber(document.getElementById("param_woo_features").value, 0));
-      const wooAutomations = Math.max(0, safeNumber(document.getElementById("param_woo_automations").value, 0));
       const optLogo = Math.max(0, Math.min(1, safeNumber(document.getElementById("param_opt_logo").value, 0)));
       const logoConceptsRaw = Math.max(0, safeNumber(document.getElementById("param_logo_concepts").value, 2));
       const logoConcepts = optLogo ? logoConceptsRaw : 0;
@@ -3769,12 +3772,10 @@
       const productContentVolume = productContentMode ? nbProducts : 0;
       const productSeoVolume = productSeoMode ? nbProducts : 0;
       const productTemplateWorkload = productTemplateFactor;
-      const categoryTemplateWorkload = nbCategories * categoryDesignFactor;
+      const categoryTemplateWorkload = categoryDesignFactor;
       const categorySeoVolume = categorySeoMode ? nbCategories : 0;
       const paymentVolume = paymentGateways;
       const shippingVolume = shippingProfiles;
-      const extensionVolume = wooFeatures;
-      const automationVolume = wooAutomations;
 
       return {
         nbHome,
@@ -3819,8 +3820,6 @@
         categorySeoVolume,
         paymentVolume,
         shippingVolume,
-        extensionVolume,
-        automationVolume,
         optLogo,
         logoConcepts,
         logoExports,
@@ -3868,6 +3867,7 @@
       switch (task.volumeKey) {
         case "nbHome": return params.nbHome;
         case "nbInternalPages": return params.totalInternalPages;
+        case "nbLegalPages": return params.nbLegal;
         case "nbSeoPages": return params.nbSeoPages;
         case "identityPack": return params.optLogo;
         case "logoConcepts": return params.logoConcepts;
@@ -3899,8 +3899,6 @@
         case "categorySeoVolume": return params.categorySeoVolume;
         case "paymentVolume": return params.paymentVolume;
         case "shippingVolume": return params.shippingVolume;
-        case "wooExtensions": return params.extensionVolume;
-        case "wooAutomations": return params.automationVolume;
         case "chatbotSetupHours": return params.chatbotSetupHours;
         case "chatbotIntegrationHours": return params.chatbotIntegrationHours;
         case "chatbotTrainingHours": return params.chatbotTrainingHours;
@@ -4594,12 +4592,6 @@
       }
       if (params.nbCategories > 0) {
         opts.push({ label: `${params.nbCategories} catégories`, icon: "🗂️" });
-      }
-      if (params.extensionVolume > 0) {
-        opts.push({ label: `Extensions Woo x${params.extensionVolume}`, icon: "🧩" });
-      }
-      if (params.automationVolume > 0) {
-        opts.push({ label: `Automatisation x${params.automationVolume}`, icon: "⚡" });
       }
       if (params.nbServiceListing === 1 || params.nbServiceDetails > 0) {
         const detailLabel = params.nbServiceDetails > 0 ? `${params.nbServiceDetails} fiches` : "listing seul";
