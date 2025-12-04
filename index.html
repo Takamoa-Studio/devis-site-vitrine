@@ -2167,8 +2167,8 @@
                 <th class="align-right">Base h</th>
                 <th class="align-right">Volume</th>
                 <th class="align-right">Heures totales</th>
-                <th class="align-right">Taux €/h</th>
-                <th class="align-right">Coût tâche (€)</th>
+                <th class="align-right" id="tasks-header-rate">Taux €/h</th>
+                <th class="align-right" id="tasks-header-cost">Coût tâche (€)</th>
               </tr>
             </thead>
             <tbody id="tasks-body">
@@ -3846,6 +3846,10 @@
 
       updateChatbotOfferVisibility(params.chatbotOffer);
 
+      const currencyMeta = getCurrencyMeta();
+      const formatMainCurrency = value => formatCurrency(value, params.fx);
+      const formatSecondaryCurrency = value => formatAltCurrency(value, params.fx);
+
       // Résumé simple
       document.getElementById("summary-pages").textContent =
         `${params.nbHome} home · ${params.totalPagesWithExtras} internes`;
@@ -3960,8 +3964,8 @@
         row.querySelector('td[data-type="volume"]').textContent =
           volume.toLocaleString("fr-FR", { maximumFractionDigits: 1 });
         row.querySelector('td[data-type="hours"]').textContent = fmtHours(hours);
-        row.querySelector('td[data-type="rate"]').textContent = fmtEuro(rate, 0);
-        row.querySelector('td[data-type="cost"]').textContent = fmtEuro(cost, 0);
+        row.querySelector('td[data-type="rate"]').textContent = formatMainCurrency(rate);
+        row.querySelector('td[data-type="cost"]').textContent = formatMainCurrency(cost);
       });
 
       const hostingDomainCost =
@@ -3976,13 +3980,9 @@
       const optionCosts = includeOptionCosts ? hostingDomainCost + chatbotCost : 0;
       const totalBeforeBuffer = totalCost + optionCosts;
 
-      const currencyMeta = getCurrencyMeta();
-      const formatMainCurrency = value => formatCurrency(value, params.fx);
-      const formatSecondaryCurrency = value => formatAltCurrency(value, params.fx);
-
       document.getElementById("tfoot-hours").textContent = fmtHours(totalHours);
-      document.getElementById("tfoot-cost").textContent = fmtEuro(totalBeforeBuffer, 0);
-      document.getElementById("tfoot-prebuffer").textContent = fmtEuro(totalBeforeBuffer, 0);
+      document.getElementById("tfoot-cost").textContent = formatMainCurrency(totalBeforeBuffer);
+      document.getElementById("tfoot-prebuffer").textContent = formatMainCurrency(totalBeforeBuffer);
 
       // Buffer imprévus
       const bufferAmount = totalBeforeBuffer * (params.bufferPercent / 100);
@@ -4018,6 +4018,8 @@
       const priceSellLabel = document.getElementById("summary-price-sell-label");
       const priceSellMgaLabel = document.getElementById("summary-price-sell-mga-label");
       const priceSellMgaChip = document.getElementById("summary-price-sell-mga-chip");
+      const rateHeader = document.getElementById("tasks-header-rate");
+      const costHeader = document.getElementById("tasks-header-cost");
 
       if (priceSellLabel) {
         priceSellLabel.textContent = `Prix conseillé HT (${currencyMeta.mainSymbol})`;
@@ -4027,6 +4029,12 @@
       }
       if (priceSellMgaChip) {
         priceSellMgaChip.textContent = `Conversion indicative en ${currencyMeta.altName}`;
+      }
+      if (rateHeader) {
+        rateHeader.textContent = `Taux ${currencyMeta.mainSymbol}/h`;
+      }
+      if (costHeader) {
+        costHeader.textContent = `Coût tâche (${currencyMeta.mainSymbol})`;
       }
 
       lastTotals = {
