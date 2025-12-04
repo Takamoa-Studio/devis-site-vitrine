@@ -1242,6 +1242,33 @@
       border-radius: var(--radius-md);
       border: 1px solid rgba(31, 41, 55, 0.9);
       background: radial-gradient(circle at top, rgba(56,189,248,0.12) 0, #020617 50%, #020617 100%);
+      overflow-x: auto;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(56, 189, 248, 0.4) rgba(148, 163, 184, 0.08);
+    }
+
+    .tasks-modal-body::-webkit-scrollbar,
+    .tasks-table-wrapper::-webkit-scrollbar {
+      width: 10px;
+      height: 10px;
+    }
+
+    .tasks-modal-body::-webkit-scrollbar-track,
+    .tasks-table-wrapper::-webkit-scrollbar-track {
+      background: rgba(148, 163, 184, 0.08);
+      border-radius: 999px;
+    }
+
+    .tasks-modal-body::-webkit-scrollbar-thumb,
+    .tasks-table-wrapper::-webkit-scrollbar-thumb {
+      background: linear-gradient(180deg, rgba(56, 189, 248, 0.4), rgba(56, 189, 248, 0.2));
+      border-radius: 999px;
+      border: 2px solid rgba(15, 23, 42, 0.55);
+    }
+
+    .tasks-modal-body::-webkit-scrollbar-thumb:hover,
+    .tasks-table-wrapper::-webkit-scrollbar-thumb:hover {
+      background: linear-gradient(180deg, rgba(56, 189, 248, 0.55), rgba(56, 189, 248, 0.35));
     }
 
     .tasks-phase {
