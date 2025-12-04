@@ -1869,7 +1869,7 @@
               </div>
 
               <div class="field-subsection">
-                <p class="field-subtitle">Catalogue produits</p>
+                <p class="field-subtitle">Produits à créer</p>
                 <div class="grid" aria-label="Paramétrage du catalogue produits">
                   <div class="field">
                     <label for="param_nb_products">
@@ -1885,6 +1885,123 @@
                       <span class="hint-icon" data-tooltip="tailles, couleurs, conditionnements…" role="note" tabindex="0" aria-label="tailles, couleurs, conditionnements…">?</span>
                     </label>
                     <input type="number" id="param_avg_variations" min="1" step="0.1" value="1.3">
+                  </div>
+
+                  <div class="field">
+                    <label for="param_product_templates">
+                      Gabarits de fiche produit
+                      <span class="hint-icon" data-tooltip="Layouts différents pour les fiches produit" role="note" tabindex="0" aria-label="Layouts différents pour les fiches produit">?</span>
+                    </label>
+                    <input type="number" id="param_product_templates" min="1" step="1" value="1">
+                  </div>
+                </div>
+              </div>
+
+              <div class="field-subsection">
+                <p class="field-subtitle">Import produits (refonte)</p>
+                <div class="grid" aria-label="Importation par batch des fiches produit">
+                  <div class="field">
+                    <label for="param_import_products">
+                      Produits à importer
+                      <span class="hint-icon" data-tooltip="Uniquement pour une refonte avec récupération de catalogue" role="note" tabindex="0" aria-label="Uniquement pour une refonte avec récupération de catalogue">?</span>
+                    </label>
+                    <input type="number" id="param_import_products" min="0" step="1" value="0">
+                  </div>
+
+                  <div class="field">
+                    <label for="param_product_batch_size">
+                      Produits par batch d'import
+                      <span class="hint-icon" data-tooltip="Calcule le nombre de batchs et la dégressivité" role="note" tabindex="0" aria-label="Calcule le nombre de batchs et la dégressivité">?</span>
+                    </label>
+                    <input type="number" id="param_product_batch_size" min="1" step="1" value="12">
+                  </div>
+
+                  <div class="field">
+                    <label for="param_product_base_cost">
+                      Coût initial par batch (€)
+                      <span class="hint-icon" data-tooltip="Inclut nettoyage, mapping et contrôles" role="note" tabindex="0" aria-label="Inclut nettoyage, mapping et contrôles">?</span>
+                    </label>
+                    <input type="number" id="param_product_base_cost" min="0" step="10" value="180">
+                  </div>
+
+                  <div class="field">
+                    <label for="param_product_degressif">
+                      Facteur dégressif par batch
+                      <span class="hint-icon" data-tooltip="0.9 = -10% par batch supplémentaire" role="note" tabindex="0" aria-label="0.9 = -10% par batch supplémentaire">?</span>
+                    </label>
+                    <input type="number" id="param_product_degressif" min="0" max="1.5" step="0.05" value="0.9">
+                  </div>
+                </div>
+              </div>
+
+              <div class="field-subsection">
+                <p class="field-subtitle">SEO fiches produit</p>
+                <div class="grid grid-single" aria-label="Optimisation SEO des fiches produit">
+                  <div class="field">
+                    <label for="param_product_seo">
+                      Optimiser chaque fiche produit ?
+                      <span class="hint-icon" data-tooltip="Méta, balisage, maillage interne produit" role="note" tabindex="0" aria-label="Méta, balisage, maillage interne produit">?</span>
+                    </label>
+                    <select id="param_product_seo">
+                      <option value="1">Oui, SEO sur chaque fiche</option>
+                      <option value="0">Non, sans optimisation dédiée</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <div class="field-subsection">
+                <p class="field-subtitle">Catégories produits</p>
+                <div class="grid" aria-label="Paramètres des pages catégorie produit">
+                  <div class="field">
+                    <label for="param_category_listing">
+                      Page listing des catégories
+                      <span class="hint-icon" data-tooltip="Template global pour la navigation par catégorie" role="note" tabindex="0" aria-label="Template global pour la navigation par catégorie">?</span>
+                    </label>
+                    <select id="param_category_listing">
+                      <option value="1">Oui, prévoir le listing</option>
+                      <option value="0">Non, pas de page dédiée</option>
+                    </select>
+                  </div>
+
+                  <div class="field">
+                    <label for="param_nb_categories">
+                      Nombre de catégories produit
+                      <span class="hint-icon" data-tooltip="Catégories principales à mettre en place" role="note" tabindex="0" aria-label="Catégories principales à mettre en place">?</span>
+                    </label>
+                    <input type="number" id="param_nb_categories" min="0" step="1" value="4">
+                  </div>
+
+                  <div class="field">
+                    <label for="param_category_templates">
+                      Gabarits de page catégorie
+                      <span class="hint-icon" data-tooltip="Layouts différents selon les univers produit" role="note" tabindex="0" aria-label="Layouts différents selon les univers produit">?</span>
+                    </label>
+                    <input type="number" id="param_category_templates" min="1" step="1" value="1">
+                  </div>
+
+                  <div class="field">
+                    <label for="param_category_seo">
+                      SEO des pages catégorie
+                      <span class="hint-icon" data-tooltip="Méta, structure Hn et maillage par catégorie" role="note" tabindex="0" aria-label="Méta, structure Hn et maillage par catégorie">?</span>
+                    </label>
+                    <select id="param_category_seo">
+                      <option value="1">Oui, optimiser les catégories</option>
+                      <option value="0">Non, SEO non prévu</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <div class="field-subsection">
+                <p class="field-subtitle">Filtres avancés</p>
+                <div class="grid grid-single" aria-label="Paramétrage des filtres avancés produits">
+                  <div class="field">
+                    <label for="param_advanced_filters">
+                      Nombre de filtres avancés
+                      <span class="hint-icon" data-tooltip="Filtres multi-critères : marques, prix, attributs techniques…" role="note" tabindex="0" aria-label="Filtres multi-critères : marques, prix, attributs techniques…">?</span>
+                    </label>
+                    <input type="number" id="param_advanced_filters" min="0" step="1" value="0">
                   </div>
                 </div>
               </div>
@@ -2001,6 +2118,30 @@
                       <span class="hint-icon" data-tooltip="0 = non, 1 = oui" role="note" tabindex="0" aria-label="0 = non, 1 = oui">?</span>
                     </label>
                     <input type="number" id="param_opt_formation" min="0" max="1" step="1" value="1">
+                  </div>
+                </div>
+              </div>
+
+              <div class="field-subsection">
+                <p class="field-subtitle">Navigation & méga-menu</p>
+                <div class="grid" aria-label="Paramétrage du méga-menu">
+                  <div class="field">
+                    <label for="param_opt_megamenu">
+                      Activer un méga-menu ?
+                      <span class="hint-icon" data-tooltip="Menu multi-colonnes avec visuels et raccourcis" role="note" tabindex="0" aria-label="Menu multi-colonnes avec visuels et raccourcis">?</span>
+                    </label>
+                    <select id="param_opt_megamenu">
+                      <option value="0">Non, menu simple</option>
+                      <option value="1">Oui, méga-menu</option>
+                    </select>
+                  </div>
+
+                  <div class="field">
+                    <label for="param_megamenu_entries">
+                      Sections / colonnes du méga-menu
+                      <span class="hint-icon" data-tooltip="Rubriques principales à designer dans le méga-menu" role="note" tabindex="0" aria-label="Rubriques principales à designer dans le méga-menu">?</span>
+                    </label>
+                    <input type="number" id="param_megamenu_entries" min="1" step="1" value="3">
                   </div>
                 </div>
               </div>
@@ -2826,6 +2967,62 @@
         volumeKey: "productCatalog"
       },
       {
+        id: "woo_product_templates",
+        phase: "E-commerce",
+        label: "Design gabarits fiche produit",
+        roleId: "ux",
+        baseHours: 3,
+        volumeKey: "productTemplates"
+      },
+      {
+        id: "woo_product_seo",
+        phase: "SEO",
+        label: "Optimisation SEO fiches produit",
+        roleId: "seo",
+        baseHours: 1.1,
+        volumeKey: "productSeoVolume"
+      },
+      {
+        id: "woo_category_listing",
+        phase: "E-commerce",
+        label: "Page listing catégories",
+        roleId: "dev",
+        baseHours: 3,
+        volumeKey: "categoryListing"
+      },
+      {
+        id: "woo_categories_setup",
+        phase: "E-commerce",
+        label: "Mise en place catégories produit",
+        roleId: "seo",
+        baseHours: 0.8,
+        volumeKey: "nbCategories"
+      },
+      {
+        id: "woo_category_templates",
+        phase: "E-commerce",
+        label: "Gabarits pages catégorie",
+        roleId: "ux",
+        baseHours: 2.2,
+        volumeKey: "categoryTemplates"
+      },
+      {
+        id: "woo_category_seo",
+        phase: "SEO",
+        label: "SEO pages catégorie",
+        roleId: "seo",
+        baseHours: 0.9,
+        volumeKey: "categorySeoVolume"
+      },
+      {
+        id: "woo_advanced_filters",
+        phase: "E-commerce",
+        label: "Filtres avancés produits",
+        roleId: "dev",
+        baseHours: 2.8,
+        volumeKey: "advancedFilters"
+      },
+      {
         id: "woo_payments",
         phase: "E-commerce",
         label: "Configuration des paiements",
@@ -2856,6 +3053,16 @@
         roleId: "cp",
         baseHours: 2.5,
         volumeKey: "wooAutomations"
+      },
+      {
+        id: "dev_import_products",
+        phase: "E-commerce",
+        label: "Importation catalogue produits (refonte)",
+        roleId: "dev",
+        baseHours: 0,
+        volumeKey: "const",
+        type: "import",
+        importKey: "products"
       },
       {
         id: "dev_import_articles",
@@ -2889,6 +3096,22 @@
         roleId: "seo",
         baseHours: 2.6,
         volumeKey: "reaContentPages"
+      },
+      {
+        id: "ux_megamenu",
+        phase: "UX/UI",
+        label: "Conception méga-menu",
+        roleId: "ux",
+        baseHours: 2.5,
+        volumeKey: "megaMenu"
+      },
+      {
+        id: "dev_megamenu",
+        phase: "Développement",
+        label: "Intégration méga-menu",
+        roleId: "dev",
+        baseHours: 3.2,
+        volumeKey: "megaMenu"
       },
       {
         id: "content_article_visuals",
@@ -3010,10 +3233,18 @@
       { value: "articleSeo", label: "Optimisation SEO", hint: "Nombre d'articles avec optimisation SEO." },
       { value: "hasBlog", label: "Activation du blog", hint: "1 si le blog est activé, sinon 0." },
       { value: "productCatalog", label: "Catalogue produits", hint: "Produits × variations moyennes." },
+      { value: "productTemplates", label: "Gabarits fiche produit", hint: "Nombre de templates produit." },
+      { value: "productSeoVolume", label: "SEO fiches produit", hint: "Fiches produit optimisées." },
+      { value: "categoryListing", label: "Listing catégories", hint: "1 si une page listing catégories est prévue." },
+      { value: "nbCategories", label: "Catégories produit", hint: "Nombre de catégories principales." },
+      { value: "categoryTemplates", label: "Gabarits catégorie", hint: "Templates dédiés pour les pages catégorie." },
+      { value: "categorySeoVolume", label: "SEO catégories", hint: "Catégories optimisées SEO." },
+      { value: "advancedFilters", label: "Filtres avancés", hint: "Nombre de filtres / facettes complexes." },
       { value: "paymentVolume", label: "Passerelles de paiement", hint: "Nombre d'options de paiement à connecter." },
       { value: "shippingVolume", label: "Profils de livraison", hint: "Zones + méthodes de livraison." },
       { value: "wooExtensions", label: "Extensions WooCommerce", hint: "Modules avancés à intégrer." },
       { value: "wooAutomations", label: "Automatisations marketing", hint: "Workflows e-mails / CRM / paniers." },
+      { value: "megaMenu", label: "Méga-menu", hint: "Colonnes / sections du méga-menu." },
       { value: "chatbotSetupHours", label: "Setup chatbot", hint: "Utilise les heures de setup chatbot." },
       { value: "chatbotIntegrationHours", label: "Intégration chatbot", hint: "Utilise les heures d'intégration." },
       { value: "chatbotTrainingHours", label: "Training chatbot", hint: "Utilise les heures de training." },
@@ -3068,6 +3299,17 @@
           param_blog_seo: 1,
           param_nb_products: 3,
           param_avg_variations: 1,
+          param_product_templates: 1,
+          param_product_seo: 1,
+          param_import_products: 0,
+          param_product_batch_size: 12,
+          param_product_base_cost: 180,
+          param_product_degressif: 0.9,
+          param_category_listing: 0,
+          param_nb_categories: 0,
+          param_category_templates: 1,
+          param_category_seo: 1,
+          param_advanced_filters: 0,
           param_nb_payment_gateways: 1,
           param_nb_shipping_profiles: 1,
           param_woo_features: 0,
@@ -3078,6 +3320,8 @@
           param_brand_guidelines: 0,
           param_brand_templates: 0,
           param_opt_formation: 0,
+          param_opt_megamenu: 0,
+          param_megamenu_entries: 3,
           param_opt_hosting: 0,
           param_hosting_cost: 300,
           param_opt_domain: 1,
@@ -3128,6 +3372,17 @@
           param_blog_seo: 1,
           param_nb_products: 8,
           param_avg_variations: 1,
+          param_product_templates: 1,
+          param_product_seo: 1,
+          param_import_products: 0,
+          param_product_batch_size: 12,
+          param_product_base_cost: 180,
+          param_product_degressif: 0.9,
+          param_category_listing: 0,
+          param_nb_categories: 0,
+          param_category_templates: 1,
+          param_category_seo: 1,
+          param_advanced_filters: 0,
           param_nb_payment_gateways: 1,
           param_nb_shipping_profiles: 1,
           param_woo_features: 0,
@@ -3138,6 +3393,8 @@
           param_brand_guidelines: 1,
           param_brand_templates: 2,
           param_opt_formation: 0,
+          param_opt_megamenu: 0,
+          param_megamenu_entries: 3,
           param_opt_hosting: 0,
           param_hosting_cost: 300,
           param_opt_domain: 1,
@@ -3188,6 +3445,17 @@
           param_blog_seo: 1,
           param_nb_products: 16,
           param_avg_variations: 1.2,
+          param_product_templates: 2,
+          param_product_seo: 1,
+          param_import_products: 8,
+          param_product_batch_size: 12,
+          param_product_base_cost: 180,
+          param_product_degressif: 0.9,
+          param_category_listing: 1,
+          param_nb_categories: 4,
+          param_category_templates: 1,
+          param_category_seo: 1,
+          param_advanced_filters: 1,
           param_nb_payment_gateways: 2,
           param_nb_shipping_profiles: 2,
           param_woo_features: 1,
@@ -3198,6 +3466,8 @@
           param_brand_guidelines: 1.6,
           param_brand_templates: 3,
           param_opt_formation: 1,
+          param_opt_megamenu: 1,
+          param_megamenu_entries: 4,
           param_opt_hosting: 1,
           param_hosting_cost: 420,
           param_opt_domain: 1,
@@ -3248,6 +3518,17 @@
           param_blog_seo: 1,
           param_nb_products: 25,
           param_avg_variations: 1.3,
+          param_product_templates: 2,
+          param_product_seo: 1,
+          param_import_products: 12,
+          param_product_batch_size: 12,
+          param_product_base_cost: 180,
+          param_product_degressif: 0.9,
+          param_category_listing: 1,
+          param_nb_categories: 6,
+          param_category_templates: 2,
+          param_category_seo: 1,
+          param_advanced_filters: 3,
           param_nb_payment_gateways: 2,
           param_nb_shipping_profiles: 2,
           param_woo_features: 2,
@@ -3258,6 +3539,8 @@
           param_brand_guidelines: 1,
           param_brand_templates: 2,
           param_opt_formation: 1,
+          param_opt_megamenu: 1,
+          param_megamenu_entries: 5,
           param_opt_hosting: 1,
           param_hosting_cost: 480,
           param_opt_domain: 1,
@@ -3394,26 +3677,39 @@
       "param_rea_design_mode",
       "param_rea_content",
       "param_rea_visuals",
-      "param_has_blog",
-      "param_blog_articles",
-      "param_blog_visuals",
-      "param_blog_seo",
-      "param_nb_products",
-      "param_avg_variations",
-      "param_nb_payment_gateways",
-      "param_nb_shipping_profiles",
-      "param_woo_features",
-      "param_woo_automations",
-      "param_opt_logo",
+        "param_has_blog",
+        "param_blog_articles",
+        "param_blog_visuals",
+        "param_blog_seo",
+        "param_nb_products",
+        "param_avg_variations",
+        "param_product_templates",
+        "param_product_seo",
+        "param_import_products",
+        "param_product_batch_size",
+        "param_product_base_cost",
+        "param_product_degressif",
+        "param_category_listing",
+        "param_nb_categories",
+        "param_category_templates",
+        "param_category_seo",
+        "param_advanced_filters",
+        "param_nb_payment_gateways",
+        "param_nb_shipping_profiles",
+        "param_woo_features",
+        "param_woo_automations",
+        "param_opt_logo",
       "param_logo_concepts",
-      "param_logo_exports",
-      "param_brand_guidelines",
-      "param_brand_templates",
-      "param_opt_formation",
-      "param_opt_hosting",
-      "param_hosting_cost",
-      "param_opt_domain",
-      "param_domain_cost",
+        "param_logo_exports",
+        "param_brand_guidelines",
+        "param_brand_templates",
+        "param_opt_formation",
+        "param_opt_megamenu",
+        "param_megamenu_entries",
+        "param_opt_hosting",
+        "param_hosting_cost",
+        "param_opt_domain",
+        "param_domain_cost",
       "param_chatbot_offer",
       "param_chatbot_plugin_setup_hours",
       "param_chatbot_plugin_integration_hours",
@@ -3462,6 +3758,17 @@
       const articleSeoVolume = blogArticles * wantsBlogSeo;
       const nbProducts = Math.max(0, safeNumber(document.getElementById("param_nb_products").value, 0));
       const avgVariations = Math.max(1, safeNumber(document.getElementById("param_avg_variations").value, 1));
+      const productTemplates = Math.max(1, safeNumber(document.getElementById("param_product_templates").value, 1));
+      const productSeoMode = Math.max(0, Math.min(1, safeNumber(document.getElementById("param_product_seo").value, 1)));
+      const importProducts = Math.max(0, safeNumber(document.getElementById("param_import_products").value, 0));
+      const importProductsBatchSize = Math.max(1, safeNumber(document.getElementById("param_product_batch_size").value, 1));
+      const importProductsBaseCost = Math.max(0, safeNumber(document.getElementById("param_product_base_cost").value, 0));
+      const importProductsDegressive = Math.max(0, safeNumber(document.getElementById("param_product_degressif").value, 1));
+      const categoryListing = Math.max(0, Math.min(1, safeNumber(document.getElementById("param_category_listing").value, 1)));
+      const nbCategories = Math.max(0, safeNumber(document.getElementById("param_nb_categories").value, 0));
+      const categoryTemplates = Math.max(1, safeNumber(document.getElementById("param_category_templates").value, 1));
+      const categorySeoMode = Math.max(0, Math.min(1, safeNumber(document.getElementById("param_category_seo").value, 1)));
+      const advancedFilters = Math.max(0, safeNumber(document.getElementById("param_advanced_filters").value, 0));
       const paymentGateways = Math.max(1, safeNumber(document.getElementById("param_nb_payment_gateways").value, 1));
       const shippingProfiles = Math.max(1, safeNumber(document.getElementById("param_nb_shipping_profiles").value, 1));
       const wooFeatures = Math.max(0, safeNumber(document.getElementById("param_woo_features").value, 0));
@@ -3475,6 +3782,9 @@
       const brandTemplatesRaw = Math.max(0, safeNumber(document.getElementById("param_brand_templates").value, 2));
       const brandTemplates = optLogo ? brandTemplatesRaw : 0;
       const optFormation = Math.max(0, Math.min(1, safeNumber(document.getElementById("param_opt_formation").value, 0)));
+      const optMegaMenu = Math.max(0, Math.min(1, safeNumber(document.getElementById("param_opt_megamenu").value, 0)));
+      const megaMenuEntriesRaw = Math.max(1, safeNumber(document.getElementById("param_megamenu_entries").value, 1));
+      const megaMenuEntries = optMegaMenu ? megaMenuEntriesRaw : 0;
       const optHosting = Math.max(0, Math.min(1, safeNumber(document.getElementById("param_opt_hosting").value, 0)));
       const hostingCostRaw = Math.max(0, safeNumber(document.getElementById("param_hosting_cost").value, 0));
       const hostingCost = optHosting ? hostingCostRaw : 0;
@@ -3539,10 +3849,14 @@
       const reaVisualsVolume = reaContentMode ? reaVisualsPref * nbReaDetails : 0;
       const nbSeoPages = seoAutoPages + serviceContentPages + reaContentPages;
       const productWorkload = nbProducts * avgVariations;
+      const productSeoVolume = productSeoMode ? nbProducts + importProducts : 0;
+      const categoryListingVolume = categoryListing ? 1 : 0;
+      const categorySeoVolume = categorySeoMode ? nbCategories : 0;
       const paymentVolume = paymentGateways;
       const shippingVolume = shippingProfiles;
       const extensionVolume = wooFeatures;
       const automationVolume = wooAutomations;
+      const megaMenuVolume = megaMenuEntries;
 
       return {
         nbHome,
@@ -3571,6 +3885,13 @@
         nbProducts,
         avgVariations,
         productWorkload,
+        productTemplates,
+        productSeoVolume,
+        categoryListing: categoryListingVolume,
+        nbCategories,
+        categoryTemplates,
+        categorySeoVolume,
+        advancedFilters,
         paymentVolume,
         shippingVolume,
         extensionVolume,
@@ -3581,6 +3902,9 @@
         brandGuidelinesMode,
         brandTemplates,
         optFormation,
+        optMegaMenu,
+        megaMenuEntries,
+        megaMenuVolume,
         optHosting,
         hostingCost,
         optDomain,
@@ -3599,7 +3923,11 @@
         importArticles,
         importBatchSize,
         importBaseCost,
-        importDegressive
+        importDegressive,
+        importProducts,
+        importProductsBatchSize,
+        importProductsBaseCost,
+        importProductsDegressive
       };
     }
 
@@ -3642,10 +3970,18 @@
         case "articleSeo": return params.articleSeoVolume;
         case "hasBlog": return params.hasBlog;
         case "productCatalog": return params.productWorkload;
+        case "productTemplates": return params.productTemplates;
+        case "productSeoVolume": return params.productSeoVolume;
+        case "categoryListing": return params.categoryListing;
+        case "nbCategories": return params.nbCategories;
+        case "categoryTemplates": return params.categoryTemplates;
+        case "categorySeoVolume": return params.categorySeoVolume;
+        case "advancedFilters": return params.advancedFilters;
         case "paymentVolume": return params.paymentVolume;
         case "shippingVolume": return params.shippingVolume;
         case "wooExtensions": return params.extensionVolume;
         case "wooAutomations": return params.automationVolume;
+        case "megaMenu": return params.megaMenuVolume;
         case "chatbotSetupHours": return params.chatbotSetupHours;
         case "chatbotIntegrationHours": return params.chatbotIntegrationHours;
         case "chatbotTrainingHours": return params.chatbotTrainingHours;
@@ -4287,12 +4623,20 @@
 
     function recalcAll() {
       const params = readParams();
-      const importResult = computeImportCost(
-        params.importArticles,
-        params.importBatchSize,
-        params.importBaseCost,
-        params.importDegressive
-      );
+      const importResults = {
+        articles: computeImportCost(
+          params.importArticles,
+          params.importBatchSize,
+          params.importBaseCost,
+          params.importDegressive
+        ),
+        products: computeImportCost(
+          params.importProducts,
+          params.importProductsBatchSize,
+          params.importProductsBaseCost,
+          params.importProductsDegressive
+        )
+      };
 
       updateChatbotOfferVisibility(params.chatbotOffer);
 
@@ -4310,7 +4654,7 @@
           ? `${params.nbLegal} pages légales incluses`
           : "Aucune page légale";
       document.getElementById("summary-products").textContent =
-        `${params.nbProducts} produits · ${params.avgVariations.toLocaleString("fr-FR", { minimumFractionDigits: 1, maximumFractionDigits: 1 })} var./produit · ${params.paymentVolume} paiements · ${params.shippingVolume} livraisons`;
+        `${params.nbProducts} créa · ${params.importProducts} import · ${params.productTemplates} gabarit(s) · ${params.avgVariations.toLocaleString("fr-FR", { minimumFractionDigits: 1, maximumFractionDigits: 1 })} var./produit · ${params.paymentVolume} paiements · ${params.shippingVolume} livraisons`;
       const opts = [];
       if (params.optLogo === 1) {
         const label = params.brandGuidelinesMode > 0 ? "Identité visuelle + charte" : "Identité visuelle";
@@ -4327,6 +4671,15 @@
           icon: "🛒",
           tone: "accent"
         });
+      }
+      if (params.productTemplates > 0) {
+        opts.push({ label: `Gabarits produit x${params.productTemplates}`, icon: "🧱" });
+      }
+      if (params.productSeoVolume > 0) {
+        opts.push({ label: `SEO produits x${params.productSeoVolume}`, icon: "🔍" });
+      }
+      if (importResults.products.batches > 0) {
+        opts.push({ label: `Import ${params.importProducts} prod.`, icon: "⬇️" });
       }
       if (params.paymentVolume > 0) {
         opts.push({ label: `Paiement x${params.paymentVolume}`, icon: "💳" });
@@ -4362,6 +4715,21 @@
       if (params.reaVisualsVolume > 0) {
         opts.push({ label: `Visuels réas x${params.reaVisualsVolume}`, icon: "🖼️" });
       }
+      if (params.categoryListing === 1) {
+        opts.push({ label: "Listing catégories", icon: "📂" });
+      }
+      if (params.nbCategories > 0) {
+        opts.push({ label: `Catégories x${params.nbCategories}`, icon: "🗂️" });
+      }
+      if (params.categoryTemplates > 0) {
+        opts.push({ label: `Gabarits catégorie x${params.categoryTemplates}`, icon: "🧩" });
+      }
+      if (params.categorySeoVolume > 0) {
+        opts.push({ label: `SEO catégories x${params.categorySeoVolume}`, icon: "📈" });
+      }
+      if (params.advancedFilters > 0) {
+        opts.push({ label: `Filtres avancés x${params.advancedFilters}`, icon: "🧮" });
+      }
       if (params.nbSeoPages > 0) {
         const seoParts = [];
         if (params.seoAutoPages > 0) seoParts.push(`auto ${params.seoAutoPages}`);
@@ -4370,7 +4738,7 @@
         const seoBreakdown = seoParts.length ? ` (${seoParts.join(" / ")})` : "";
         opts.push({ label: `SEO x${params.nbSeoPages}${seoBreakdown}`, icon: "🔍", tone: "accent" });
       }
-      if (importResult.batches > 0) {
+      if (importResults.articles.batches > 0) {
         opts.push({ label: `Import ${params.importArticles} art.`, icon: "⬇️" });
       }
       if (params.optHosting === 1) {
@@ -4389,13 +4757,27 @@
           tone: "accent"
         });
       }
+      if (params.megaMenuVolume > 0) {
+        opts.push({ label: `Méga-menu x${params.megaMenuVolume}`, icon: "🧭", tone: "accent" });
+      }
       renderOptionBadges(opts);
-      document.getElementById("summary-import").textContent =
-        params.hasBlog === 0
-          ? "Blog non prévu"
-          : importResult.batches > 0
-            ? `Blog activé · ${params.importArticles} art. / ${importResult.batches} batchs → ${fmtEuro(importResult.cost, 0)}`
-            : "Blog activé · pas d'import";
+      const importMessages = [];
+      if (params.hasBlog === 0) {
+        importMessages.push("Blog non prévu");
+      } else if (importResults.articles.batches > 0) {
+        importMessages.push(`Blog activé · ${params.importArticles} art. / ${importResults.articles.batches} batchs → ${fmtEuro(importResults.articles.cost, 0)}`);
+      } else {
+        importMessages.push("Blog activé · pas d'import");
+      }
+
+      if (params.importProducts > 0) {
+        const productImportLabel = importResults.products.batches > 0
+          ? `Produits importés · ${params.importProducts} fiches / ${importResults.products.batches} batchs → ${fmtEuro(importResults.products.cost, 0)}`
+          : `Produits importés · ${params.importProducts} fiches`;
+        importMessages.push(productImportLabel);
+      }
+
+      document.getElementById("summary-import").textContent = importMessages.join(" · ");
 
       // Détail des tâches
       const tbody = document.getElementById("tasks-body");
@@ -4416,8 +4798,13 @@
         let cost = hours * rate;
 
         if (isImportTask) {
-          volume = params.importArticles;
-          baseHours = rate > 0 ? params.importBaseCost / rate : 0;
+          const importKey = task.importKey || "articles";
+          const importCount = importKey === "products" ? params.importProducts : params.importArticles;
+          const importBaseCost = importKey === "products" ? params.importProductsBaseCost : params.importBaseCost;
+          const importResult = importResults[importKey] || { cost: 0 };
+
+          volume = importCount;
+          baseHours = rate > 0 ? importBaseCost / rate : 0;
           hours = rate > 0 ? importResult.cost / rate : 0;
           cost = importResult.cost;
         }
