@@ -4008,20 +4008,20 @@
 
       const includeOptionCosts = !activeRoleFilter || activeRoleFilter === "all";
       const optionCosts = includeOptionCosts ? hostingDomainCost + chatbotCost : 0;
-      const totalBeforeBuffer = totalCost + optionCosts;
+      const totalBeforeBuffer = totalCost;
 
       document.getElementById("tfoot-hours").textContent = fmtHours(totalHours);
       document.getElementById("tfoot-cost").textContent = formatMainCurrency(totalBeforeBuffer);
       document.getElementById("tfoot-prebuffer").textContent = formatMainCurrency(totalBeforeBuffer);
 
-      // Buffer imprévus
+      // Buffer imprévus appliqué uniquement sur la production freelance
       const bufferAmount = totalBeforeBuffer * (params.bufferPercent / 100);
-      const internalWithBuffer = totalBeforeBuffer + bufferAmount;
+      const internalWithBuffer = totalBeforeBuffer + bufferAmount + optionCosts;
 
       // Prix de vente
       const priceSell = internalWithBuffer * params.margin;
 
-      document.getElementById("summary-cost-freelance").textContent = formatMainCurrency(totalCost);
+      document.getElementById("summary-cost-freelance").textContent = formatMainCurrency(totalBeforeBuffer);
       document.getElementById("summary-cost-hosting").textContent = formatMainCurrency(hostingDomainCost);
       const chatbotHoursTotal = params.chatbotSetupHours + params.chatbotIntegrationHours + params.chatbotTrainingHours;
       const chatbotSetupCost =
