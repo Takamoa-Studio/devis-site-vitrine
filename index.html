@@ -2163,7 +2163,7 @@
                 <span class="select-caret" aria-hidden="true">▾</span>
               </div>
               <label class="toggle" for="toggle-zero-cost">
-                <input type="checkbox" id="toggle-zero-cost">
+                <input type="checkbox" id="toggle-zero-cost" checked>
                 <span class="toggle-switch" aria-hidden="true"></span>
                 <span class="toggle-label" id="toggle-zero-cost-label">Tâches à 0€ affichées</span>
               </label>
@@ -2372,7 +2372,7 @@
     ];
 
     let activeRoleFilter = "all";
-    let hideZeroCost = false;
+    let hideZeroCost = true;
     let activeCurrency = "eur";
     let lastTotals = {
       hours: 0,
@@ -3807,6 +3807,7 @@
       const toggle = document.getElementById("toggle-zero-cost");
       if (!toggle) return;
 
+      hideZeroCost = toggle.checked;
       updateZeroToggleLabel(toggle.checked);
 
       toggle.addEventListener("change", () => {
