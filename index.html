@@ -153,6 +153,21 @@
       margin-bottom: 16px;
     }
 
+    .card-header-financial {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .card-header-financial .toggle {
+      width: 100%;
+      justify-content: flex-start;
+      margin-top: 8px;
+    }
+
+    .card-header-financial .toggle-label {
+      white-space: normal;
+    }
+
     .card-header h2 {
       display: flex;
       align-items: center;
@@ -2045,7 +2060,7 @@
 
         <!-- COLONNE 2 : Résumé financier -->
         <section class="card">
-          <div class="card-header">
+          <div class="card-header card-header-financial">
             <div>
               <h2><span class="icon">💰</span> Résumé financier</h2>
               <p class="sub">Synthèse immédiate des montants générés par tes paramètres.</p>
