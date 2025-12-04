@@ -1869,7 +1869,7 @@
               </div>
 
               <div class="field-subsection">
-                <p class="field-subtitle">Catalogue produits</p>
+                <p class="field-subtitle">Catalogue & variations</p>
                 <div class="grid" aria-label="Paramétrage du catalogue produits">
                   <div class="field">
                     <label for="param_nb_products">
@@ -1882,9 +1882,100 @@
                   <div class="field">
                     <label for="param_avg_variations">
                       Variations moyennes par produit
-                      <span class="hint-icon" data-tooltip="tailles, couleurs, conditionnements…" role="note" tabindex="0" aria-label="tailles, couleurs, conditionnements…">?</span>
+                      <span class="hint-icon" data-tooltip="families (taille, couleur…), packagings" role="note" tabindex="0" aria-label="families (taille, couleur…), packagings">?</span>
                     </label>
-                    <input type="number" id="param_avg_variations" min="1" step="0.1" value="1.3">
+                    <input type="number" id="param_avg_variations" min="1" step="0.1" value="1.6">
+                  </div>
+
+                  <div class="field">
+                    <label for="param_variation_options">
+                      Options par variation (moyenne)
+                      <span class="hint-icon" data-tooltip="nombre d'options par famille : 3 tailles, 4 couleurs…" role="note" tabindex="0" aria-label="nombre d'options par famille : 3 tailles, 4 couleurs…">?</span>
+                    </label>
+                    <input type="number" id="param_variation_options" min="1" step="1" value="3">
+                  </div>
+
+                  <div class="field">
+                    <label for="param_variation_complexity">
+                      Complexité des variations
+                      <span class="hint-icon" data-tooltip="impact sur logiques de prix, stocks, bundles" role="note" tabindex="0" aria-label="impact sur logiques de prix, stocks, bundles">?</span>
+                    </label>
+                    <select id="param_variation_complexity">
+                      <option value="1">Basique (simple attribut)</option>
+                      <option value="1.15">Avancé (prix / stock par variation)</option>
+                      <option value="1.3" selected>Complexe (variations imbriquées)</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <div class="field-subsection">
+                <p class="field-subtitle">Design des fiches produit</p>
+                <div class="grid" aria-label="Design des pages produit">
+                  <div class="field">
+                    <label for="param_product_templates">
+                      Nombre de gabarits fiche produit
+                      <span class="hint-icon" data-tooltip="+40% par gabarit supplémentaire pour les variations de design" role="note" tabindex="0" aria-label="+40% par gabarit supplémentaire pour les variations de design">?</span>
+                    </label>
+                    <input type="number" id="param_product_templates" min="1" step="1" value="1">
+                  </div>
+                </div>
+              </div>
+
+              <div class="field-subsection">
+                <p class="field-subtitle">Contenus & SEO produits</p>
+                <div class="grid" aria-label="Contenus et SEO produits">
+                  <div class="field">
+                    <label for="param_product_content">
+                      Rédaction des fiches produit ?
+                      <span class="hint-icon" data-tooltip="0 = non géré, 1 = oui pour chaque fiche" role="note" tabindex="0" aria-label="0 = non géré, 1 = oui pour chaque fiche">?</span>
+                    </label>
+                    <input type="number" id="param_product_content" min="0" max="1" step="1" value="1">
+                  </div>
+
+                  <div class="field">
+                    <label for="param_product_seo">
+                      Optimisation SEO produit ?
+                      <span class="hint-icon" data-tooltip="métadonnées, schéma produit, balisage" role="note" tabindex="0" aria-label="métadonnées, schéma produit, balisage">?</span>
+                    </label>
+                    <input type="number" id="param_product_seo" min="0" max="1" step="1" value="1">
+                  </div>
+                </div>
+              </div>
+
+              <div class="field-subsection">
+                <p class="field-subtitle">Catégories & navigation</p>
+                <div class="grid" aria-label="Catégories produits">
+                  <div class="field">
+                    <label for="param_nb_categories">
+                      Nombre de catégories produits
+                      <span class="hint-icon" data-tooltip="inclut sous-catégories majeures" role="note" tabindex="0" aria-label="inclut sous-catégories majeures">?</span>
+                    </label>
+                    <input type="number" id="param_nb_categories" min="0" step="1" value="6">
+                  </div>
+
+                  <div class="field">
+                    <label for="param_category_listing">
+                      Page listing catégories à designer ?
+                      <span class="hint-icon" data-tooltip="0 = non, 1 = oui" role="note" tabindex="0" aria-label="0 = non, 1 = oui">?</span>
+                    </label>
+                    <input type="number" id="param_category_listing" min="0" max="1" step="1" value="1">
+                  </div>
+
+                  <div class="field">
+                    <label for="param_category_templates">
+                      Gabarits pages catégorie produit
+                      <span class="hint-icon" data-tooltip="+40% par gabarit supplémentaire" role="note" tabindex="0" aria-label="+40% par gabarit supplémentaire">?</span>
+                    </label>
+                    <input type="number" id="param_category_templates" min="1" step="1" value="1">
+                  </div>
+
+                  <div class="field">
+                    <label for="param_category_seo">
+                      SEO des catégories produit ?
+                      <span class="hint-icon" data-tooltip="métadonnées, descriptions, maillage" role="note" tabindex="0" aria-label="métadonnées, descriptions, maillage">?</span>
+                    </label>
+                    <input type="number" id="param_category_seo" min="0" max="1" step="1" value="1">
                   </div>
                 </div>
               </div>
@@ -2283,7 +2374,7 @@
               <div class="summary-card">
                 <div class="summary-label">Catalogue e-commerce</div>
                 <div class="summary-value" id="summary-products">—</div>
-                <div class="summary-chip muted">Produits, variations, paiements & livraisons</div>
+                <div class="summary-chip muted">Produits, variations, catégories, paiements & livraisons</div>
               </div>
             </div>
           </div>
@@ -2812,10 +2903,10 @@
       {
         id: "woo_catalogue",
         phase: "E-commerce",
-        label: "Création / saisie des fiches produit",
-        roleId: "seo",
-        baseHours: 1.2,
-        volumeKey: "productCatalog"
+        label: "Structuration catalogue & variations",
+        roleId: "dev",
+        baseHours: 3,
+        volumeKey: "productVariations"
       },
       {
         id: "woo_media",
@@ -2823,7 +2914,39 @@
         label: "Traitement médias produit",
         roleId: "graph",
         baseHours: 0.8,
-        volumeKey: "productCatalog"
+        volumeKey: "productEntries"
+      },
+      {
+        id: "woo_product_templates_design",
+        phase: "E-commerce",
+        label: "Design gabarits fiche produit",
+        roleId: "ux",
+        baseHours: 3.5,
+        volumeKey: "productTemplates"
+      },
+      {
+        id: "woo_product_templates_dev",
+        phase: "E-commerce",
+        label: "Intégration gabarits fiche produit",
+        roleId: "dev",
+        baseHours: 3,
+        volumeKey: "productTemplates"
+      },
+      {
+        id: "woo_product_content",
+        phase: "E-commerce",
+        label: "Rédaction des fiches produit",
+        roleId: "seo",
+        baseHours: 1.4,
+        volumeKey: "productContentVolume"
+      },
+      {
+        id: "woo_product_seo",
+        phase: "E-commerce",
+        label: "Optimisation SEO produit",
+        roleId: "seo",
+        baseHours: 1,
+        volumeKey: "productSeoVolume"
       },
       {
         id: "woo_payments",
@@ -2840,6 +2963,46 @@
         roleId: "dev",
         baseHours: 2.5,
         volumeKey: "shippingVolume"
+      },
+      {
+        id: "woo_categories_listing_design",
+        phase: "E-commerce",
+        label: "Design page listing catégories",
+        roleId: "ux",
+        baseHours: 2.5,
+        volumeKey: "categoryListing"
+      },
+      {
+        id: "woo_categories_listing_dev",
+        phase: "E-commerce",
+        label: "Intégration listing catégories",
+        roleId: "dev",
+        baseHours: 2.5,
+        volumeKey: "categoryListing"
+      },
+      {
+        id: "woo_categories_templates_design",
+        phase: "E-commerce",
+        label: "Design pages catégories produits",
+        roleId: "ux",
+        baseHours: 2,
+        volumeKey: "categoryTemplatesWeighted"
+      },
+      {
+        id: "woo_categories_templates_dev",
+        phase: "E-commerce",
+        label: "Intégration pages catégories produits",
+        roleId: "dev",
+        baseHours: 2.4,
+        volumeKey: "categoryTemplatesWeighted"
+      },
+      {
+        id: "woo_categories_seo",
+        phase: "E-commerce",
+        label: "SEO des catégories produits",
+        roleId: "seo",
+        baseHours: 0.8,
+        volumeKey: "categorySeoVolume"
       },
       {
         id: "woo_extensions",
@@ -3009,7 +3172,15 @@
       { value: "articleVisuals", label: "Visuels par article", hint: "Volume de visuels liés aux articles." },
       { value: "articleSeo", label: "Optimisation SEO", hint: "Nombre d'articles avec optimisation SEO." },
       { value: "hasBlog", label: "Activation du blog", hint: "1 si le blog est activé, sinon 0." },
-      { value: "productCatalog", label: "Catalogue produits", hint: "Produits × variations moyennes." },
+      { value: "productEntries", label: "Fiches produit", hint: "Nombre de produits à créer." },
+      { value: "productVariations", label: "Variations pondérées", hint: "Produits × familles de variations × options." },
+      { value: "productTemplates", label: "Gabarits fiche produit", hint: "Facteur +40% par gabarit supplémentaire." },
+      { value: "productContentVolume", label: "Contenus produit", hint: "Fiches produit avec rédaction incluse." },
+      { value: "productSeoVolume", label: "SEO produit", hint: "Fiches produit avec optimisation SEO." },
+      { value: "productCategories", label: "Catégories produits", hint: "Nombre de catégories à structurer." },
+      { value: "categoryTemplatesWeighted", label: "Gabarits catégorie", hint: "Catégories × facteur design (40%)." },
+      { value: "categoryListing", label: "Listing catégories", hint: "1 si une page listing catégories est prévue." },
+      { value: "categorySeoVolume", label: "SEO catégories", hint: "Catégories avec optimisation SEO." },
       { value: "paymentVolume", label: "Passerelles de paiement", hint: "Nombre d'options de paiement à connecter." },
       { value: "shippingVolume", label: "Profils de livraison", hint: "Zones + méthodes de livraison." },
       { value: "wooExtensions", label: "Extensions WooCommerce", hint: "Modules avancés à intégrer." },
@@ -3068,6 +3239,15 @@
           param_blog_seo: 1,
           param_nb_products: 3,
           param_avg_variations: 1,
+          param_variation_options: 2,
+          param_variation_complexity: 1,
+          param_product_templates: 1,
+          param_product_content: 0,
+          param_product_seo: 0,
+          param_nb_categories: 0,
+          param_category_listing: 0,
+          param_category_templates: 1,
+          param_category_seo: 0,
           param_nb_payment_gateways: 1,
           param_nb_shipping_profiles: 1,
           param_woo_features: 0,
@@ -3128,6 +3308,15 @@
           param_blog_seo: 1,
           param_nb_products: 8,
           param_avg_variations: 1,
+          param_variation_options: 2,
+          param_variation_complexity: 1,
+          param_product_templates: 1,
+          param_product_content: 1,
+          param_product_seo: 1,
+          param_nb_categories: 3,
+          param_category_listing: 1,
+          param_category_templates: 1,
+          param_category_seo: 1,
           param_nb_payment_gateways: 1,
           param_nb_shipping_profiles: 1,
           param_woo_features: 0,
@@ -3188,6 +3377,15 @@
           param_blog_seo: 1,
           param_nb_products: 16,
           param_avg_variations: 1.2,
+          param_variation_options: 3,
+          param_variation_complexity: 1.15,
+          param_product_templates: 1,
+          param_product_content: 1,
+          param_product_seo: 1,
+          param_nb_categories: 4,
+          param_category_listing: 1,
+          param_category_templates: 1,
+          param_category_seo: 1,
           param_nb_payment_gateways: 2,
           param_nb_shipping_profiles: 2,
           param_woo_features: 1,
@@ -3248,6 +3446,15 @@
           param_blog_seo: 1,
           param_nb_products: 25,
           param_avg_variations: 1.3,
+          param_variation_options: 3,
+          param_variation_complexity: 1.25,
+          param_product_templates: 2,
+          param_product_content: 1,
+          param_product_seo: 1,
+          param_nb_categories: 6,
+          param_category_listing: 1,
+          param_category_templates: 2,
+          param_category_seo: 1,
           param_nb_payment_gateways: 2,
           param_nb_shipping_profiles: 2,
           param_woo_features: 2,
@@ -3400,6 +3607,15 @@
       "param_blog_seo",
       "param_nb_products",
       "param_avg_variations",
+      "param_variation_options",
+      "param_variation_complexity",
+      "param_product_templates",
+      "param_product_content",
+      "param_product_seo",
+      "param_nb_categories",
+      "param_category_listing",
+      "param_category_templates",
+      "param_category_seo",
       "param_nb_payment_gateways",
       "param_nb_shipping_profiles",
       "param_woo_features",
@@ -3462,6 +3678,17 @@
       const articleSeoVolume = blogArticles * wantsBlogSeo;
       const nbProducts = Math.max(0, safeNumber(document.getElementById("param_nb_products").value, 0));
       const avgVariations = Math.max(1, safeNumber(document.getElementById("param_avg_variations").value, 1));
+      const variationOptions = Math.max(1, safeNumber(document.getElementById("param_variation_options").value, 1));
+      const variationComplexity = Math.max(1, safeNumber(document.getElementById("param_variation_complexity").value, 1));
+      const productTemplates = Math.max(1, safeNumber(document.getElementById("param_product_templates").value, 1));
+      const productTemplateFactor = 1 + Math.max(0, productTemplates - 1) * 0.4;
+      const productContentMode = Math.max(0, Math.min(1, safeNumber(document.getElementById("param_product_content").value, 1)));
+      const productSeoMode = Math.max(0, Math.min(1, safeNumber(document.getElementById("param_product_seo").value, 1)));
+      const nbCategories = Math.max(0, safeNumber(document.getElementById("param_nb_categories").value, 0));
+      const categoryListing = Math.max(0, Math.min(1, safeNumber(document.getElementById("param_category_listing").value, 1)));
+      const categoryTemplates = Math.max(1, safeNumber(document.getElementById("param_category_templates").value, 1));
+      const categoryDesignFactor = 1 + Math.max(0, categoryTemplates - 1) * 0.4;
+      const categorySeoMode = Math.max(0, Math.min(1, safeNumber(document.getElementById("param_category_seo").value, 1)));
       const paymentGateways = Math.max(1, safeNumber(document.getElementById("param_nb_payment_gateways").value, 1));
       const shippingProfiles = Math.max(1, safeNumber(document.getElementById("param_nb_shipping_profiles").value, 1));
       const wooFeatures = Math.max(0, safeNumber(document.getElementById("param_woo_features").value, 0));
@@ -3538,7 +3765,12 @@
       const serviceVisualsVolume = serviceContentMode ? serviceVisualsPref * nbServiceDetails : 0;
       const reaVisualsVolume = reaContentMode ? reaVisualsPref * nbReaDetails : 0;
       const nbSeoPages = seoAutoPages + serviceContentPages + reaContentPages;
-      const productWorkload = nbProducts * avgVariations;
+      const variationWorkload = nbProducts * avgVariations * variationOptions * variationComplexity;
+      const productContentVolume = productContentMode ? nbProducts : 0;
+      const productSeoVolume = productSeoMode ? nbProducts : 0;
+      const productTemplateWorkload = productTemplateFactor;
+      const categoryTemplateWorkload = nbCategories * categoryDesignFactor;
+      const categorySeoVolume = categorySeoMode ? nbCategories : 0;
       const paymentVolume = paymentGateways;
       const shippingVolume = shippingProfiles;
       const extensionVolume = wooFeatures;
@@ -3570,7 +3802,23 @@
         articleSeoVolume,
         nbProducts,
         avgVariations,
-        productWorkload,
+        variationOptions,
+        variationComplexity,
+        variationWorkload,
+        productTemplates,
+        productTemplateFactor,
+        productTemplateWorkload,
+        productContentMode,
+        productSeoMode,
+        productContentVolume,
+        productSeoVolume,
+        nbCategories,
+        categoryListing,
+        categoryTemplates,
+        categoryDesignFactor,
+        categoryTemplateWorkload,
+        categorySeoMode,
+        categorySeoVolume,
         paymentVolume,
         shippingVolume,
         extensionVolume,
@@ -3641,7 +3889,16 @@
         case "articleVisuals": return params.articleVisualsVolume;
         case "articleSeo": return params.articleSeoVolume;
         case "hasBlog": return params.hasBlog;
-        case "productCatalog": return params.productWorkload;
+        case "productCatalog": return params.variationWorkload;
+        case "productEntries": return params.nbProducts;
+        case "productVariations": return params.variationWorkload;
+        case "productTemplates": return params.productTemplateWorkload;
+        case "productContentVolume": return params.productContentVolume;
+        case "productSeoVolume": return params.productSeoVolume;
+        case "productCategories": return params.nbCategories;
+        case "categoryTemplatesWeighted": return params.categoryTemplateWorkload;
+        case "categoryListing": return params.categoryListing;
+        case "categorySeoVolume": return params.categorySeoVolume;
         case "paymentVolume": return params.paymentVolume;
         case "shippingVolume": return params.shippingVolume;
         case "wooExtensions": return params.extensionVolume;
@@ -4310,7 +4567,7 @@
           ? `${params.nbLegal} pages légales incluses`
           : "Aucune page légale";
       document.getElementById("summary-products").textContent =
-        `${params.nbProducts} produits · ${params.avgVariations.toLocaleString("fr-FR", { minimumFractionDigits: 1, maximumFractionDigits: 1 })} var./produit · ${params.paymentVolume} paiements · ${params.shippingVolume} livraisons`;
+        `${params.nbProducts} produits · ${params.avgVariations.toLocaleString("fr-FR", { minimumFractionDigits: 1, maximumFractionDigits: 1 })} var./produit · ${params.variationOptions.toLocaleString("fr-FR", { minimumFractionDigits: 0, maximumFractionDigits: 0 })} opt./var · ${params.nbCategories} catégories · ${params.paymentVolume} paiements · ${params.shippingVolume} livraisons`;
       const opts = [];
       if (params.optLogo === 1) {
         const label = params.brandGuidelinesMode > 0 ? "Identité visuelle + charte" : "Identité visuelle";
@@ -4323,16 +4580,22 @@
       }
       if (params.nbProducts > 0) {
         opts.push({
-          label: `Catalogue ${params.nbProducts} prod. (${params.avgVariations.toLocaleString("fr-FR", { minimumFractionDigits: 1, maximumFractionDigits: 1 })} var.)`,
+          label: `Catalogue ${params.nbProducts} prod. (${params.avgVariations.toLocaleString("fr-FR", { minimumFractionDigits: 1, maximumFractionDigits: 1 })} var., ${params.variationOptions} opt.)`,
           icon: "🛒",
           tone: "accent"
         });
+      }
+      if (params.productTemplates > 1) {
+        opts.push({ label: `${params.productTemplates} gabarits produit`, icon: "🎛️" });
       }
       if (params.paymentVolume > 0) {
         opts.push({ label: `Paiement x${params.paymentVolume}`, icon: "💳" });
       }
       if (params.shippingVolume > 0) {
         opts.push({ label: `Livraison x${params.shippingVolume}`, icon: "🚚" });
+      }
+      if (params.nbCategories > 0) {
+        opts.push({ label: `${params.nbCategories} catégories`, icon: "🗂️" });
       }
       if (params.extensionVolume > 0) {
         opts.push({ label: `Extensions Woo x${params.extensionVolume}`, icon: "🧩" });
