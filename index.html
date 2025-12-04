@@ -2050,6 +2050,11 @@
               <h2><span class="icon">💰</span> Résumé financier</h2>
               <p class="sub">Synthèse immédiate des montants générés par tes paramètres.</p>
             </div>
+            <label class="toggle" for="currency-toggle">
+              <input type="checkbox" id="currency-toggle">
+              <span class="toggle-switch" aria-hidden="true"></span>
+              <span class="toggle-label" id="currency-toggle-label">Devis en €</span>
+            </label>
           </div>
           <div class="section">
             <div class="summary-row">
@@ -2074,14 +2079,14 @@
                 <div class="summary-chip muted">Base précédente + buffer imprévus</div>
               </div>
               <div class="summary-card">
-                <div class="summary-label">Prix conseillé HT (€)</div>
+                <div class="summary-label" id="summary-price-sell-label">Prix conseillé HT (€)</div>
                 <div class="summary-value success" id="summary-price-sell">—</div>
                 <div class="summary-chip">Coût interne × marge agence</div>
               </div>
               <div class="summary-card">
-                <div class="summary-label">Prix conseillé HT (MGA)</div>
+                <div class="summary-label" id="summary-price-sell-mga-label">Prix conseillé HT (MGA)</div>
                 <div class="summary-value accent" id="summary-price-sell-mga">—</div>
-                <div class="summary-chip muted">Conversion indicative en Ariary</div>
+                <div class="summary-chip muted" id="summary-price-sell-mga-chip">Conversion indicative en Ariary</div>
               </div>
             </div>
           </div>
@@ -2324,6 +2329,7 @@
 
     let activeRoleFilter = "all";
     let hideZeroCost = false;
+    let activeCurrency = "eur";
     let lastTotals = {
       hours: 0,
       cost: 0,
@@ -2926,6 +2932,27 @@
         minimumFractionDigits: 1,
         maximumFractionDigits: 1
       });
+    }
+
+    function getCurrencyMeta() {
+      const isMGA = activeCurrency === "mga";
+      return {
+        isMGA,
+        mainSymbol: isMGA ? "MGA" : "€",
+        altSymbol: isMGA ? "€" : "MGA",
+        mainName: isMGA ? "Ariary" : "euros",
+        altName: isMGA ? "euros" : "Ariary"
+      };
+    }
+
+    function formatCurrency(value, fxRate) {
+      const { isMGA } = getCurrencyMeta();
+      return isMGA ? fmtMGA(value * fxRate) : fmtEuro(value, 0);
+    }
+
+    function formatAltCurrency(value, fxRate) {
+      const { isMGA } = getCurrencyMeta();
+      return isMGA ? fmtEuro(value, 0) : fmtMGA(value * fxRate);
     }
 
     function applyRatePreset(key, { recalc = true } = {}) {
@@ -3726,6 +3753,12 @@
       label.textContent = checked ? "Tâches à 0€ masquées" : "Tâches à 0€ affichées";
     }
 
+    function updateCurrencyToggleLabel(checked) {
+      const label = document.getElementById("currency-toggle-label");
+      if (!label) return;
+      label.textContent = checked ? "Devis en Ariary" : "Devis en €";
+    }
+
     function initZeroCostToggle() {
       const toggle = document.getElementById("toggle-zero-cost");
       if (!toggle) return;
@@ -3735,6 +3768,20 @@
       toggle.addEventListener("change", () => {
         hideZeroCost = toggle.checked;
         updateZeroToggleLabel(toggle.checked);
+        recalcAll();
+      });
+    }
+
+    function initCurrencyToggle() {
+      const toggle = document.getElementById("currency-toggle");
+      if (!toggle) return;
+
+      activeCurrency = toggle.checked ? "mga" : "eur";
+      updateCurrencyToggleLabel(toggle.checked);
+
+      toggle.addEventListener("change", () => {
+        activeCurrency = toggle.checked ? "mga" : "eur";
+        updateCurrencyToggleLabel(toggle.checked);
         recalcAll();
       });
     }
@@ -3914,6 +3961,10 @@
       const optionCosts = includeOptionCosts ? hostingDomainCost + chatbotCost : 0;
       const totalBeforeBuffer = totalCost + optionCosts;
 
+      const currencyMeta = getCurrencyMeta();
+      const formatMainCurrency = value => formatCurrency(value, params.fx);
+      const formatSecondaryCurrency = value => formatAltCurrency(value, params.fx);
+
       document.getElementById("tfoot-hours").textContent = fmtHours(totalHours);
       document.getElementById("tfoot-cost").textContent = fmtEuro(totalBeforeBuffer, 0);
       document.getElementById("tfoot-prebuffer").textContent = fmtEuro(totalBeforeBuffer, 0);
@@ -3924,21 +3975,20 @@
 
       // Prix de vente
       const priceSell = internalWithBuffer * params.margin;
-      const priceSellMGA = priceSell * params.fx;
 
-      document.getElementById("summary-cost-freelance").textContent = fmtEuro(totalCost, 0);
-      document.getElementById("summary-cost-hosting").textContent = fmtEuro(hostingDomainCost, 0);
+      document.getElementById("summary-cost-freelance").textContent = formatMainCurrency(totalCost);
+      document.getElementById("summary-cost-hosting").textContent = formatMainCurrency(hostingDomainCost);
       const chatbotHoursTotal = params.chatbotSetupHours + params.chatbotIntegrationHours + params.chatbotTrainingHours;
       const chatbotSetupCost =
         (params.chatbotSetupHours * (rolesById["cp"]?.rate || 0)) +
         (params.chatbotIntegrationHours * (rolesById["dev"]?.rate || 0)) +
         (params.chatbotTrainingHours * (rolesById["seo"]?.rate || 0));
       const chatbotDetailsLabel = params.optChatbot
-        ? `${params.chatbotOfferLabel} · ${fmtEuro(chatbotCost, 0)}/mois · ${fmtHours(chatbotHoursTotal)}h`
+        ? `${params.chatbotOfferLabel} · ${formatMainCurrency(chatbotCost)}/mois · ${fmtHours(chatbotHoursTotal)}h`
         : "Pas de chatbot activé";
 
       document.getElementById("summary-cost-chatbot").textContent =
-        params.optChatbot ? fmtEuro(chatbotSetupCost, 0) : fmtEuro(0, 0);
+        params.optChatbot ? formatMainCurrency(chatbotSetupCost) : formatMainCurrency(0);
       document.getElementById("summary-chatbot-details").textContent = chatbotDetailsLabel;
 
       const hostingCard = document.getElementById("summary-hosting-card");
@@ -3946,9 +3996,23 @@
 
       if (hostingCard) hostingCard.classList.toggle("is-hidden", !hostingActive);
       if (chatbotCard) chatbotCard.classList.toggle("is-hidden", params.optChatbot !== 1);
-      document.getElementById("summary-cost-internal").textContent = fmtEuro(internalWithBuffer, 0);
-      document.getElementById("summary-price-sell").textContent = fmtEuro(priceSell, 0);
-      document.getElementById("summary-price-sell-mga").textContent = fmtMGA(priceSellMGA);
+      document.getElementById("summary-cost-internal").textContent = formatMainCurrency(internalWithBuffer);
+      document.getElementById("summary-price-sell").textContent = formatMainCurrency(priceSell);
+      document.getElementById("summary-price-sell-mga").textContent = formatSecondaryCurrency(priceSell);
+
+      const priceSellLabel = document.getElementById("summary-price-sell-label");
+      const priceSellMgaLabel = document.getElementById("summary-price-sell-mga-label");
+      const priceSellMgaChip = document.getElementById("summary-price-sell-mga-chip");
+
+      if (priceSellLabel) {
+        priceSellLabel.textContent = `Prix conseillé HT (${currencyMeta.mainSymbol})`;
+      }
+      if (priceSellMgaLabel) {
+        priceSellMgaLabel.textContent = `Équivalence (${currencyMeta.altSymbol})`;
+      }
+      if (priceSellMgaChip) {
+        priceSellMgaChip.textContent = `Conversion indicative en ${currencyMeta.altName}`;
+      }
 
       lastTotals = {
         hours: totalHours,
@@ -4207,6 +4271,7 @@
       initRolesTable();
       initRoleFilter();
       initZeroCostToggle();
+      initCurrencyToggle();
       initTaskCustomization();
       bindPresetControls();
       bindTariffPresetControls();
