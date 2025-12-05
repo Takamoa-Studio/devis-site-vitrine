@@ -2008,6 +2008,58 @@
 
             <div class="field-group">
               <div class="group-header">
+                <h3 class="group-title"><span class="icon">🌐</span> Traduction & langues</h3>
+                <p class="group-sub">Activation du multilingue et estimation des volumes à traduire.</p>
+              </div>
+              <div class="field-subsection">
+                <p class="field-subtitle">Configuration multilingue</p>
+                <div class="grid" aria-label="Options de traduction du site">
+                  <div class="field">
+                    <label for="param_translation_mode">
+                      Activer la traduction du site ?
+                      <span class="hint-icon" data-tooltip="GTranslate (automatique) ou WPML (multilingue complet)" role="note" tabindex="0" aria-label="GTranslate (automatique) ou WPML (multilingue complet)">?</span>
+                    </label>
+                    <select id="param_translation_mode">
+                      <option value="none" selected>Pas de traduction</option>
+                      <option value="gtranslate">Oui, via GTranslate</option>
+                      <option value="wpml">Oui, via WPML</option>
+                    </select>
+                  </div>
+
+                  <div class="field">
+                    <label for="param_translation_languages">
+                      Nombre total de langues
+                      <span class="hint-icon" data-tooltip="Inclut la langue par défaut du site" role="note" tabindex="0" aria-label="Inclut la langue par défaut du site">?</span>
+                    </label>
+                    <input type="number" id="param_translation_languages" min="1" step="1" value="2">
+                  </div>
+                </div>
+
+                <div class="field-subsection translation-params is-hidden" id="translation-params-block">
+                  <p class="field-subtitle">Volumes pour la traduction du site</p>
+                  <div class="grid" aria-label="Volumes pour la traduction">
+                    <div class="field">
+                      <label for="param_translation_pages">
+                        Pages de contenu à traduire (P)
+                        <span class="hint-icon" data-tooltip="Pages principales à traduire, hors produits" role="note" tabindex="0" aria-label="Pages principales à traduire, hors produits">?</span>
+                      </label>
+                      <input type="number" id="param_translation_pages" min="0" step="1" value="0">
+                    </div>
+
+                    <div class="field">
+                      <label for="param_translation_products">
+                        Produits WooCommerce (N)
+                        <span class="hint-icon" data-tooltip="Nombre de fiches produit à traduire" role="note" tabindex="0" aria-label="Nombre de fiches produit à traduire">?</span>
+                      </label>
+                      <input type="number" id="param_translation_products" min="0" step="1" value="0">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="field-group">
+              <div class="group-header">
                 <h3 class="group-title"><span class="icon">🎨</span> Identité visuelle</h3>
                 <p class="group-sub">Module logo, déclinaisons, charte et templates.</p>
               </div>
@@ -2117,56 +2169,6 @@
                       <span class="hint-icon" data-tooltip="Coût récurrent si activé" role="note" tabindex="0" aria-label="Coût récurrent si activé">?</span>
                     </label>
                     <input type="number" id="param_domain_cost" min="0" step="5" value="20">
-                  </div>
-                </div>
-              </div>
-
-              <div class="field-subsection">
-                <p class="field-subtitle">Traduction & langues</p>
-                <div class="grid" aria-label="Options de traduction du site">
-                  <div class="field">
-                    <label for="param_translation_mode">
-                      Activer la traduction du site ?
-                      <span class="hint-icon" data-tooltip="GTranslate (automatique) ou WPML (multilingue complet)" role="note" tabindex="0" aria-label="GTranslate (automatique) ou WPML (multilingue complet)">?</span>
-                    </label>
-                    <select id="param_translation_mode">
-                      <option value="none" selected>Pas de traduction</option>
-                      <option value="gtranslate">Oui, via GTranslate</option>
-                      <option value="wpml">Oui, via WPML</option>
-                    </select>
-                  </div>
-
-                  <div class="field">
-                    <label for="param_translation_languages">
-                      Nombre total de langues
-                      <span class="hint-icon" data-tooltip="Inclut la langue par défaut du site" role="note" tabindex="0" aria-label="Inclut la langue par défaut du site">?</span>
-                    </label>
-                    <input type="number" id="param_translation_languages" min="1" step="1" value="2">
-                  </div>
-                </div>
-
-                <div class="field-subsection translation-params is-hidden" id="translation-params-block">
-                  <p class="field-subtitle">Volumes pour la traduction du site</p>
-                  <div class="grid" aria-label="Volumes pour la traduction">
-                    <div class="field">
-                      <label for="param_translation_pages">
-                        Pages de contenu à traduire (P)
-                        <span class="hint-icon" data-tooltip="Pages principales à traduire, hors produits" role="note" tabindex="0" aria-label="Pages principales à traduire, hors produits">?</span>
-                      </label>
-                      <input type="number" id="param_translation_pages" min="0" step="1" value="0">
-                    </div>
-
-                    <div class="field">
-                      <label for="param_translation_products">
-                        Produits WooCommerce (N)
-                        <span class="hint-icon" data-tooltip="Nombre de fiches produit à traduire" role="note" tabindex="0" aria-label="Nombre de fiches produit à traduire">?</span>
-                      </label>
-                      <input type="number" id="param_translation_products" min="0" step="1" value="0">
-                    </div>
-                  </div>
-
-                  <div class="translation-hint" id="translation-formula-hint" aria-live="polite">
-                    Choisis un plugin de traduction pour afficher les coefficients utilisés.
                   </div>
                 </div>
               </div>
@@ -4727,27 +4729,11 @@
 
     function updateTranslationFieldsUI(params) {
       const block = document.getElementById("translation-params-block");
-      const hint = document.getElementById("translation-formula-hint");
       const pagesInput = document.getElementById("param_translation_pages");
       const productsInput = document.getElementById("param_translation_products");
       const active = params.translationMode && params.translationMode !== "none";
 
       if (block) block.classList.toggle("is-hidden", !active);
-
-      if (!hint) return;
-
-      if (!active) {
-        hint.textContent = "Choisis un plugin de traduction pour afficher les coefficients utilisés.";
-        return;
-      }
-
-      const coeff = TRANSLATION_MODES[params.translationMode]?.coefficients;
-      if (!coeff) {
-        hint.textContent = "Configure les volumes pour estimer le temps de traduction.";
-        return;
-      }
-
-      hint.textContent = `${params.translationLabel} : setup ${coeff.baseSetup}h + ${coeff.perLanguageSetup}h/langue supplémentaire + (${coeff.pagePerLanguage}h/page + ${coeff.productPerLanguage}h/produit) × (langues à traduire)`;
 
       if (pagesInput) pagesInput.placeholder = params.totalPagesWithExtras;
       if (pagesInput && safeNumber(pagesInput.value, 0) <= 0) pagesInput.value = params.totalPagesWithExtras;
