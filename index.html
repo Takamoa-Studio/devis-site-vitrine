@@ -1633,62 +1633,6 @@
 
             <div class="field-group">
               <div class="group-header">
-                <h3 class="group-title"><span class="icon">🌐</span> Traduction & langues</h3>
-                <p class="group-sub">Activation du multilingue et estimation des volumes à traduire.</p>
-              </div>
-              <div class="field-subsection">
-                <p class="field-subtitle">Configuration multilingue</p>
-                <div class="grid" aria-label="Options de traduction du site">
-                  <div class="field">
-                    <label for="param_translation_mode">
-                      Activer la traduction du site ?
-                      <span class="hint-icon" data-tooltip="GTranslate (automatique) ou WPML (multilingue complet)" role="note" tabindex="0" aria-label="GTranslate (automatique) ou WPML (multilingue complet)">?</span>
-                    </label>
-                    <select id="param_translation_mode">
-                      <option value="none" selected>Pas de traduction</option>
-                      <option value="gtranslate">Oui, via GTranslate</option>
-                      <option value="wpml">Oui, via WPML</option>
-                    </select>
-                  </div>
-
-                  <div class="field">
-                    <label for="param_translation_languages">
-                      Nombre total de langues
-                      <span class="hint-icon" data-tooltip="Inclut la langue par défaut du site" role="note" tabindex="0" aria-label="Inclut la langue par défaut du site">?</span>
-                    </label>
-                    <input type="number" id="param_translation_languages" min="1" step="1" value="2">
-                  </div>
-                </div>
-
-                <div class="field-subsection translation-params is-hidden" id="translation-params-block">
-                  <p class="field-subtitle">Volumes pour la traduction du site</p>
-                  <div class="grid" aria-label="Volumes pour la traduction">
-                    <div class="field">
-                      <label for="param_translation_pages">
-                        Pages de contenu à traduire (P)
-                        <span class="hint-icon" data-tooltip="Pages principales à traduire" role="note" tabindex="0" aria-label="Pages principales à traduire">?</span>
-                      </label>
-                      <input type="number" id="param_translation_pages" min="0" step="1" value="0">
-                    </div>
-
-                    <div class="field">
-                      <label for="param_translation_products">
-                        Autres contenus spécialisés (N)
-                        <span class="hint-icon" data-tooltip="Sections spécifiques, fiches ou modules à traduire" role="note" tabindex="0" aria-label="Sections spécifiques, fiches ou modules à traduire">?</span>
-                      </label>
-                      <input type="number" id="param_translation_products" min="0" step="1" value="0">
-                    </div>
-                  </div>
-
-                  <div class="translation-hint">
-                    Laisse les champs à 0 pour que le calcul s'appuie sur le volume total de pages saisies plus haut.
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="field-group">
-              <div class="group-header">
                 <h3 class="group-title"><span class="icon">📄</span> Structure du site</h3>
                 <p class="group-sub">Organise les pages prévues pour le projet.</p>
               </div>
@@ -1941,6 +1885,62 @@
                       <span class="hint-icon" data-tooltip="0.9 = -10% par batch supplémentaire" role="note" tabindex="0" aria-label="0.9 = -10% par batch supplémentaire">?</span>
                     </label>
                     <input type="number" id="param_import_degressif" min="0" max="1.5" step="0.05" value="0.9">
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="field-group">
+              <div class="group-header">
+                <h3 class="group-title"><span class="icon">🌐</span> Traduction & langues</h3>
+                <p class="group-sub">Activation du multilingue et estimation des volumes à traduire.</p>
+              </div>
+              <div class="field-subsection">
+                <p class="field-subtitle">Configuration multilingue</p>
+                <div class="grid" aria-label="Options de traduction du site">
+                  <div class="field">
+                    <label for="param_translation_mode">
+                      Activer la traduction du site ?
+                      <span class="hint-icon" data-tooltip="GTranslate (automatique) ou WPML (multilingue complet)" role="note" tabindex="0" aria-label="GTranslate (automatique) ou WPML (multilingue complet)">?</span>
+                    </label>
+                    <select id="param_translation_mode">
+                      <option value="none" selected>Pas de traduction</option>
+                      <option value="gtranslate">Oui, via GTranslate</option>
+                      <option value="wpml">Oui, via WPML</option>
+                    </select>
+                  </div>
+
+                  <div class="field">
+                    <label for="param_translation_languages">
+                      Nombre total de langues
+                      <span class="hint-icon" data-tooltip="Inclut la langue par défaut du site" role="note" tabindex="0" aria-label="Inclut la langue par défaut du site">?</span>
+                    </label>
+                    <input type="number" id="param_translation_languages" min="1" step="1" value="2">
+                  </div>
+                </div>
+
+                <div class="field-subsection translation-params is-hidden" id="translation-params-block">
+                  <p class="field-subtitle">Volumes pour la traduction du site</p>
+                  <div class="grid" aria-label="Volumes pour la traduction">
+                    <div class="field">
+                      <label for="param_translation_pages">
+                        Pages de contenu à traduire (P)
+                        <span class="hint-icon" data-tooltip="Pages principales à traduire" role="note" tabindex="0" aria-label="Pages principales à traduire">?</span>
+                      </label>
+                      <input type="number" id="param_translation_pages" min="0" step="1" value="0">
+                    </div>
+
+                    <div class="field">
+                      <label for="param_translation_products">
+                        Autres contenus spécialisés (N)
+                        <span class="hint-icon" data-tooltip="Sections spécifiques, fiches ou modules à traduire" role="note" tabindex="0" aria-label="Sections spécifiques, fiches ou modules à traduire">?</span>
+                      </label>
+                      <input type="number" id="param_translation_products" min="0" step="1" value="0">
+                    </div>
+                  </div>
+
+                  <div class="translation-hint">
+                    Laisse les champs à 0 pour que le calcul s'appuie sur le volume total de pages saisies plus haut.
                   </div>
                 </div>
               </div>
