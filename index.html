@@ -2818,7 +2818,7 @@
         label: "Tests responsive & bugfix",
         roleId: "qa",
         baseHours: 4,
-        volumeKey: "const"
+        volumeKey: "qaWorkload"
       },
       // IA / Chatbot
       {
@@ -2863,6 +2863,7 @@
       { value: "nbHome", label: "Page d'accueil", hint: "Multiplié par le nombre de home." },
       { value: "nbInternalPages", label: "Pages internes", hint: "Prend en compte le volume total des pages internes." },
       { value: "nbSeoPages", label: "Pages SEO", hint: "Calqué sur le volume SEO défini." },
+      { value: "qaWorkload", label: "Charge QA (pages + features)", hint: "Home + pages totales + fonctionnalités actives." },
       { value: "identityPack", label: "Pack identité", hint: "Activé si l'option identité est cochée." },
       { value: "logoConcepts", label: "Concepts logo", hint: "Multiplié par le nombre de concepts de logo." },
       { value: "logoExports", label: "Déclinaisons logo", hint: "Basé sur le nombre d'exports/formats." },
@@ -3315,6 +3316,19 @@
       const serviceVisualsVolume = serviceContentMode ? serviceVisualsPref * nbServiceDetails : 0;
       const reaVisualsVolume = reaContentMode ? reaVisualsPref * nbReaDetails : 0;
       const nbSeoPages = seoAutoPages + serviceContentPages + reaContentPages;
+      const qaFeatureFlags = [
+        nbServiceListing + nbServiceDetails > 0,
+        nbReaListing + nbReaDetails > 0,
+        hasBlog > 0,
+        optLogo > 0,
+        optFormation > 0,
+        optChatbot > 0,
+        importArticles > 0,
+        optHosting > 0,
+        optDomain > 0
+      ];
+      const qaFunctionalLoad = qaFeatureFlags.filter(Boolean).length;
+      const qaWorkload = nbHome + totalPagesWithExtras + qaFunctionalLoad;
 
       return {
         nbHome,
@@ -3323,6 +3337,7 @@
         totalInternalPages,
         totalPagesWithExtras,
         nbSeoPages,
+        qaWorkload,
         seoAutoPages,
         nbServiceListing,
         nbServiceDetails,
@@ -3388,6 +3403,7 @@
         case "nbHome": return params.nbHome;
         case "nbInternalPages": return params.totalInternalPages;
         case "nbSeoPages": return params.nbSeoPages;
+        case "qaWorkload": return params.qaWorkload;
         case "identityPack": return params.optLogo;
         case "logoConcepts": return params.logoConcepts;
         case "logoExports": return params.logoExports;
