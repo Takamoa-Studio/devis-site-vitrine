@@ -2737,7 +2737,48 @@
         baseHours: 4,
         volumeKey: "const"
       },
-      // Design
+      // Graphisme & identité
+      {
+        id: "logo_discovery",
+        phase: "Graphisme",
+        label: "Moodboard & orientation créative",
+        roleId: "graph",
+        baseHours: 2,
+        volumeKey: "identityPack"
+      },
+      {
+        id: "logo_concepts",
+        phase: "Graphisme",
+        label: "Pistes logo à développer",
+        roleId: "graph",
+        baseHours: 2.8,
+        volumeKey: "logoConcepts"
+      },
+      {
+        id: "logo_exports",
+        phase: "Graphisme",
+        label: "Déclinaisons & exports du logo",
+        roleId: "graph",
+        baseHours: 1,
+        volumeKey: "logoExports"
+      },
+      {
+        id: "brand_guidelines",
+        phase: "Graphisme",
+        label: "Mini charte graphique / brandbook",
+        roleId: "graph",
+        baseHours: 3.5,
+        volumeKey: "brandGuidelines"
+      },
+      {
+        id: "brand_templates",
+        phase: "Graphisme",
+        label: "Templates réseaux sociaux / papeterie",
+        roleId: "graph",
+        baseHours: 1.2,
+        volumeKey: "brandTemplates"
+      },
+      // Design UX/UI
       {
         id: "design_home",
         phase: "Design",
@@ -2753,22 +2794,6 @@
         roleId: "ux",
         baseHours: 3,
         volumeKey: "nbInternalPages"
-      },
-      {
-        id: "design_legales",
-        phase: "Design",
-        label: "Maquettes pages légales",
-        roleId: "ux",
-        baseHours: 1.5,
-        volumeKey: "nbLegalPages"
-      },
-      {
-        id: "design_404",
-        phase: "Design",
-        label: "Maquette page 404",
-        roleId: "ux",
-        baseHours: 1.2,
-        volumeKey: "const"
       },
       {
         id: "design_services_listing",
@@ -2818,48 +2843,80 @@
         baseHours: 2,
         volumeKey: "hasBlog"
       },
-      // Graphisme
       {
-        id: "logo_discovery",
-        phase: "Graphisme",
-        label: "Moodboard & orientation créative",
-        roleId: "graph",
-        baseHours: 2,
-        volumeKey: "identityPack"
+        id: "design_legales",
+        phase: "Design",
+        label: "Maquettes pages légales",
+        roleId: "ux",
+        baseHours: 1.5,
+        volumeKey: "nbLegalPages"
       },
       {
-        id: "logo_concepts",
-        phase: "Graphisme",
-        label: "Pistes logo à développer",
-        roleId: "graph",
-        baseHours: 2.8,
-        volumeKey: "logoConcepts"
+        id: "design_404",
+        phase: "Design",
+        label: "Maquette page 404",
+        roleId: "ux",
+        baseHours: 1.2,
+        volumeKey: "const"
+      },
+      // Contenus
+      {
+        id: "content_articles",
+        phase: "Contenus",
+        label: "Rédaction + optimisation articles de blog",
+        roleId: "seo",
+        baseHours: 1.8,
+        volumeKey: "blogArticles"
       },
       {
-        id: "logo_exports",
-        phase: "Graphisme",
-        label: "Déclinaisons & exports du logo",
+        id: "content_services",
+        phase: "Contenus",
+        label: "Rédaction + optimisation fiches service",
+        roleId: "seo",
+        baseHours: 2.3,
+        volumeKey: "serviceContentPages"
+      },
+      {
+        id: "content_realisations",
+        phase: "Contenus",
+        label: "Rédaction + optimisation études de cas",
+        roleId: "seo",
+        baseHours: 2.6,
+        volumeKey: "reaContentPages"
+      },
+      {
+        id: "content_article_visuals",
+        phase: "Contenus",
+        label: "Visuel d'illustration par article",
         roleId: "graph",
         baseHours: 1,
-        volumeKey: "logoExports"
+        volumeKey: "articleVisuals"
       },
       {
-        id: "brand_guidelines",
-        phase: "Graphisme",
-        label: "Mini charte graphique / brandbook",
+        id: "content_service_visuals",
+        phase: "Contenus",
+        label: "Visuels pour fiches service",
         roleId: "graph",
-        baseHours: 3.5,
-        volumeKey: "brandGuidelines"
+        baseHours: 0.8,
+        volumeKey: "serviceVisualsVolume"
       },
       {
-        id: "brand_templates",
-        phase: "Graphisme",
-        label: "Templates réseaux sociaux / papeterie",
+        id: "content_rea_visuals",
+        phase: "Contenus",
+        label: "Visuels pour études de cas",
         roleId: "graph",
         baseHours: 1.2,
-        volumeKey: "brandTemplates"
+        volumeKey: "reaVisualsVolume"
       },
-      // Développement
+      // Développement WordPress
+      {
+        id: "dev_config",
+        phase: "Développement",
+        label: "Configuration WordPress & plugins",
+        roleId: "dev",
+        baseHours: 3,
+        volumeKey: "const"
+      },
       {
         id: "dev_home",
         phase: "Développement",
@@ -2875,22 +2932,6 @@
         roleId: "dev",
         baseHours: 3,
         volumeKey: "nbInternalPages"
-      },
-      {
-        id: "dev_legales",
-        phase: "Développement",
-        label: "Intégration pages légales",
-        roleId: "dev",
-        baseHours: 1.5,
-        volumeKey: "nbLegalPages"
-      },
-      {
-        id: "dev_404",
-        phase: "Développement",
-        label: "Intégration page 404",
-        roleId: "dev",
-        baseHours: 1,
-        volumeKey: "const"
       },
       {
         id: "dev_services_listing",
@@ -2941,6 +2982,32 @@
         volumeKey: "hasBlog"
       },
       {
+        id: "dev_legales",
+        phase: "Développement",
+        label: "Intégration pages légales",
+        roleId: "dev",
+        baseHours: 1.5,
+        volumeKey: "nbLegalPages"
+      },
+      {
+        id: "dev_404",
+        phase: "Développement",
+        label: "Intégration page 404",
+        roleId: "dev",
+        baseHours: 1,
+        volumeKey: "const"
+      },
+      {
+        id: "dev_import_articles",
+        phase: "Développement",
+        label: "Blog : importation d'articles (refonte)",
+        roleId: "dev",
+        baseHours: 0,
+        volumeKey: "const",
+        type: "import"
+      },
+      // E-commerce WooCommerce (Design > Intégration > contenus)
+      {
         id: "woo_setup",
         phase: "E-commerce",
         label: "Installation et paramétrage WooCommerce",
@@ -2965,68 +3032,12 @@
         volumeKey: "const"
       },
       {
-        id: "woo_shop_dev",
-        phase: "E-commerce",
-        label: "Intégration de la page boutique",
-        roleId: "dev",
-        baseHours: 3,
-        volumeKey: "const"
-      },
-      {
-        id: "woo_media",
-        phase: "E-commerce",
-        label: "Traitement médias produit",
-        roleId: "graph",
-        baseHours: 0.8,
-        volumeKey: "productEntries"
-      },
-      {
         id: "woo_product_templates_design",
         phase: "E-commerce",
         label: "Maquette gabarits fiche produit",
         roleId: "ux",
         baseHours: 3.5,
         volumeKey: "productTemplates"
-      },
-      {
-        id: "woo_product_templates_dev",
-        phase: "E-commerce",
-        label: "Intégration gabarits fiche produit",
-        roleId: "dev",
-        baseHours: 3,
-        volumeKey: "productTemplates"
-      },
-      {
-        id: "woo_product_content",
-        phase: "E-commerce",
-        label: "Rédaction des fiches produit",
-        roleId: "seo",
-        baseHours: 1.4,
-        volumeKey: "productContentVolume"
-      },
-      {
-        id: "woo_product_seo",
-        phase: "E-commerce",
-        label: "Optimisation SEO produit",
-        roleId: "seo",
-        baseHours: 1,
-        volumeKey: "productSeoVolume"
-      },
-      {
-        id: "woo_payments",
-        phase: "E-commerce",
-        label: "Configuration des paiements",
-        roleId: "dev",
-        baseHours: 2,
-        volumeKey: "paymentVolume"
-      },
-      {
-        id: "woo_shipping",
-        phase: "E-commerce",
-        label: "Paramétrage livraisons / transporteurs",
-        roleId: "dev",
-        baseHours: 2.5,
-        volumeKey: "shippingVolume"
       },
       {
         id: "woo_account_page_design",
@@ -3045,6 +3056,54 @@
         volumeKey: "const"
       },
       {
+        id: "woo_cart_design",
+        phase: "E-commerce",
+        label: "Maquette page panier",
+        roleId: "ux",
+        baseHours: 2,
+        volumeKey: "const"
+      },
+      {
+        id: "woo_checkout_design",
+        phase: "E-commerce",
+        label: "Maquette page commande / checkout",
+        roleId: "ux",
+        baseHours: 2.5,
+        volumeKey: "const"
+      },
+      {
+        id: "woo_categories_listing_design",
+        phase: "E-commerce",
+        label: "Maquette page listing catégories",
+        roleId: "ux",
+        baseHours: 2.5,
+        volumeKey: "categoryListing"
+      },
+      {
+        id: "woo_categories_templates_design",
+        phase: "E-commerce",
+        label: "Maquettes pages catégories produits",
+        roleId: "ux",
+        baseHours: 2,
+        volumeKey: "categoryTemplatesWeighted"
+      },
+      {
+        id: "woo_shop_dev",
+        phase: "E-commerce",
+        label: "Intégration de la page boutique",
+        roleId: "dev",
+        baseHours: 3,
+        volumeKey: "const"
+      },
+      {
+        id: "woo_product_templates_dev",
+        phase: "E-commerce",
+        label: "Intégration gabarits fiche produit",
+        roleId: "dev",
+        baseHours: 3,
+        volumeKey: "productTemplates"
+      },
+      {
         id: "woo_account_page_dev",
         phase: "E-commerce",
         label: "Intégration page compte",
@@ -3061,27 +3120,11 @@
         volumeKey: "const"
       },
       {
-        id: "woo_cart_design",
-        phase: "E-commerce",
-        label: "Maquette page panier",
-        roleId: "ux",
-        baseHours: 2,
-        volumeKey: "const"
-      },
-      {
         id: "woo_cart_dev",
         phase: "E-commerce",
         label: "Intégration page panier",
         roleId: "dev",
         baseHours: 2,
-        volumeKey: "const"
-      },
-      {
-        id: "woo_checkout_design",
-        phase: "E-commerce",
-        label: "Maquette page commande / checkout",
-        roleId: "ux",
-        baseHours: 2.5,
         volumeKey: "const"
       },
       {
@@ -3093,28 +3136,12 @@
         volumeKey: "const"
       },
       {
-        id: "woo_categories_listing_design",
-        phase: "E-commerce",
-        label: "Maquette page listing catégories",
-        roleId: "ux",
-        baseHours: 2.5,
-        volumeKey: "categoryListing"
-      },
-      {
         id: "woo_categories_listing_dev",
         phase: "E-commerce",
         label: "Intégration listing catégories",
         roleId: "dev",
         baseHours: 2.5,
         volumeKey: "categoryListing"
-      },
-      {
-        id: "woo_categories_templates_design",
-        phase: "E-commerce",
-        label: "Maquettes pages catégories produits",
-        roleId: "ux",
-        baseHours: 2,
-        volumeKey: "categoryTemplatesWeighted"
       },
       {
         id: "woo_categories_templates_dev",
@@ -3125,6 +3152,30 @@
         volumeKey: "categoryTemplatesWeighted"
       },
       {
+        id: "woo_media",
+        phase: "E-commerce",
+        label: "Traitement médias produit",
+        roleId: "graph",
+        baseHours: 0.8,
+        volumeKey: "productEntries"
+      },
+      {
+        id: "woo_product_content",
+        phase: "E-commerce",
+        label: "Rédaction des fiches produit",
+        roleId: "seo",
+        baseHours: 1.4,
+        volumeKey: "productContentVolume"
+      },
+      {
+        id: "woo_product_seo",
+        phase: "E-commerce",
+        label: "Optimisation SEO produit",
+        roleId: "seo",
+        baseHours: 1,
+        volumeKey: "productSeoVolume"
+      },
+      {
         id: "woo_categories_seo",
         phase: "E-commerce",
         label: "SEO des catégories produits",
@@ -3133,79 +3184,22 @@
         volumeKey: "categorySeoVolume"
       },
       {
-        id: "dev_import_articles",
-        phase: "Développement",
-        label: "Blog : importation d'articles (refonte)",
+        id: "woo_payments",
+        phase: "E-commerce",
+        label: "Configuration des paiements",
         roleId: "dev",
-        baseHours: 0,
-        volumeKey: "const",
-        type: "import"
+        baseHours: 2,
+        volumeKey: "paymentVolume"
       },
       {
-        id: "content_articles",
-        phase: "Contenus",
-        label: "Création + mise en ligne des articles",
-        roleId: "seo",
+        id: "woo_shipping",
+        phase: "E-commerce",
+        label: "Paramétrage livraisons / transporteurs",
+        roleId: "dev",
         baseHours: 2.5,
-        volumeKey: "blogArticles"
-      },
-      {
-        id: "content_services",
-        phase: "Contenus",
-        label: "Rédaction + optimisation fiches service",
-        roleId: "seo",
-        baseHours: 2.3,
-        volumeKey: "serviceContentPages"
-      },
-      {
-        id: "content_realisations",
-        phase: "Contenus",
-        label: "Rédaction + optimisation études de cas",
-        roleId: "seo",
-        baseHours: 2.6,
-        volumeKey: "reaContentPages"
-      },
-      {
-        id: "content_article_visuals",
-        phase: "Contenus",
-        label: "Visuel d'illustration par article",
-        roleId: "graph",
-        baseHours: 1,
-        volumeKey: "articleVisuals"
-      },
-      {
-        id: "content_service_visuals",
-        phase: "Contenus",
-        label: "Visuels pour fiches service",
-        roleId: "graph",
-        baseHours: 0.8,
-        volumeKey: "serviceVisualsVolume"
-      },
-      {
-        id: "content_rea_visuals",
-        phase: "Contenus",
-        label: "Visuels pour études de cas",
-        roleId: "graph",
-        baseHours: 1.2,
-        volumeKey: "reaVisualsVolume"
-      },
-      {
-        id: "dev_config",
-        phase: "Développement",
-        label: "Configuration WordPress & plugins",
-        roleId: "dev",
-        baseHours: 3,
-        volumeKey: "const"
+        volumeKey: "shippingVolume"
       },
       // SEO
-      {
-        id: "seo_articles",
-        phase: "SEO",
-        label: "Optimisation SEO des articles",
-        roleId: "seo",
-        baseHours: 1,
-        volumeKey: "articleSeo"
-      },
       {
         id: "seo_pages",
         phase: "SEO",
@@ -3213,6 +3207,14 @@
         roleId: "seo",
         baseHours: 1.5,
         volumeKey: "nbSeoPages"
+      },
+      {
+        id: "seo_articles",
+        phase: "SEO",
+        label: "Optimisation SEO des articles",
+        roleId: "seo",
+        baseHours: 1,
+        volumeKey: "articleSeo"
       },
       // Traduction
       {
@@ -3230,15 +3232,6 @@
         roleId: "dev",
         baseHours: 1,
         volumeKey: "translationPerLanguageHours"
-      },
-      // Recette
-      {
-        id: "tests",
-        phase: "Recette",
-        label: "Tests responsive & bugfix",
-        roleId: "qa",
-        baseHours: 4,
-        volumeKey: "const"
       },
       // IA / Chatbot
       {
@@ -3265,7 +3258,15 @@
         baseHours: 1,
         volumeKey: "chatbotTrainingHours"
       },
-      // Formation
+      // Recette & formation
+      {
+        id: "tests",
+        phase: "Recette",
+        label: "Tests responsive & bugfix",
+        roleId: "qa",
+        baseHours: 4,
+        volumeKey: "const"
+      },
       {
         id: "formation",
         phase: "Formation",
