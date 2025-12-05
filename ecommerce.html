@@ -2328,11 +2328,10 @@
               </div>
             </div>
             <div class="summary-row">
-              <div class="summary-card">
+                <div class="summary-card">
                 <div class="summary-label">Volume de pages</div>
                 <div class="summary-value" id="summary-pages">—</div>
-                <div class="summary-chip muted">Home + internes (services / blog inclus si activés)</div>
-                <div class="summary-chip muted" id="summary-woo-pages">—</div>
+                <div class="summary-chip muted">Home + internes (services / blog inclus) + 4 pages WooCommerce  (Boutique, Panier, Commande, Mon compte)</div>
               </div>
               <div class="summary-card">
                 <div class="summary-label">Complexité appliquée</div>
@@ -4704,9 +4703,7 @@
 
       // Résumé simple
       document.getElementById("summary-pages").textContent =
-        `${params.nbHome} home · ${params.totalPagesWithExtras} internes`;
-      document.getElementById("summary-woo-pages").textContent =
-        `${WOOCOMMERCE_DEFAULT_PAGES.count} pages WooCommerce par défaut (${WOOCOMMERCE_DEFAULT_PAGES.names.join(", ")})`;
+        `${params.nbHome} home · ${params.totalPagesWithExtras} internes · ${WOOCOMMERCE_DEFAULT_PAGES.count} Woo`;
       document.getElementById("summary-complexity").textContent =
         `x${params.complexity.toLocaleString("fr-FR", { minimumFractionDigits: 1, maximumFractionDigits: 1 })}`;
       document.getElementById("summary-legal-pages").textContent =
