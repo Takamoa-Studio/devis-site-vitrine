@@ -596,10 +596,15 @@
       font-size: 0.82rem;
     }
 
-    .task-pill .edit-btn {
+    .task-pill .pill-actions {
       position: absolute;
       top: 10px;
       right: 10px;
+      display: flex;
+      gap: 8px;
+    }
+
+    .task-pill .pill-action {
       border: 1px solid rgba(56, 189, 248, 0.4);
       background: rgba(56, 189, 248, 0.12);
       color: var(--accent);
@@ -610,8 +615,18 @@
       transition: all 120ms ease;
     }
 
-    .task-pill .edit-btn:hover {
+    .task-pill .pill-action:hover {
       background: rgba(56, 189, 248, 0.2);
+    }
+
+    .task-pill .pill-action--danger {
+      border-color: rgba(249, 115, 115, 0.4);
+      background: rgba(249, 115, 115, 0.12);
+      color: var(--danger);
+    }
+
+    .task-pill .pill-action--danger:hover {
+      background: rgba(249, 115, 115, 0.2);
     }
 
     /* Modale */
@@ -720,6 +735,20 @@
       justify-content: space-between;
       gap: 8px;
       font-size: 0.8rem;
+    }
+
+    .translation-params {
+      margin-top: 12px;
+    }
+
+    .translation-hint {
+      margin-top: 10px;
+      padding: 10px 12px;
+      border-radius: var(--radius-md);
+      background: var(--accent-soft);
+      color: var(--muted);
+      font-size: 0.8rem;
+      border: 1px dashed rgba(56, 189, 248, 0.35);
     }
 
     .hint-icon {
@@ -1604,6 +1633,62 @@
 
             <div class="field-group">
               <div class="group-header">
+                <h3 class="group-title"><span class="icon">🌐</span> Traduction & langues</h3>
+                <p class="group-sub">Activation du multilingue et estimation des volumes à traduire.</p>
+              </div>
+              <div class="field-subsection">
+                <p class="field-subtitle">Configuration multilingue</p>
+                <div class="grid" aria-label="Options de traduction du site">
+                  <div class="field">
+                    <label for="param_translation_mode">
+                      Activer la traduction du site ?
+                      <span class="hint-icon" data-tooltip="GTranslate (automatique) ou WPML (multilingue complet)" role="note" tabindex="0" aria-label="GTranslate (automatique) ou WPML (multilingue complet)">?</span>
+                    </label>
+                    <select id="param_translation_mode">
+                      <option value="none" selected>Pas de traduction</option>
+                      <option value="gtranslate">Oui, via GTranslate</option>
+                      <option value="wpml">Oui, via WPML</option>
+                    </select>
+                  </div>
+
+                  <div class="field">
+                    <label for="param_translation_languages">
+                      Nombre total de langues
+                      <span class="hint-icon" data-tooltip="Inclut la langue par défaut du site" role="note" tabindex="0" aria-label="Inclut la langue par défaut du site">?</span>
+                    </label>
+                    <input type="number" id="param_translation_languages" min="1" step="1" value="2">
+                  </div>
+                </div>
+
+                <div class="field-subsection translation-params is-hidden" id="translation-params-block">
+                  <p class="field-subtitle">Volumes pour la traduction du site</p>
+                  <div class="grid" aria-label="Volumes pour la traduction">
+                    <div class="field">
+                      <label for="param_translation_pages">
+                        Pages de contenu à traduire (P)
+                        <span class="hint-icon" data-tooltip="Pages principales à traduire" role="note" tabindex="0" aria-label="Pages principales à traduire">?</span>
+                      </label>
+                      <input type="number" id="param_translation_pages" min="0" step="1" value="0">
+                    </div>
+
+                    <div class="field">
+                      <label for="param_translation_products">
+                        Autres contenus spécialisés (N)
+                        <span class="hint-icon" data-tooltip="Sections spécifiques, fiches ou modules à traduire" role="note" tabindex="0" aria-label="Sections spécifiques, fiches ou modules à traduire">?</span>
+                      </label>
+                      <input type="number" id="param_translation_products" min="0" step="1" value="0">
+                    </div>
+                  </div>
+
+                  <div class="translation-hint">
+                    Laisse les champs à 0 pour que le calcul s'appuie sur le volume total de pages saisies plus haut.
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="field-group">
+              <div class="group-header">
                 <h3 class="group-title"><span class="icon">📄</span> Structure du site</h3>
                 <p class="group-sub">Organise les pages prévues pour le projet.</p>
               </div>
@@ -2242,6 +2327,11 @@
                 <div class="summary-value" id="summary-cost-hosting">—</div>
                 <div class="summary-chip muted">Options fixes activées</div>
               </div>
+              <div class="summary-card" id="summary-translation-card">
+                <div class="summary-label">Traduction du site</div>
+                <div class="summary-value" id="summary-cost-translation">—</div>
+                <div class="summary-chip muted" id="summary-translation-details">Pas de traduction activée</div>
+              </div>
               <div class="summary-card">
                 <div class="summary-label">Freelances - Coûts HT avant buffer</div>
                 <div class="summary-value" id="summary-cost-freelance">—</div>
@@ -2455,6 +2545,21 @@
 
   <script>
     // ----- Données de base -----
+
+    const TRANSLATION_MODES = {
+      none: {
+        label: "Pas de traduction",
+        coefficients: null
+      },
+      gtranslate: {
+        label: "GTranslate",
+        coefficients: { baseSetup: 3, perLanguageSetup: 0.25, pagePerLanguage: 0.08, productPerLanguage: 0.03 }
+      },
+      wpml: {
+        label: "WPML",
+        coefficients: { baseSetup: 6, perLanguageSetup: 0.5, pagePerLanguage: 0.2, productPerLanguage: 0.06 }
+      }
+    };
 
     const roles = [
       {
@@ -2811,6 +2916,15 @@
         baseHours: 1.5,
         volumeKey: "nbSeoPages"
       },
+      // Traduction
+      {
+        id: "translation_site",
+        phase: "Traduction",
+        label: "Traduction du site",
+        roleId: "dev",
+        baseHours: 1,
+        volumeKey: "translationSiteHours"
+      },
       // Recette
       {
         id: "tests",
@@ -2882,6 +2996,7 @@
       { value: "articleVisuals", label: "Visuels par article", hint: "Volume de visuels liés aux articles." },
       { value: "articleSeo", label: "Optimisation SEO", hint: "Nombre d'articles avec optimisation SEO." },
       { value: "hasBlog", label: "Activation du blog", hint: "1 si le blog est activé, sinon 0." },
+      { value: "translationSiteHours", label: "Traduction du site", hint: "Calcule un volume d'heures selon les langues et pages." },
       { value: "chatbotSetupHours", label: "Setup chatbot", hint: "Utilise les heures de setup chatbot." },
       { value: "chatbotIntegrationHours", label: "Intégration chatbot", hint: "Utilise les heures d'intégration." },
       { value: "chatbotTrainingHours", label: "Training chatbot", hint: "Utilise les heures de training." },
@@ -2944,6 +3059,10 @@
           param_hosting_cost: 132,
           param_opt_domain: 1,
           param_domain_cost: 20,
+          param_translation_mode: "none",
+          param_translation_languages: 2,
+          param_translation_pages: 0,
+          param_translation_products: 0,
           param_chatbot_offer: "none",
           param_chatbot_plugin_setup_hours: 4,
           param_chatbot_plugin_integration_hours: 4,
@@ -2998,6 +3117,10 @@
           param_hosting_cost: 132,
           param_opt_domain: 1,
           param_domain_cost: 20,
+          param_translation_mode: "none",
+          param_translation_languages: 2,
+          param_translation_pages: 0,
+          param_translation_products: 0,
           param_chatbot_offer: "none",
           param_chatbot_plugin_setup_hours: 4,
           param_chatbot_plugin_integration_hours: 4,
@@ -3052,6 +3175,10 @@
           param_hosting_cost: 420,
           param_opt_domain: 1,
           param_domain_cost: 30,
+          param_translation_mode: "none",
+          param_translation_languages: 2,
+          param_translation_pages: 0,
+          param_translation_products: 0,
           param_chatbot_offer: "custom",
           param_chatbot_plugin_setup_hours: 4,
           param_chatbot_plugin_integration_hours: 4,
@@ -3083,6 +3210,15 @@
       const n = Number(value);
       if (Number.isNaN(n)) return fallback;
       return n;
+    }
+
+    function computeTranslationHours(coefficients, additionalLanguages, pages, products) {
+      if (!coefficients || additionalLanguages <= 0) return 0;
+
+      const setupHours = coefficients.baseSetup + coefficients.perLanguageSetup * additionalLanguages;
+      const contentHours = (coefficients.pagePerLanguage * pages + coefficients.productPerLanguage * products) * additionalLanguages;
+
+      return setupHours + contentHours;
     }
 
     function fmtEuro(num, digits = 0) {
@@ -3211,6 +3347,10 @@
       "param_chatbot_custom_dev_hours",
       "param_chatbot_custom_training_hours",
       "param_chatbot_custom_subscription",
+      "param_translation_mode",
+      "param_translation_languages",
+      "param_translation_pages",
+      "param_translation_products",
       "param_margin",
       "param_fx",
       "param_buffer",
@@ -3316,6 +3456,20 @@
       const serviceVisualsVolume = serviceContentMode ? serviceVisualsPref * nbServiceDetails : 0;
       const reaVisualsVolume = reaContentMode ? reaVisualsPref * nbReaDetails : 0;
       const nbSeoPages = seoAutoPages + serviceContentPages + reaContentPages;
+      const translationMode = document.getElementById("param_translation_mode")?.value || "none";
+      const translationLanguagesRaw = Math.max(1, safeNumber(document.getElementById("param_translation_languages").value, 1));
+      const translationLanguages = translationMode === "none" ? 1 : translationLanguagesRaw;
+      const translationAdditionalLanguages = Math.max(0, translationLanguages - 1);
+      const translationPagesRaw = Math.max(0, safeNumber(document.getElementById("param_translation_pages").value, totalPagesWithExtras));
+      const translationProductsRaw = Math.max(0, safeNumber(document.getElementById("param_translation_products").value, 0));
+      const translationPagesInput = translationPagesRaw > 0 ? translationPagesRaw : totalPagesWithExtras;
+      const translationProductsInput = translationProductsRaw > 0 ? translationProductsRaw : 0;
+      const translationCoefficients = TRANSLATION_MODES[translationMode]?.coefficients || null;
+      const translationSiteHours = computeTranslationHours(translationCoefficients, translationAdditionalLanguages, translationPagesInput, translationProductsInput);
+      const translationLabel = TRANSLATION_MODES[translationMode]?.label || "Pas de traduction";
+      const translationActive = translationMode !== "none" && translationAdditionalLanguages > 0;
+      const translationSubscription = 0;
+      const translationCost = translationSiteHours * (rolesById["dev"]?.rate || 0);
       const qaFeatureFlags = [
         nbServiceListing + nbServiceDetails > 0,
         nbReaListing + nbReaDetails > 0,
@@ -3325,7 +3479,8 @@
         optChatbot > 0,
         importArticles > 0,
         optHosting > 0,
-        optDomain > 0
+        optDomain > 0,
+        translationActive
       ];
       const qaFunctionalLoad = qaFeatureFlags.filter(Boolean).length;
       const qaWorkload = nbHome + totalPagesWithExtras + qaFunctionalLoad;
@@ -3365,6 +3520,16 @@
         hostingCost,
         optDomain,
         domainCost,
+        translationMode,
+        translationLabel,
+        translationLanguages,
+        translationAdditionalLanguages,
+        translationPagesInput,
+        translationProductsInput,
+        translationSiteHours,
+        translationActive,
+        translationCost,
+        translationSubscription,
         chatbotOffer,
         chatbotOfferLabel: selectedChatbotOffer?.label ?? "Pas de chatbot",
         optChatbot,
@@ -3422,6 +3587,7 @@
         case "articleVisuals": return params.articleVisualsVolume;
         case "articleSeo": return params.articleSeoVolume;
         case "hasBlog": return params.hasBlog;
+        case "translationSiteHours": return params.translationSiteHours;
         case "chatbotSetupHours": return params.chatbotSetupHours;
         case "chatbotIntegrationHours": return params.chatbotIntegrationHours;
         case "chatbotTrainingHours": return params.chatbotTrainingHours;
@@ -3585,6 +3751,22 @@
       return insertionIndex !== currentIndex;
     }
 
+    function deleteTask(taskId) {
+      const task = tasks.find(t => t.id === taskId);
+      if (!task) return;
+
+      const confirmDeletion = confirm(`Supprimer la tâche « ${task.label} » ?`);
+      if (!confirmDeletion) return;
+
+      tasks = tasks.filter(t => t.id !== taskId);
+
+      if (editingTaskId === taskId) {
+        resetTaskForm();
+      }
+
+      syncTasksUI();
+    }
+
     function renderTaskPills() {
       const container = document.getElementById("task-list");
       if (!container) return;
@@ -3636,14 +3818,31 @@
         meta.appendChild(volumeLabel);
         meta.appendChild(hours);
 
+        const actions = document.createElement("div");
+        actions.className = "pill-actions";
+
         if (!isActive) {
           const editBtn = document.createElement("button");
           editBtn.type = "button";
-          editBtn.className = "edit-btn";
+          editBtn.className = "pill-action";
           editBtn.textContent = "Modifier";
-          editBtn.addEventListener("click", () => loadTaskIntoForm(task.id));
-          pill.appendChild(editBtn);
+          editBtn.addEventListener("click", event => {
+            event.stopPropagation();
+            loadTaskIntoForm(task.id);
+          });
+          actions.appendChild(editBtn);
         }
+
+        const deleteBtn = document.createElement("button");
+        deleteBtn.type = "button";
+        deleteBtn.className = "pill-action pill-action--danger";
+        deleteBtn.textContent = "Supprimer";
+        deleteBtn.addEventListener("click", event => {
+          event.stopPropagation();
+          deleteTask(task.id);
+        });
+
+        actions.appendChild(deleteBtn);
 
         pill.addEventListener("click", () => loadTaskIntoForm(task.id));
         pill.addEventListener("dragover", event => handleTaskDragOver(event, task.id, pill));
@@ -3653,6 +3852,7 @@
 
         pill.appendChild(row);
         pill.appendChild(meta);
+        pill.appendChild(actions);
         container.appendChild(pill);
       });
     }
@@ -3987,6 +4187,20 @@
       });
     }
 
+    function updateTranslationFieldsUI(params) {
+      const block = document.getElementById("translation-params-block");
+      const pagesInput = document.getElementById("param_translation_pages");
+      const productsInput = document.getElementById("param_translation_products");
+      const active = params.translationMode && params.translationMode !== "none";
+
+      if (block) block.classList.toggle("is-hidden", !active);
+
+      if (pagesInput) pagesInput.placeholder = params.totalPagesWithExtras;
+      if (pagesInput && safeNumber(pagesInput.value, 0) <= 0) pagesInput.value = params.totalPagesWithExtras;
+      if (productsInput) productsInput.placeholder = 0;
+      if (productsInput && safeNumber(productsInput.value, 0) <= 0) productsInput.value = 0;
+    }
+
     function updateZeroToggleLabel(checked) {
       const label = document.getElementById("toggle-zero-cost-label");
       if (!label) return;
@@ -4071,6 +4285,7 @@
       );
 
       updateChatbotOfferVisibility(params.chatbotOffer);
+      updateTranslationFieldsUI(params);
 
       const currencyMeta = getCurrencyMeta();
       const formatMainCurrency = value => formatCurrency(value, params.fx);
@@ -4091,6 +4306,12 @@
         opts.push({ label, icon: "🎨", tone: "accent" });
       }
       if (params.optFormation === 1) opts.push({ label: "Formation client", icon: "🎓", tone: "success" });
+      if (params.translationActive) {
+        const langLabel = params.translationLanguages > 1
+          ? `${params.translationLanguages} langues`
+          : "Langue unique";
+        opts.push({ label: `${params.translationLabel} · ${langLabel}`, icon: "🌐" });
+      }
       if (params.hasBlog === 1) {
         const blogLabel = params.blogArticles > 0 ? `Blog (${params.blogArticles} art.)` : "Blog activé";
         opts.push({ label: blogLabel, icon: "✍️" });
@@ -4201,9 +4422,11 @@
       const hostingActive = params.optHosting === 1 || params.optDomain === 1;
 
       const chatbotCost = params.optChatbot ? params.chatbotSubscription : 0;
+      const translationOptionCost = params.translationActive ? params.translationSubscription : 0;
+      const translationCost = params.translationActive ? params.translationCost : 0;
 
       const includeOptionCosts = !activeRoleFilter || activeRoleFilter === "all";
-      const optionCosts = includeOptionCosts ? hostingDomainCost + chatbotCost : 0;
+      const optionCosts = includeOptionCosts ? hostingDomainCost + chatbotCost + translationOptionCost : 0;
       const totalBeforeBuffer = totalCost;
 
       document.getElementById("tfoot-hours").textContent = fmtHours(totalHours);
@@ -4234,9 +4457,11 @@
 
       const hostingCard = document.getElementById("summary-hosting-card");
       const chatbotCard = document.getElementById("summary-chatbot-card");
+      const translationCard = document.getElementById("summary-translation-card");
 
       if (hostingCard) hostingCard.classList.toggle("is-hidden", !hostingActive);
       if (chatbotCard) chatbotCard.classList.toggle("is-hidden", params.optChatbot !== 1);
+      if (translationCard) translationCard.classList.toggle("is-hidden", !params.translationActive);
       document.getElementById("summary-cost-internal").textContent = formatMainCurrency(internalWithBuffer);
       document.getElementById("summary-price-sell").textContent = formatMainCurrency(priceSell);
       document.getElementById("summary-price-sell-mga").textContent = formatSecondaryCurrency(priceSell);
@@ -4262,6 +4487,12 @@
       if (costHeader) {
         costHeader.textContent = `Coût tâche (${currencyMeta.mainSymbol})`;
       }
+
+      const translationDetails = params.translationActive
+        ? `${params.translationLabel} · ${params.translationLanguages} langues · ${fmtHours(params.translationSiteHours)}h`
+        : "Pas de traduction activée";
+      document.getElementById("summary-cost-translation").textContent = formatMainCurrency(translationCost);
+      document.getElementById("summary-translation-details").textContent = translationDetails;
 
       lastTotals = {
         hours: totalHours,
