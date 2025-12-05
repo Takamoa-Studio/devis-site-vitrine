@@ -2093,6 +2093,31 @@
               </div>
 
               <div class="field-subsection">
+                <p class="field-subtitle">Traduction & langues</p>
+                <div class="grid" aria-label="Options de traduction du site">
+                  <div class="field">
+                    <label for="param_translation_mode">
+                      Activer la traduction du site ?
+                      <span class="hint-icon" data-tooltip="GTranslate (automatique) ou WPML (multilingue complet)" role="note" tabindex="0" aria-label="GTranslate (automatique) ou WPML (multilingue complet)">?</span>
+                    </label>
+                    <select id="param_translation_mode">
+                      <option value="none" selected>Pas de traduction</option>
+                      <option value="gtranslate">Oui, via GTranslate</option>
+                      <option value="wpml">Oui, via WPML</option>
+                    </select>
+                  </div>
+
+                  <div class="field">
+                    <label for="param_translation_languages">
+                      Nombre total de langues
+                      <span class="hint-icon" data-tooltip="Inclut la langue par défaut du site" role="note" tabindex="0" aria-label="Inclut la langue par défaut du site">?</span>
+                    </label>
+                    <input type="number" id="param_translation_languages" min="1" step="1" value="2">
+                  </div>
+                </div>
+              </div>
+
+              <div class="field-subsection">
                 <p class="field-subtitle">Chatbot IA & automatisation</p>
                 <div class="grid grid-single" aria-label="Pack chatbot IA">
                   <div class="field">
@@ -2307,6 +2332,7 @@
                 <div class="summary-label">Volume de pages</div>
                 <div class="summary-value" id="summary-pages">—</div>
                 <div class="summary-chip muted">Home + internes (services / blog inclus si activés)</div>
+                <div class="summary-chip muted" id="summary-woo-pages">—</div>
               </div>
               <div class="summary-card">
                 <div class="summary-label">Complexité appliquée</div>
@@ -2363,6 +2389,11 @@
                 <div class="summary-label">Hébergement &amp; Domaine</div>
                 <div class="summary-value" id="summary-cost-hosting">—</div>
                 <div class="summary-chip muted">Options fixes activées</div>
+              </div>
+              <div class="summary-card" id="summary-translation-card">
+                <div class="summary-label">Traduction du site</div>
+                <div class="summary-value" id="summary-cost-translation">—</div>
+                <div class="summary-chip muted" id="summary-translation-details">Pas de traduction activée</div>
               </div>
               <div class="summary-card">
                 <div class="summary-label">Freelances - Coûts HT avant buffer</div>
@@ -2577,6 +2608,17 @@
 
   <script>
     // ----- Données de base -----
+
+    const WOOCOMMERCE_DEFAULT_PAGES = {
+      count: 4,
+      names: ["Boutique", "Panier", "Commande", "Mon compte"]
+    };
+
+    const TRANSLATION_MODES = {
+      none: { label: "Pas de traduction", setupHours: 0, perLanguageHours: 0, subscription: 0 },
+      gtranslate: { label: "GTranslate", setupHours: 1.5, perLanguageHours: 0.6, subscription: 120 },
+      wpml: { label: "WPML", setupHours: 4, perLanguageHours: 1.2, subscription: 170 }
+    };
 
     const roles = [
       {
@@ -3189,6 +3231,23 @@
         baseHours: 1.5,
         volumeKey: "nbSeoPages"
       },
+      // Traduction
+      {
+        id: "translation_setup",
+        phase: "Traduction",
+        label: "Configuration plugin multilingue",
+        roleId: "dev",
+        baseHours: 1,
+        volumeKey: "translationSetupHours"
+      },
+      {
+        id: "translation_languages",
+        phase: "Traduction",
+        label: "Réglages par langue supplémentaire",
+        roleId: "dev",
+        baseHours: 1,
+        volumeKey: "translationPerLanguageHours"
+      },
       // Recette
       {
         id: "tests",
@@ -3274,6 +3333,8 @@
       { value: "chatbotSetupHours", label: "Setup chatbot", hint: "Utilise les heures de setup chatbot." },
       { value: "chatbotIntegrationHours", label: "Intégration chatbot", hint: "Utilise les heures d'intégration." },
       { value: "chatbotTrainingHours", label: "Training chatbot", hint: "Utilise les heures de training." },
+      { value: "translationSetupHours", label: "Setup traduction", hint: "Heures calculées selon le plugin choisi." },
+      { value: "translationPerLanguageHours", label: "Langues supplémentaires", hint: "Heures calculées par langue activée." },
       { value: "importArticles", label: "Import articles", hint: "Se base sur le volume d'import d'articles." }
     ];
 
@@ -3344,6 +3405,8 @@
           param_hosting_cost: 300,
           param_opt_domain: 1,
           param_domain_cost: 20,
+          param_translation_mode: "none",
+          param_translation_languages: 2,
           param_chatbot_offer: "none",
           param_chatbot_plugin_setup_hours: 4,
           param_chatbot_plugin_integration_hours: 4,
@@ -3409,6 +3472,8 @@
           param_hosting_cost: 300,
           param_opt_domain: 1,
           param_domain_cost: 20,
+          param_translation_mode: "none",
+          param_translation_languages: 2,
           param_chatbot_offer: "none",
           param_chatbot_plugin_setup_hours: 4,
           param_chatbot_plugin_integration_hours: 4,
@@ -3474,6 +3539,8 @@
           param_hosting_cost: 420,
           param_opt_domain: 1,
           param_domain_cost: 30,
+          param_translation_mode: "none",
+          param_translation_languages: 2,
           param_chatbot_offer: "custom",
           param_chatbot_plugin_setup_hours: 4,
           param_chatbot_plugin_integration_hours: 4,
@@ -3539,6 +3606,8 @@
           param_hosting_cost: 480,
           param_opt_domain: 1,
           param_domain_cost: 25,
+          param_translation_mode: "none",
+          param_translation_languages: 2,
           param_chatbot_offer: "plugin",
           param_chatbot_plugin_setup_hours: 6,
           param_chatbot_plugin_integration_hours: 5,
@@ -3696,6 +3765,8 @@
       "param_hosting_cost",
       "param_opt_domain",
       "param_domain_cost",
+      "param_translation_mode",
+      "param_translation_languages",
       "param_chatbot_offer",
       "param_chatbot_plugin_setup_hours",
       "param_chatbot_plugin_integration_hours",
@@ -3770,6 +3841,15 @@
       const optDomain = Math.max(0, Math.min(1, safeNumber(document.getElementById("param_opt_domain").value, 0)));
       const domainCostRaw = Math.max(0, safeNumber(document.getElementById("param_domain_cost").value, 0));
       const domainCost = optDomain ? domainCostRaw : 0;
+      const translationMode = document.getElementById("param_translation_mode")?.value || "none";
+      const translationLanguagesRaw = Math.max(1, safeNumber(document.getElementById("param_translation_languages").value, 1));
+      const translationConfig = TRANSLATION_MODES[translationMode] || TRANSLATION_MODES.none;
+      const translationLanguages = translationMode === "none" ? 1 : translationLanguagesRaw;
+      const translationAdditionalLanguages = Math.max(0, translationLanguages - 1);
+      const translationSetupHours = translationConfig.setupHours;
+      const translationPerLanguageHours = translationConfig.perLanguageHours * translationAdditionalLanguages;
+      const translationSubscription = translationConfig.subscription;
+      const translationLabel = translationConfig.label;
       const chatbotOffer = document.getElementById("param_chatbot_offer")?.value || "none";
 
       const chatbotPlugin = {
@@ -3889,6 +3969,14 @@
         hostingCost,
         optDomain,
         domainCost,
+        translationMode,
+        translationLabel,
+        translationLanguages,
+        translationAdditionalLanguages,
+        translationSetupHours,
+        translationPerLanguageHours,
+        translationActive: translationMode !== "none",
+        translationSubscription,
         chatbotOffer,
         chatbotOfferLabel: selectedChatbotOffer?.label ?? "Pas de chatbot",
         optChatbot,
@@ -3961,6 +4049,8 @@
         case "chatbotSetupHours": return params.chatbotSetupHours;
         case "chatbotIntegrationHours": return params.chatbotIntegrationHours;
         case "chatbotTrainingHours": return params.chatbotTrainingHours;
+        case "translationSetupHours": return params.translationSetupHours;
+        case "translationPerLanguageHours": return params.translationPerLanguageHours;
         case "importArticles": return params.importArticles;
         case "const":
         default:
@@ -4615,6 +4705,8 @@
       // Résumé simple
       document.getElementById("summary-pages").textContent =
         `${params.nbHome} home · ${params.totalPagesWithExtras} internes`;
+      document.getElementById("summary-woo-pages").textContent =
+        `${WOOCOMMERCE_DEFAULT_PAGES.count} pages WooCommerce par défaut (${WOOCOMMERCE_DEFAULT_PAGES.names.join(", ")})`;
       document.getElementById("summary-complexity").textContent =
         `x${params.complexity.toLocaleString("fr-FR", { minimumFractionDigits: 1, maximumFractionDigits: 1 })}`;
       document.getElementById("summary-legal-pages").textContent =
@@ -4629,6 +4721,12 @@
         opts.push({ label, icon: "🎨", tone: "accent" });
       }
       if (params.optFormation === 1) opts.push({ label: "Formation client", icon: "🎓", tone: "success" });
+      if (params.translationActive) {
+        const langLabel = params.translationLanguages > 1
+          ? `${params.translationLanguages} langues`
+          : "Langue unique";
+        opts.push({ label: `${params.translationLabel} · ${langLabel}`, icon: "🌐" });
+      }
       if (params.hasBlog === 1) {
         const blogLabel = params.blogArticles > 0 ? `Blog (${params.blogArticles} art.)` : "Blog activé";
         opts.push({ label: blogLabel, icon: "✍️" });
@@ -4758,9 +4856,10 @@
       const hostingActive = params.optHosting === 1 || params.optDomain === 1;
 
       const chatbotCost = params.optChatbot ? params.chatbotSubscription : 0;
+      const translationCost = params.translationActive ? params.translationSubscription : 0;
 
       const includeOptionCosts = !activeRoleFilter || activeRoleFilter === "all";
-      const optionCosts = includeOptionCosts ? hostingDomainCost + chatbotCost : 0;
+      const optionCosts = includeOptionCosts ? hostingDomainCost + chatbotCost + translationCost : 0;
       const totalBeforeBuffer = totalCost;
 
       document.getElementById("tfoot-hours").textContent = fmtHours(totalHours);
@@ -4791,9 +4890,11 @@
 
       const hostingCard = document.getElementById("summary-hosting-card");
       const chatbotCard = document.getElementById("summary-chatbot-card");
+      const translationCard = document.getElementById("summary-translation-card");
 
       if (hostingCard) hostingCard.classList.toggle("is-hidden", !hostingActive);
       if (chatbotCard) chatbotCard.classList.toggle("is-hidden", params.optChatbot !== 1);
+      if (translationCard) translationCard.classList.toggle("is-hidden", !params.translationActive);
       document.getElementById("summary-cost-internal").textContent = formatMainCurrency(internalWithBuffer);
       document.getElementById("summary-price-sell").textContent = formatMainCurrency(priceSell);
       document.getElementById("summary-price-sell-mga").textContent = formatSecondaryCurrency(priceSell);
@@ -4803,6 +4904,12 @@
       const priceSellMgaChip = document.getElementById("summary-price-sell-mga-chip");
       const rateHeader = document.getElementById("tasks-header-rate");
       const costHeader = document.getElementById("tasks-header-cost");
+
+      const translationDetails = params.translationActive
+        ? `${params.translationLabel} · ${params.translationLanguages} langues`
+        : "Pas de traduction activée";
+      document.getElementById("summary-cost-translation").textContent = formatMainCurrency(translationCost);
+      document.getElementById("summary-translation-details").textContent = translationDetails;
 
       if (priceSellLabel) {
         priceSellLabel.textContent = `Prix conseillé HT (${currencyMeta.mainSymbol})`;
