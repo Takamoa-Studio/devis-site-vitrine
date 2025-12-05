@@ -3320,7 +3320,7 @@
         label: "Tests responsive & bugfix",
         roleId: "qa",
         baseHours: 4,
-        volumeKey: "const"
+        volumeKey: "qaWorkload"
       },
       {
         id: "formation",
@@ -3340,6 +3340,7 @@
       { value: "nbInternalPages", label: "Pages internes", hint: "Prend en compte le volume total des pages internes." },
       { value: "nbLegalPages", label: "Pages légales", hint: "Nombre de pages légales incluses." },
       { value: "nbSeoPages", label: "Pages SEO", hint: "Calqué sur le volume SEO défini." },
+      { value: "qaWorkload", label: "Charge QA (pages + features)", hint: "Home + pages + modules e-commerce actifs." },
       { value: "identityPack", label: "Pack identité", hint: "Activé si l'option identité est cochée." },
       { value: "logoConcepts", label: "Concepts logo", hint: "Multiplié par le nombre de concepts de logo." },
       { value: "logoExports", label: "Déclinaisons logo", hint: "Basé sur le nombre d'exports/formats." },
@@ -3969,6 +3970,26 @@
       const translationActive = translationMode !== "none" && translationAdditionalLanguages > 0;
       const translationSubscription = 0;
       const translationCost = translationSiteHours * (rolesById["dev"]?.rate || 0);
+      const qaFeatureFlags = [
+        nbServiceListing + nbServiceDetails > 0,
+        nbReaListing + nbReaDetails > 0,
+        hasBlog > 0,
+        optLogo > 0,
+        optFormation > 0,
+        optChatbot > 0,
+        importArticles > 0,
+        optHosting > 0,
+        optDomain > 0,
+        productContentMode > 0,
+        productSeoMode > 0,
+        nbCategories > 0,
+        categoryListing > 0,
+        paymentGateways > 0,
+        shippingProfiles > 0,
+        translationActive
+      ];
+      const qaFunctionalLoad = qaFeatureFlags.filter(Boolean).length;
+      const qaWorkload = nbHome + totalPagesWithExtras + WOOCOMMERCE_DEFAULT_PAGES.count + nbProducts + qaFunctionalLoad;
 
       return {
         nbHome,
@@ -3977,6 +3998,7 @@
         totalInternalPages,
         totalPagesWithExtras,
         nbSeoPages,
+        qaWorkload,
         seoAutoPages,
         nbServiceListing,
         nbServiceDetails,
@@ -4072,6 +4094,7 @@
         case "nbInternalPages": return params.totalInternalPages;
         case "nbLegalPages": return params.nbLegal;
         case "nbSeoPages": return params.nbSeoPages;
+        case "qaWorkload": return params.qaWorkload;
         case "identityPack": return params.optLogo;
         case "logoConcepts": return params.logoConcepts;
         case "logoExports": return params.logoExports;
