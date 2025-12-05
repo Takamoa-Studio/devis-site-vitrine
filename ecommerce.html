@@ -596,10 +596,15 @@
       font-size: 0.82rem;
     }
 
-    .task-pill .edit-btn {
+    .task-pill .pill-actions {
       position: absolute;
       top: 10px;
       right: 10px;
+      display: flex;
+      gap: 8px;
+    }
+
+    .task-pill .pill-action {
       border: 1px solid rgba(56, 189, 248, 0.4);
       background: rgba(56, 189, 248, 0.12);
       color: var(--accent);
@@ -610,8 +615,18 @@
       transition: all 120ms ease;
     }
 
-    .task-pill .edit-btn:hover {
+    .task-pill .pill-action:hover {
       background: rgba(56, 189, 248, 0.2);
+    }
+
+    .task-pill .pill-action--danger {
+      border-color: rgba(249, 115, 115, 0.4);
+      background: rgba(249, 115, 115, 0.12);
+      color: var(--danger);
+    }
+
+    .task-pill .pill-action--danger:hover {
+      background: rgba(249, 115, 115, 0.2);
     }
 
     /* Modale */
@@ -4195,6 +4210,22 @@
       return insertionIndex !== currentIndex;
     }
 
+    function deleteTask(taskId) {
+      const task = tasks.find(t => t.id === taskId);
+      if (!task) return;
+
+      const confirmDeletion = confirm(`Supprimer la tâche « ${task.label} » ?`);
+      if (!confirmDeletion) return;
+
+      tasks = tasks.filter(t => t.id !== taskId);
+
+      if (editingTaskId === taskId) {
+        resetTaskForm();
+      }
+
+      syncTasksUI();
+    }
+
     function renderTaskPills() {
       const container = document.getElementById("task-list");
       if (!container) return;
@@ -4246,14 +4277,31 @@
         meta.appendChild(volumeLabel);
         meta.appendChild(hours);
 
+        const actions = document.createElement("div");
+        actions.className = "pill-actions";
+
         if (!isActive) {
           const editBtn = document.createElement("button");
           editBtn.type = "button";
-          editBtn.className = "edit-btn";
+          editBtn.className = "pill-action";
           editBtn.textContent = "Modifier";
-          editBtn.addEventListener("click", () => loadTaskIntoForm(task.id));
-          pill.appendChild(editBtn);
+          editBtn.addEventListener("click", event => {
+            event.stopPropagation();
+            loadTaskIntoForm(task.id);
+          });
+          actions.appendChild(editBtn);
         }
+
+        const deleteBtn = document.createElement("button");
+        deleteBtn.type = "button";
+        deleteBtn.className = "pill-action pill-action--danger";
+        deleteBtn.textContent = "Supprimer";
+        deleteBtn.addEventListener("click", event => {
+          event.stopPropagation();
+          deleteTask(task.id);
+        });
+
+        actions.appendChild(deleteBtn);
 
         pill.addEventListener("click", () => loadTaskIntoForm(task.id));
         pill.addEventListener("dragover", event => handleTaskDragOver(event, task.id, pill));
@@ -4263,6 +4311,7 @@
 
         pill.appendChild(row);
         pill.appendChild(meta);
+        pill.appendChild(actions);
         container.appendChild(pill);
       });
     }
