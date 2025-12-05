@@ -1869,7 +1869,7 @@
               </div>
 
               <div class="field-subsection">
-                <p class="field-subtitle">Catalogue & variations</p>
+                <p class="field-subtitle">Catalogue & structure</p>
                 <div class="grid" aria-label="Paramétrage du catalogue produits">
                   <div class="field">
                     <label for="param_nb_products">
@@ -1886,18 +1886,42 @@
                     </label>
                     <input type="number" id="param_avg_variations" min="1" step="0.1" value="1.6">
                   </div>
-                </div>
-              </div>
 
-              <div class="field-subsection">
-                <p class="field-subtitle">Design des fiches produit</p>
-                <div class="grid" aria-label="Design des pages produit">
                   <div class="field">
                     <label for="param_product_templates">
                       Nombre de gabarits fiche produit
                       <span class="hint-icon" data-tooltip="+40% par gabarit supplémentaire pour les variations de design" role="note" tabindex="0" aria-label="+40% par gabarit supplémentaire pour les variations de design">?</span>
                     </label>
                     <input type="number" id="param_product_templates" min="1" step="1" value="1">
+                  </div>
+
+                  <div class="field">
+                    <label for="param_nb_categories">
+                      Nombre de catégories produits
+                      <span class="hint-icon" data-tooltip="inclut sous-catégories majeures" role="note" tabindex="0" aria-label="inclut sous-catégories majeures">?</span>
+                    </label>
+                    <input type="number" id="param_nb_categories" min="0" step="1" value="6">
+                  </div>
+                </div>
+              </div>
+
+              <div class="field-subsection">
+                <p class="field-subtitle">Navigation & templates</p>
+                <div class="grid" aria-label="Navigation catalogue et listings">
+                  <div class="field">
+                    <label for="param_category_listing">
+                      Page listing catégories à designer ?
+                      <span class="hint-icon" data-tooltip="0 = non, 1 = oui" role="note" tabindex="0" aria-label="0 = non, 1 = oui">?</span>
+                    </label>
+                    <input type="number" id="param_category_listing" min="0" max="1" step="1" value="1">
+                  </div>
+
+                  <div class="field">
+                    <label for="param_category_templates">
+                      Gabarits pages catégorie produit
+                      <span class="hint-icon" data-tooltip="+40% par gabarit supplémentaire" role="note" tabindex="0" aria-label="+40% par gabarit supplémentaire">?</span>
+                    </label>
+                    <input type="number" id="param_category_templates" min="1" step="1" value="1">
                   </div>
                 </div>
               </div>
@@ -1919,35 +1943,6 @@
                       <span class="hint-icon" data-tooltip="métadonnées, schéma produit, balisage" role="note" tabindex="0" aria-label="métadonnées, schéma produit, balisage">?</span>
                     </label>
                     <input type="number" id="param_product_seo" min="0" max="1" step="1" value="1">
-                  </div>
-                </div>
-              </div>
-
-              <div class="field-subsection">
-                <p class="field-subtitle">Catégories & navigation</p>
-                <div class="grid" aria-label="Catégories produits">
-                  <div class="field">
-                    <label for="param_nb_categories">
-                      Nombre de catégories produits
-                      <span class="hint-icon" data-tooltip="inclut sous-catégories majeures" role="note" tabindex="0" aria-label="inclut sous-catégories majeures">?</span>
-                    </label>
-                    <input type="number" id="param_nb_categories" min="0" step="1" value="6">
-                  </div>
-
-                  <div class="field">
-                    <label for="param_category_listing">
-                      Page listing catégories à designer ?
-                      <span class="hint-icon" data-tooltip="0 = non, 1 = oui" role="note" tabindex="0" aria-label="0 = non, 1 = oui">?</span>
-                    </label>
-                    <input type="number" id="param_category_listing" min="0" max="1" step="1" value="1">
-                  </div>
-
-                  <div class="field">
-                    <label for="param_category_templates">
-                      Gabarits pages catégorie produit
-                      <span class="hint-icon" data-tooltip="+40% par gabarit supplémentaire" role="note" tabindex="0" aria-label="+40% par gabarit supplémentaire">?</span>
-                    </label>
-                    <input type="number" id="param_category_templates" min="1" step="1" value="1">
                   </div>
 
                   <div class="field">
