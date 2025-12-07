@@ -1633,7 +1633,7 @@
             <div class="field-group">
               <div class="group-header">
                 <h3 class="group-title"><span class="icon">📄</span> Structure du site</h3>
-                <p class="group-sub">Organise les pages prévues pour le projet.</p>
+                <p class="group-sub">Organise le volume principal de la landing.</p>
               </div>
               <div class="grid" aria-label="Structure du site">
                 <div class="field">
@@ -1641,22 +1641,6 @@
                     Nb. pages d'accueil (variantes)
                   </label>
                   <input type="number" id="param_nb_home" min="1" step="1" value="1">
-                </div>
-
-                <div class="field">
-                  <label for="param_nb_pages">
-                    Nb. pages internes
-                    <span class="hint-icon" data-tooltip="hors home et pages légales" role="note" tabindex="0" aria-label="hors home et pages légales">?</span>
-                  </label>
-                  <input type="number" id="param_nb_pages" min="0" step="1" value="4">
-                </div>
-
-                <div class="field">
-                  <label for="param_nb_legal">
-                    Pages légales (incluses)
-                    <span class="hint-icon" data-tooltip="mentions légales, CGV, politique…" role="note" tabindex="0" aria-label="mentions légales, CGV, politique…">?</span>
-                  </label>
-                  <input type="number" id="param_nb_legal" min="0" step="1" value="3">
                 </div>
 
                 <div class="field">
@@ -1729,65 +1713,6 @@
               </div>
             </div>
 
-            <div class="field-group">
-              <div class="group-header">
-                <h3 class="group-title"><span class="icon">🎨</span> Identité visuelle</h3>
-                <p class="group-sub">Module logo, déclinaisons, charte et templates.</p>
-              </div>
-              <div class="field-subsection">
-                <p class="field-subtitle">Logo & pistes créatives</p>
-                <div class="grid" aria-label="Paramètres identité visuelle">
-                  <div class="field">
-                    <label for="param_opt_logo">
-                      Inclure la création / refonte de logo ?
-                      <span class="hint-icon" data-tooltip="0 = non, 1 = oui" role="note" tabindex="0" aria-label="0 = non, 1 = oui">?</span>
-                    </label>
-                    <input type="number" id="param_opt_logo" min="0" max="1" step="1" value="1">
-                  </div>
-
-                  <div class="field">
-                    <label for="param_logo_concepts">
-                      Nb. de pistes logo à présenter
-                      <span class="hint-icon" data-tooltip="impacte le volume de design" role="note" tabindex="0" aria-label="impacte le volume de design">?</span>
-                    </label>
-                    <input type="number" id="param_logo_concepts" min="0" step="1" value="2">
-                  </div>
-
-                  <div class="field">
-                    <label for="param_logo_exports">
-                      Déclinaisons & exports (formats)
-                      <span class="hint-icon" data-tooltip="logos secondaires, déclinaisons" role="note" tabindex="0" aria-label="logos secondaires, déclinaisons">?</span>
-                    </label>
-                    <input type="number" id="param_logo_exports" min="0" step="1" value="3">
-                  </div>
-                </div>
-              </div>
-
-              <div class="field-subsection">
-                <p class="field-subtitle">Charte & templates</p>
-                <div class="grid" aria-label="Charte graphique et kits">
-                  <div class="field">
-                    <label for="param_brand_guidelines">
-                      Niveau de charte graphique
-                      <span class="hint-icon" data-tooltip="impacte le temps de formalisation" role="note" tabindex="0" aria-label="impacte le temps de formalisation">?</span>
-                    </label>
-                    <select id="param_brand_guidelines">
-                      <option value="0">Pas de charte dédiée</option>
-                      <option value="1" selected>Guide express (x1)</option>
-                      <option value="1.6">Charte complète (x1.6)</option>
-                    </select>
-                  </div>
-
-                  <div class="field">
-                    <label for="param_brand_templates">
-                      Templates réseaux / papeterie
-                      <span class="hint-icon" data-tooltip="0 = non prévu" role="note" tabindex="0" aria-label="0 = non prévu">?</span>
-                    </label>
-                    <input type="number" id="param_brand_templates" min="0" step="1" value="2">
-                  </div>
-                </div>
-              </div>
-            </div>
 
             <div class="field-group">
               <div class="group-header">
@@ -2049,15 +1974,15 @@
           <div class="section">
             <div class="section-header">
               <div class="chip-group">
-                <span class="chip"><strong>Pages</strong> : home + internes</span>
-                <span class="chip"><strong>Options</strong> : logo, formation, SEO, chatbot</span>
+                <span class="chip"><strong>Pages</strong> : variantes home</span>
+                <span class="chip"><strong>Options</strong> : formation, SEO, chatbot</span>
               </div>
             </div>
             <div class="summary-row">
               <div class="summary-card">
                 <div class="summary-label">Volume de pages</div>
                 <div class="summary-value" id="summary-pages">—</div>
-                <div class="summary-chip muted">Home + pages internes</div>
+                <div class="summary-chip muted">Variantes de landing</div>
               </div>
               <div class="summary-card">
                 <div class="summary-label">Complexité appliquée</div>
@@ -2067,14 +1992,7 @@
               <div class="summary-card">
                 <div class="summary-label">Options activées</div>
                 <div class="summary-value options-badges" id="summary-options">—</div>
-                <div class="summary-chip muted">Identité, contenus, SEO, formation, chatbot, hébergement…</div>
-              </div>
-            </div>
-            <div class="summary-row">
-              <div class="summary-card">
-                <div class="summary-label">Pages légales</div>
-                <div class="summary-value" id="summary-legal-pages">—</div>
-                <div class="summary-chip muted">Toujours comptées dans les internes</div>
+                <div class="summary-chip muted">Contenus, SEO, formation, chatbot, hébergement…</div>
               </div>
             </div>
           </div>
@@ -2266,14 +2184,8 @@
               <label for="task_volume">Clé de volume</label>
               <select id="task_volume" required>
                 <option value="const">Constant (×1)</option>
-                <option value="nbInternalPages">Pages internes</option>
                 <option value="nbSeoPages">Pages SEO</option>
                 <option value="qaWorkload">Charge QA</option>
-                <option value="identityPack">Pack identité</option>
-                <option value="logoConcepts">Concepts logo</option>
-                <option value="logoExports">Déclinaisons logo</option>
-                <option value="brandGuidelines">Charte graphique</option>
-                <option value="brandTemplates">Templates réseaux</option>
                 <option value="optFormation">Formation (0/1)</option>
                 <option value="translationSiteHours">Traduction (heures)</option>
                 <option value="chatbotSetupHours">Setup chatbot</option>
@@ -2611,7 +2523,7 @@
         label: "Optimisation on-page (title, meta, Hn, performances, mobile)",
         roleId: "seo_dev",
         baseHours: 2,
-        volumeKey: "const"
+        volumeKey: "nbSeoPages"
       },
       // Recette
       {
@@ -2646,6 +2558,14 @@
         roleId: "marketer_design",
         baseHours: 3,
         volumeKey: "const"
+      },
+      {
+        id: "support_training",
+        phase: "ACCOMPAGNEMENT",
+        label: "Formation client / passation",
+        roleId: "cp_rel",
+        baseHours: 2,
+        volumeKey: "optFormation"
       }
     ];
 
@@ -2654,14 +2574,8 @@
     const volumeOptions = [
       { value: "const", label: "Valeur fixe (1x)", hint: "Toujours comptée, sans multiplicateur." },
       { value: "nbHome", label: "Page d'accueil", hint: "Multiplié par le nombre de home." },
-      { value: "nbInternalPages", label: "Pages internes", hint: "Prend en compte le volume total des pages internes." },
       { value: "nbSeoPages", label: "Pages SEO", hint: "Calqué sur le volume SEO défini." },
       { value: "qaWorkload", label: "Charge QA (pages + features)", hint: "Home + pages totales + fonctionnalités actives." },
-      { value: "identityPack", label: "Pack identité", hint: "Activé si l'option identité est cochée." },
-      { value: "logoConcepts", label: "Concepts logo", hint: "Multiplié par le nombre de concepts de logo." },
-      { value: "logoExports", label: "Déclinaisons logo", hint: "Basé sur le nombre d'exports/formats." },
-      { value: "brandGuidelines", label: "Charte graphique", hint: "Active si la charte est demandée." },
-      { value: "brandTemplates", label: "Templates réseaux", hint: "Multiplié par le nombre de templates." },
       { value: "optFormation", label: "Option formation", hint: "Activé uniquement si la formation est cochée." },
       { value: "translationSiteHours", label: "Traduction du site", hint: "Calcule un volume d'heures selon les langues et pages." },
       { value: "chatbotSetupHours", label: "Setup chatbot", hint: "Utilise les heures de setup chatbot." },
@@ -2747,14 +2661,7 @@
         label: "Landing essentielle (starter)",
         values: {
           param_nb_home: 1,
-          param_nb_pages: 1,
-          param_nb_legal: 1,
           param_seo_mode: 1,
-          param_opt_logo: 0,
-          param_logo_concepts: 0,
-          param_logo_exports: 0,
-          param_brand_guidelines: 0,
-          param_brand_templates: 0,
           param_opt_formation: 0,
           param_opt_hosting: 0,
           param_hosting_cost: 80,
@@ -2783,14 +2690,7 @@
         label: "Landing conversion (growth)",
         values: {
           param_nb_home: 1,
-          param_nb_pages: 2,
-          param_nb_legal: 2,
           param_seo_mode: 1,
-          param_opt_logo: 0,
-          param_logo_concepts: 0,
-          param_logo_exports: 0,
-          param_brand_guidelines: 0,
-          param_brand_templates: 0,
           param_opt_formation: 0,
           param_opt_hosting: 1,
           param_hosting_cost: 120,
@@ -2819,14 +2719,7 @@
         label: "Landing performance (A/B testing)",
         values: {
           param_nb_home: 2,
-          param_nb_pages: 3,
-          param_nb_legal: 2,
-          param_seo_mode: 2,
-          param_opt_logo: 1,
-          param_logo_concepts: 2,
-          param_logo_exports: 4,
-          param_brand_guidelines: 1,
-          param_brand_templates: 2,
+          param_seo_mode: 1.3,
           param_opt_formation: 1,
           param_opt_hosting: 1,
           param_hosting_cost: 150,
@@ -2960,14 +2853,7 @@
     const PARAM_INPUT_IDS = [
       "param_complexity",
       "param_nb_home",
-      "param_nb_pages",
-      "param_nb_legal",
       "param_seo_mode",
-      "param_opt_logo",
-      "param_logo_concepts",
-      "param_logo_exports",
-      "param_brand_guidelines",
-      "param_brand_templates",
       "param_opt_formation",
       "param_opt_hosting",
       "param_hosting_cost",
@@ -2999,17 +2885,7 @@
 
     function readParams() {
       const nbHome = Math.max(1, safeNumber(document.getElementById("param_nb_home").value, 1));
-      const nbPages = Math.max(0, safeNumber(document.getElementById("param_nb_pages").value, 0));
-      const nbLegal = Math.max(0, safeNumber(document.getElementById("param_nb_legal").value, 0));
       const seoIntensity = Math.max(0, safeNumber(document.getElementById("param_seo_mode").value, 1));
-      const optLogo = Math.max(0, Math.min(1, safeNumber(document.getElementById("param_opt_logo").value, 0)));
-      const logoConceptsRaw = Math.max(0, safeNumber(document.getElementById("param_logo_concepts").value, 2));
-      const logoConcepts = optLogo ? logoConceptsRaw : 0;
-      const logoExportsRaw = Math.max(0, safeNumber(document.getElementById("param_logo_exports").value, 3));
-      const logoExports = optLogo ? logoExportsRaw : 0;
-      const brandGuidelinesMode = optLogo ? Math.max(0, safeNumber(document.getElementById("param_brand_guidelines").value, 1)) : 0;
-      const brandTemplatesRaw = Math.max(0, safeNumber(document.getElementById("param_brand_templates").value, 2));
-      const brandTemplates = optLogo ? brandTemplatesRaw : 0;
       const optFormation = Math.max(0, Math.min(1, safeNumber(document.getElementById("param_opt_formation").value, 0)));
       const optHosting = Math.max(0, Math.min(1, safeNumber(document.getElementById("param_opt_hosting").value, 0)));
       const hostingCostRaw = Math.max(0, safeNumber(document.getElementById("param_hosting_cost").value, 0));
@@ -3061,8 +2937,7 @@
       const fx = Math.max(1, safeNumber(document.getElementById("param_fx").value, 5000));
       const bufferPercent = Math.max(0, safeNumber(document.getElementById("param_buffer").value, 0));
 
-      const totalInternalPages = nbPages + nbLegal;
-      const totalPages = nbHome + totalInternalPages;
+      const totalPages = nbHome;
       const seoAutoPages = Math.round(totalPages * seoIntensity);
       const nbSeoPages = seoAutoPages;
       const translationMode = document.getElementById("param_translation_mode")?.value || "none";
@@ -3080,7 +2955,6 @@
       const translationSubscription = 0;
       const translationCost = translationSiteHours * getRoleRate(ROLE_RATE_MAP.translation);
       const qaFeatureFlags = [
-        optLogo > 0,
         optFormation > 0,
         optChatbot > 0,
         optHosting > 0,
@@ -3092,18 +2966,10 @@
 
       return {
         nbHome,
-        nbPages,
-        nbLegal,
-        totalInternalPages,
         totalPages,
         nbSeoPages,
         qaWorkload,
         seoAutoPages,
-        optLogo,
-        logoConcepts,
-        logoExports,
-        brandGuidelinesMode,
-        brandTemplates,
         optFormation,
         optHosting,
         hostingCost,
@@ -3135,14 +3001,8 @@
     function getTaskVolume(task, params) {
       switch (task.volumeKey) {
         case "nbHome": return params.nbHome;
-        case "nbInternalPages": return params.totalInternalPages;
         case "nbSeoPages": return params.nbSeoPages;
         case "qaWorkload": return params.qaWorkload;
-        case "identityPack": return params.optLogo;
-        case "logoConcepts": return params.logoConcepts;
-        case "logoExports": return params.logoExports;
-        case "brandGuidelines": return params.brandGuidelinesMode;
-        case "brandTemplates": return params.brandTemplates;
         case "optFormation": return params.optFormation;
         case "translationSiteHours": return params.translationSiteHours;
         case "chatbotSetupHours": return params.chatbotSetupHours;
@@ -3843,18 +3703,10 @@
 
       // Résumé simple
       document.getElementById("summary-pages").textContent =
-        `${params.nbHome} home · ${params.totalInternalPages} internes`;
+        `${params.nbHome} home${params.nbHome > 1 ? "s" : ""}`;
       document.getElementById("summary-complexity").textContent =
         `x${params.complexity.toLocaleString("fr-FR", { minimumFractionDigits: 1, maximumFractionDigits: 1 })}`;
-      document.getElementById("summary-legal-pages").textContent =
-        params.nbLegal > 0
-          ? `${params.nbLegal} pages légales incluses`
-          : "Aucune page légale";
       const opts = [];
-      if (params.optLogo === 1) {
-        const label = params.brandGuidelinesMode > 0 ? "Identité visuelle + charte" : "Identité visuelle";
-        opts.push({ label, icon: "🎨", tone: "accent" });
-      }
       if (params.optFormation === 1) opts.push({ label: "Formation client", icon: "🎓", tone: "success" });
       if (params.translationActive) {
         const langLabel = params.translationLanguages > 1
