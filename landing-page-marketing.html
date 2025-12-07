@@ -1219,7 +1219,6 @@
       display: flex;
       align-items: center;
       gap: 10px;
-      flex-wrap: wrap;
       justify-content: flex-end;
     }
 
@@ -1647,7 +1646,7 @@
                 <div class="field">
                   <label for="param_nb_pages">
                     Nb. pages internes
-                    <span class="hint-icon" data-tooltip="hors home, services, blog et pages légales" role="note" tabindex="0" aria-label="hors home, services, blog et pages légales">?</span>
+                    <span class="hint-icon" data-tooltip="hors home et pages légales" role="note" tabindex="0" aria-label="hors home et pages légales">?</span>
                   </label>
                   <input type="number" id="param_nb_pages" min="0" step="1" value="4">
                 </div>
@@ -1670,222 +1669,6 @@
                     <option value="1" selected>Standard (100% du volume)</option>
                     <option value="1.3">Renforcé (130% du volume)</option>
                   </select>
-                </div>
-              </div>
-            </div>
-
-            <div class="field-group">
-              <div class="group-header">
-                <h3 class="group-title"><span class="icon">🛠️</span> Pages services</h3>
-                <p class="group-sub">Détaille les gabarits de ta page services et des fiches.</p>
-              </div>
-              <div class="field-subsection">
-                <p class="field-subtitle">Activation & structure</p>
-                <div class="grid" aria-label="Pages services et gabarits">
-                  <div class="field">
-                    <label for="param_service_listing">
-                      Page Services (listing)
-                      <span class="hint-icon" data-tooltip="0 = non prévue, 1 = incluse" role="note" tabindex="0" aria-label="0 = non prévue, 1 = incluse">?</span>
-                    </label>
-                    <input type="number" id="param_service_listing" min="0" max="1" step="1" value="1">
-                  </div>
-
-                  <div class="field">
-                    <label for="param_service_details">
-                      Nb. pages détail service
-                      <span class="hint-icon" data-tooltip="hors page listing" role="note" tabindex="0" aria-label="hors page listing">?</span>
-                    </label>
-                    <input type="number" id="param_service_details" min="0" step="1" value="3">
-                  </div>
-
-                  <div class="field">
-                    <label for="param_service_design_mode">
-                      Design des pages service
-                      <span class="hint-icon" data-tooltip="impacte les heures de design/dev" role="note" tabindex="0" aria-label="impacte les heures de design/dev">?</span>
-                    </label>
-                    <select id="param_service_design_mode">
-                      <option value="1">Gabarit unique pour tous les services</option>
-                      <option value="1.4">Design spécifique par service (+40%)</option>
-                    </select>
-                  </div>
-                </div>
-              </div>
-
-              <div class="field-subsection">
-                <p class="field-subtitle">Contenus & SEO</p>
-                <div class="grid" aria-label="Contenus et SEO pour les services">
-                  <div class="field">
-                    <label for="param_service_content">
-                      Rédaction + SEO des fiches
-                      <span class="hint-icon" data-tooltip="applique la SEO auto sur listing + fiches" role="note" tabindex="0" aria-label="applique la SEO auto sur listing + fiches">?</span>
-                    </label>
-                    <select id="param_service_content">
-                      <option value="1" selected>Oui, couvrir toutes les pages services</option>
-                      <option value="0">Non, SEO/rédaction gérés ailleurs</option>
-                    </select>
-                  </div>
-
-                  <div class="field">
-                    <label for="param_service_visuals">
-                      Illustrations pour les services ?
-                      <span class="hint-icon" data-tooltip="impacts le volume rédaction/graphisme" role="note" tabindex="0" aria-label="impacts le volume rédaction/graphisme">?</span>
-                    </label>
-                    <select id="param_service_visuals">
-                      <option value="1">Oui, un visuel par fiche</option>
-                      <option value="0" selected>Non, visuels non prévus</option>
-                    </select>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="field-group">
-              <div class="group-header">
-                <h3 class="group-title"><span class="icon">🏆</span> Pages réalisations</h3>
-                <p class="group-sub">Ajuste le volume d'études de cas et le niveau de personnalisation.</p>
-              </div>
-              <div class="field-subsection">
-                <p class="field-subtitle">Activation & structure</p>
-                <div class="grid" aria-label="Pages réalisations et études de cas">
-                  <div class="field">
-                    <label for="param_rea_listing">
-                      Page Réalisations (listing)
-                      <span class="hint-icon" data-tooltip="0 = non prévue, 1 = incluse" role="note" tabindex="0" aria-label="0 = non prévue, 1 = incluse">?</span>
-                    </label>
-                    <input type="number" id="param_rea_listing" min="0" max="1" step="1" value="1">
-                  </div>
-
-                  <div class="field">
-                    <label for="param_rea_details">
-                      Nb. études de cas détaillées
-                      <span class="hint-icon" data-tooltip="hors page listing" role="note" tabindex="0" aria-label="hors page listing">?</span>
-                    </label>
-                    <input type="number" id="param_rea_details" min="0" step="1" value="3">
-                  </div>
-
-                  <div class="field">
-                    <label for="param_rea_design_mode">
-                      Design des pages réalisations
-                      <span class="hint-icon" data-tooltip="impacte les heures de design/dev" role="note" tabindex="0" aria-label="impacte les heures de design/dev">?</span>
-                    </label>
-                    <select id="param_rea_design_mode">
-                      <option value="1">Gabarit unique pour toutes les études</option>
-                      <option value="1.4">Design spécifique par étude (+40%)</option>
-                    </select>
-                  </div>
-                </div>
-              </div>
-
-              <div class="field-subsection">
-                <p class="field-subtitle">Contenus & SEO</p>
-                <div class="grid" aria-label="Contenus et SEO pour les réalisations">
-                  <div class="field">
-                    <label for="param_rea_content">
-                      Rédaction + SEO des études de cas
-                      <span class="hint-icon" data-tooltip="applique la SEO auto sur listing + cas" role="note" tabindex="0" aria-label="applique la SEO auto sur listing + cas">?</span>
-                    </label>
-                    <select id="param_rea_content">
-                      <option value="1" selected>Oui, couvrir toutes les réalisations</option>
-                      <option value="0">Non, SEO/rédaction gérés ailleurs</option>
-                    </select>
-                  </div>
-
-                  <div class="field">
-                    <label for="param_rea_visuals">
-                      Illustrations pour les réalisations ?
-                      <span class="hint-icon" data-tooltip="photos, schémas ou mockups" role="note" tabindex="0" aria-label="photos, schémas ou mockups">?</span>
-                    </label>
-                    <select id="param_rea_visuals">
-                      <option value="1">Oui, un visuel par cas</option>
-                      <option value="0" selected>Non, pas de visuels dédiés</option>
-                    </select>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="field-group">
-              <div class="group-header">
-                <h3 class="group-title"><span class="icon">📰</span> Blog & contenu</h3>
-                <p class="group-sub">Active le blog, prépare les nouveaux articles et ajuste l'import d'anciens contenus.</p>
-              </div>
-              <div class="field-subsection">
-                <p class="field-subtitle">Activation & création d'articles</p>
-                <div class="grid" aria-label="Activation du blog et production d'articles">
-                  <div class="field">
-                    <label for="param_has_blog">
-                      Activer le blog ?
-                      <span class="hint-icon" data-tooltip="0 = non, 1 = oui" role="note" tabindex="0" aria-label="0 = non, 1 = oui">?</span>
-                    </label>
-                    <input type="number" id="param_has_blog" min="0" max="1" step="1" value="1">
-                  </div>
-
-                  <div class="field">
-                    <label for="param_blog_articles">
-                      Articles à créer
-                      <span class="hint-icon" data-tooltip="hors import si refonte" role="note" tabindex="0" aria-label="hors import si refonte">?</span>
-                    </label>
-                    <input type="number" id="param_blog_articles" min="0" step="1" value="2">
-                  </div>
-
-                  <div class="field">
-                    <label for="param_blog_visuals">
-                      Visuel dédié pour chaque article ?
-                      <span class="hint-icon" data-tooltip="impacte graphisme / contenus" role="note" tabindex="0" aria-label="impacte graphisme / contenus">?</span>
-                    </label>
-                    <select id="param_blog_visuals">
-                      <option value="1">Oui, un visuel par article</option>
-                      <option value="0">Non, visuels non prévus</option>
-                    </select>
-                  </div>
-
-                  <div class="field">
-                    <label for="param_blog_seo">
-                      Optimisation SEO pour chaque article ?
-                      <span class="hint-icon" data-tooltip="métas, maillage, balisage" role="note" tabindex="0" aria-label="métas, maillage, balisage">?</span>
-                    </label>
-                    <select id="param_blog_seo">
-                      <option value="1">Oui, optimiser chaque article</option>
-                      <option value="0">Non, sans optimisation dédiée</option>
-                    </select>
-                  </div>
-                </div>
-              </div>
-
-              <div class="field-subsection">
-                <p class="field-subtitle">Import d'articles existants</p>
-                <div class="grid" aria-label="Blog et import d'articles">
-                  <div class="field">
-                    <label for="param_import_articles">
-                      Articles à importer (refonte)
-                      <span class="hint-icon" data-tooltip="uniquement si blog activé" role="note" tabindex="0" aria-label="uniquement si blog activé">?</span>
-                    </label>
-                    <input type="number" id="param_import_articles" min="0" step="1" value="0">
-                  </div>
-
-                  <div class="field">
-                    <label for="param_import_batch_size">
-                      Articles par batch d'import
-                      <span class="hint-icon" data-tooltip="pour le calcul dégressif" role="note" tabindex="0" aria-label="pour le calcul dégressif">?</span>
-                    </label>
-                    <input type="number" id="param_import_batch_size" min="1" step="1" value="10">
-                  </div>
-
-                  <div class="field">
-                    <label for="param_import_base_cost">
-                      Coût initial par batch (€)
-                      <span class="hint-icon" data-tooltip="avant dégressivité" role="note" tabindex="0" aria-label="avant dégressivité">?</span>
-                    </label>
-                    <input type="number" id="param_import_base_cost" min="0" step="10" value="120">
-                  </div>
-
-                  <div class="field">
-                    <label for="param_import_degressif">
-                      Facteur dégressif par batch
-                      <span class="hint-icon" data-tooltip="0.9 = -10% par batch supplémentaire" role="note" tabindex="0" aria-label="0.9 = -10% par batch supplémentaire">?</span>
-                    </label>
-                    <input type="number" id="param_import_degressif" min="0" max="1.5" step="0.05" value="0.9">
-                  </div>
                 </div>
               </div>
             </div>
@@ -2267,14 +2050,14 @@
             <div class="section-header">
               <div class="chip-group">
                 <span class="chip"><strong>Pages</strong> : home + internes</span>
-                <span class="chip"><strong>Options</strong> : logo, formation, SEO</span>
+                <span class="chip"><strong>Options</strong> : logo, formation, SEO, chatbot</span>
               </div>
             </div>
             <div class="summary-row">
               <div class="summary-card">
                 <div class="summary-label">Volume de pages</div>
                 <div class="summary-value" id="summary-pages">—</div>
-                <div class="summary-chip muted">Home + internes (services / blog inclus si activés)</div>
+                <div class="summary-chip muted">Home + pages internes</div>
               </div>
               <div class="summary-card">
                 <div class="summary-label">Complexité appliquée</div>
@@ -2284,7 +2067,7 @@
               <div class="summary-card">
                 <div class="summary-label">Options activées</div>
                 <div class="summary-value options-badges" id="summary-options">—</div>
-                <div class="summary-chip muted">Identité, contenus, SEO, blog, formation, chatbot, hébergement…</div>
+                <div class="summary-chip muted">Identité, contenus, SEO, formation, chatbot, hébergement…</div>
               </div>
             </div>
             <div class="summary-row">
@@ -2292,11 +2075,6 @@
                 <div class="summary-label">Pages légales</div>
                 <div class="summary-value" id="summary-legal-pages">—</div>
                 <div class="summary-chip muted">Toujours comptées dans les internes</div>
-              </div>
-              <div class="summary-card">
-                <div class="summary-label">Blog & import</div>
-                <div class="summary-value" id="summary-import">—</div>
-                <div class="summary-chip muted">Activation du blog + coût dégressif</div>
               </div>
             </div>
           </div>
@@ -2476,7 +2254,6 @@
               <select id="task_type" required>
                 <option value="standard">Standard</option>
                 <option value="seo">SEO</option>
-                <option value="import">Import</option>
                 <option value="design">Design</option>
                 <option value="content">Contenus</option>
               </select>
@@ -2490,29 +2267,18 @@
               <select id="task_volume" required>
                 <option value="const">Constant (×1)</option>
                 <option value="nbInternalPages">Pages internes</option>
-                <option value="nbServicePages">Pages services</option>
-                <option value="nbReaPages">Pages réalisations</option>
-                <option value="blogArticles">Articles de blog</option>
-                <option value="serviceListing">Page services (listing)</option>
-                <option value="serviceDetails">Détail services</option>
-                <option value="serviceDetailsWeighted">Détail services (pondéré)</option>
-                <option value="reaListing">Page réalisations (listing)</option>
-                <option value="reaDetails">Détails réalisations</option>
-                <option value="reaDetailsWeighted">Détails réalisations (pondéré)</option>
-                <option value="hasBlog">Activer blog (0/1)</option>
-                <option value="articleSeo">SEO des articles</option>
-                <option value="hasSeo">Option SEO (0/1)</option>
-                <option value="hasTraining">Formation (0/1)</option>
-                <option value="hasHosting">Hébergement (0/1)</option>
-                <option value="hasChatbot">Chatbot (0/1)</option>
-                <option value="chatbotVolume">Volume chatbot</option>
-                <option value="chatbotComplexity">Complexité chatbot</option>
-                <option value="chatbotMessages">Messages chatbot</option>
-                <option value="serviceContentPages">Contenus services</option>
-                <option value="reaContentPages">Contenus réalisations</option>
-                <option value="articleVisuals">Visuels articles</option>
-                <option value="serviceVisualsVolume">Visuels services</option>
-                <option value="reaVisualsVolume">Visuels études de cas</option>
+                <option value="nbSeoPages">Pages SEO</option>
+                <option value="qaWorkload">Charge QA</option>
+                <option value="identityPack">Pack identité</option>
+                <option value="logoConcepts">Concepts logo</option>
+                <option value="logoExports">Déclinaisons logo</option>
+                <option value="brandGuidelines">Charte graphique</option>
+                <option value="brandTemplates">Templates réseaux</option>
+                <option value="optFormation">Formation (0/1)</option>
+                <option value="translationSiteHours">Traduction (heures)</option>
+                <option value="chatbotSetupHours">Setup chatbot</option>
+                <option value="chatbotIntegrationHours">Intégration chatbot</option>
+                <option value="chatbotTrainingHours">Training chatbot</option>
                 <option value="const_high">Constant (×1,5)</option>
                 <option value="const_low">Constant (×0,6)</option>
               </select>
@@ -2897,24 +2663,11 @@
       { value: "brandGuidelines", label: "Charte graphique", hint: "Active si la charte est demandée." },
       { value: "brandTemplates", label: "Templates réseaux", hint: "Multiplié par le nombre de templates." },
       { value: "optFormation", label: "Option formation", hint: "Activé uniquement si la formation est cochée." },
-      { value: "serviceListing", label: "Page services", hint: "S'active sur la page listing services." },
-      { value: "serviceDetailsWeighted", label: "Fiches services pondérées", hint: "Nombre de fiches × facteur design." },
-      { value: "serviceContentPages", label: "Rédaction services", hint: "Nombre de fiches service à rédiger." },
-      { value: "serviceVisualsVolume", label: "Visuels services", hint: "Volume de visuels pour les services." },
-      { value: "reaListing", label: "Page réalisations", hint: "S'active sur la page listing réalisations." },
-      { value: "reaDetailsWeighted", label: "Études de cas pondérées", hint: "Nombre de cas × facteur design." },
-      { value: "reaContentPages", label: "Rédaction études de cas", hint: "Volume de contenus pour les études." },
-      { value: "reaVisualsVolume", label: "Visuels études de cas", hint: "Volume de visuels pour les études." },
-      { value: "blogArticles", label: "Articles de blog", hint: "Multiplié par le nombre d'articles." },
-      { value: "articleVisuals", label: "Visuels par article", hint: "Volume de visuels liés aux articles." },
-      { value: "articleSeo", label: "Optimisation SEO", hint: "Nombre d'articles avec optimisation SEO." },
-      { value: "hasBlog", label: "Activation du blog", hint: "1 si le blog est activé, sinon 0." },
       { value: "translationSiteHours", label: "Traduction du site", hint: "Calcule un volume d'heures selon les langues et pages." },
       { value: "chatbotSetupHours", label: "Setup chatbot", hint: "Utilise les heures de setup chatbot." },
       { value: "chatbotIntegrationHours", label: "Intégration chatbot", hint: "Utilise les heures d'intégration." },
-      { value: "chatbotTrainingHours", label: "Training chatbot", hint: "Utilise les heures de training." },
-      { value: "importArticles", label: "Import articles", hint: "Se base sur le volume d'import d'articles." }
-    ];
+      { value: "chatbotTrainingHours", label: "Training chatbot", hint: "Utilise les heures de training." }
+    ];];
 
     let editingTaskId = null;
     let draggedTaskId = null;
@@ -2990,20 +2743,6 @@
           param_nb_pages: 1,
           param_nb_legal: 1,
           param_seo_mode: 1,
-          param_service_listing: 0,
-          param_service_details: 0,
-          param_service_design_mode: 1,
-          param_service_content: 1,
-          param_service_visuals: 0,
-          param_rea_listing: 0,
-          param_rea_details: 0,
-          param_rea_design_mode: 1,
-          param_rea_content: 0,
-          param_rea_visuals: 0,
-          param_has_blog: 0,
-          param_blog_articles: 0,
-          param_blog_visuals: 0,
-          param_blog_seo: 0,
           param_opt_logo: 0,
           param_logo_concepts: 0,
           param_logo_exports: 0,
@@ -3030,11 +2769,7 @@
           param_complexity: 1.1,
           param_margin: 1.3,
           param_fx: 5000,
-          param_buffer: 8,
-          param_import_articles: 3,
-          param_import_batch_size: 5,
-          param_import_base_cost: 60,
-          param_import_degressif: 0.92
+          param_buffer: 8
         }
       },
       landing_growth: {
@@ -3044,20 +2779,6 @@
           param_nb_pages: 2,
           param_nb_legal: 2,
           param_seo_mode: 1,
-          param_service_listing: 1,
-          param_service_details: 1,
-          param_service_design_mode: 1,
-          param_service_content: 1,
-          param_service_visuals: 1,
-          param_rea_listing: 0,
-          param_rea_details: 0,
-          param_rea_design_mode: 1,
-          param_rea_content: 0,
-          param_rea_visuals: 0,
-          param_has_blog: 0,
-          param_blog_articles: 0,
-          param_blog_visuals: 0,
-          param_blog_seo: 0,
           param_opt_logo: 0,
           param_logo_concepts: 0,
           param_logo_exports: 0,
@@ -3084,11 +2805,7 @@
           param_complexity: 1.25,
           param_margin: 1.35,
           param_fx: 5000,
-          param_buffer: 10,
-          param_import_articles: 5,
-          param_import_batch_size: 6,
-          param_import_base_cost: 80,
-          param_import_degressif: 0.9
+          param_buffer: 10
         }
       },
       landing_abtest: {
@@ -3098,20 +2815,6 @@
           param_nb_pages: 3,
           param_nb_legal: 2,
           param_seo_mode: 2,
-          param_service_listing: 1,
-          param_service_details: 1,
-          param_service_design_mode: 2,
-          param_service_content: 1,
-          param_service_visuals: 1,
-          param_rea_listing: 0,
-          param_rea_details: 0,
-          param_rea_design_mode: 1,
-          param_rea_content: 0,
-          param_rea_visuals: 0,
-          param_has_blog: 1,
-          param_blog_articles: 2,
-          param_blog_visuals: 1,
-          param_blog_seo: 1,
           param_opt_logo: 1,
           param_logo_concepts: 2,
           param_logo_exports: 4,
@@ -3138,11 +2841,7 @@
           param_complexity: 1.45,
           param_margin: 1.4,
           param_fx: 5000,
-          param_buffer: 12,
-          param_import_articles: 8,
-          param_import_batch_size: 8,
-          param_import_base_cost: 100,
-          param_import_degressif: 0.88
+          param_buffer: 12
         }
       }
     };
@@ -3253,20 +2952,6 @@
       "param_nb_pages",
       "param_nb_legal",
       "param_seo_mode",
-      "param_service_listing",
-      "param_service_details",
-      "param_service_design_mode",
-      "param_service_content",
-      "param_service_visuals",
-      "param_rea_listing",
-      "param_rea_details",
-      "param_rea_design_mode",
-      "param_rea_content",
-      "param_rea_visuals",
-      "param_has_blog",
-      "param_blog_articles",
-      "param_blog_visuals",
-      "param_blog_seo",
       "param_opt_logo",
       "param_logo_concepts",
       "param_logo_exports",
@@ -3296,12 +2981,8 @@
       "param_translation_products",
       "param_margin",
       "param_fx",
-      "param_buffer",
-      "param_import_articles",
-      "param_import_batch_size",
-      "param_import_base_cost",
-      "param_import_degressif"
-    ];
+      "param_buffer"
+    ];];
 
     const ALL_INPUT_IDS = [...PARAM_INPUT_IDS, "param_type_site", "param_comment", "param_tariff_preset"];
 
@@ -3310,23 +2991,6 @@
       const nbPages = Math.max(0, safeNumber(document.getElementById("param_nb_pages").value, 0));
       const nbLegal = Math.max(0, safeNumber(document.getElementById("param_nb_legal").value, 0));
       const seoIntensity = Math.max(0, safeNumber(document.getElementById("param_seo_mode").value, 1));
-      const nbServiceListing = Math.max(0, Math.min(1, safeNumber(document.getElementById("param_service_listing").value, 1)));
-      const nbServiceDetails = Math.max(0, safeNumber(document.getElementById("param_service_details").value, 0));
-      const serviceDesignFactor = safeNumber(document.getElementById("param_service_design_mode").value, 1);
-      const serviceContentMode = Math.max(0, Math.min(1, safeNumber(document.getElementById("param_service_content").value, 1)));
-      const serviceVisualsPref = Math.max(0, Math.min(1, safeNumber(document.getElementById("param_service_visuals").value, 0)));
-      const nbReaListing = Math.max(0, Math.min(1, safeNumber(document.getElementById("param_rea_listing").value, 1)));
-      const nbReaDetails = Math.max(0, safeNumber(document.getElementById("param_rea_details").value, 0));
-      const reaDesignFactor = safeNumber(document.getElementById("param_rea_design_mode").value, 1);
-      const reaContentMode = Math.max(0, Math.min(1, safeNumber(document.getElementById("param_rea_content").value, 1)));
-      const reaVisualsPref = Math.max(0, Math.min(1, safeNumber(document.getElementById("param_rea_visuals").value, 0)));
-      const hasBlog = Math.max(0, Math.min(1, safeNumber(document.getElementById("param_has_blog").value, 1)));
-      const blogArticlesRaw = Math.max(0, safeNumber(document.getElementById("param_blog_articles").value, 0));
-      const blogArticles = hasBlog ? blogArticlesRaw : 0;
-      const wantsBlogVisuals = Math.max(0, Math.min(1, safeNumber(document.getElementById("param_blog_visuals").value, 1)));
-      const wantsBlogSeo = Math.max(0, Math.min(1, safeNumber(document.getElementById("param_blog_seo").value, 1)));
-      const articleVisualsVolume = blogArticles * wantsBlogVisuals;
-      const articleSeoVolume = blogArticles * wantsBlogSeo;
       const optLogo = Math.max(0, Math.min(1, safeNumber(document.getElementById("param_opt_logo").value, 0)));
       const logoConceptsRaw = Math.max(0, safeNumber(document.getElementById("param_logo_concepts").value, 2));
       const logoConcepts = optLogo ? logoConceptsRaw : 0;
@@ -3349,7 +3013,7 @@
         integrationHours: Math.max(0, safeNumber(document.getElementById("param_chatbot_plugin_integration_hours").value, 0)),
         trainingHours: Math.max(0, safeNumber(document.getElementById("param_chatbot_plugin_training_hours").value, 0)),
         subscription: Math.max(0, safeNumber(document.getElementById("param_chatbot_plugin_subscription").value, 0)),
-        label: "Plugin \"clé en main\""
+        label: "Plugin "clé en main""
       };
 
       const chatbotExternal = {
@@ -3385,27 +3049,18 @@
       const margin = Math.max(1, safeNumber(document.getElementById("param_margin").value, 1.3));
       const fx = Math.max(1, safeNumber(document.getElementById("param_fx").value, 5000));
       const bufferPercent = Math.max(0, safeNumber(document.getElementById("param_buffer").value, 0));
-      const importArticlesRaw = Math.max(0, safeNumber(document.getElementById("param_import_articles").value, 0));
-      const importArticles = hasBlog ? importArticlesRaw : 0;
-      const importBatchSize = Math.max(1, safeNumber(document.getElementById("param_import_batch_size").value, 1));
-      const importBaseCost = Math.max(0, safeNumber(document.getElementById("param_import_base_cost").value, 0));
-      const importDegressive = Math.max(0, safeNumber(document.getElementById("param_import_degressif").value, 1));
 
       const totalInternalPages = nbPages + nbLegal;
-      const totalPagesWithExtras = totalInternalPages + nbServiceListing + nbServiceDetails + nbReaListing + nbReaDetails + (hasBlog ? 2 : 0);
-      const seoAutoPages = Math.round((nbHome + totalInternalPages) * seoIntensity);
-      const serviceContentPages = serviceContentMode ? nbServiceListing + nbServiceDetails : 0;
-      const reaContentPages = reaContentMode ? nbReaListing + nbReaDetails : 0;
-      const serviceVisualsVolume = serviceContentMode ? serviceVisualsPref * nbServiceDetails : 0;
-      const reaVisualsVolume = reaContentMode ? reaVisualsPref * nbReaDetails : 0;
-      const nbSeoPages = seoAutoPages + serviceContentPages + reaContentPages;
+      const totalPages = nbHome + totalInternalPages;
+      const seoAutoPages = Math.round(totalPages * seoIntensity);
+      const nbSeoPages = seoAutoPages;
       const translationMode = document.getElementById("param_translation_mode")?.value || "none";
       const translationLanguagesRaw = Math.max(1, safeNumber(document.getElementById("param_translation_languages").value, 1));
       const translationLanguages = translationMode === "none" ? 1 : translationLanguagesRaw;
       const translationAdditionalLanguages = Math.max(0, translationLanguages - 1);
-      const translationPagesRaw = Math.max(0, safeNumber(document.getElementById("param_translation_pages").value, totalPagesWithExtras));
+      const translationPagesRaw = Math.max(0, safeNumber(document.getElementById("param_translation_pages").value, totalPages));
       const translationProductsRaw = Math.max(0, safeNumber(document.getElementById("param_translation_products").value, 0));
-      const translationPagesInput = translationPagesRaw > 0 ? translationPagesRaw : totalPagesWithExtras;
+      const translationPagesInput = translationPagesRaw > 0 ? translationPagesRaw : totalPages;
       const translationProductsInput = translationProductsRaw > 0 ? translationProductsRaw : 0;
       const translationCoefficients = TRANSLATION_MODES[translationMode]?.coefficients || null;
       const translationSiteHours = computeTranslationHours(translationCoefficients, translationAdditionalLanguages, translationPagesInput, translationProductsInput);
@@ -3414,45 +3069,25 @@
       const translationSubscription = 0;
       const translationCost = translationSiteHours * (rolesById["dev"]?.rate || 0);
       const qaFeatureFlags = [
-        nbServiceListing + nbServiceDetails > 0,
-        nbReaListing + nbReaDetails > 0,
-        hasBlog > 0,
         optLogo > 0,
         optFormation > 0,
         optChatbot > 0,
-        importArticles > 0,
         optHosting > 0,
         optDomain > 0,
         translationActive
       ];
       const qaFunctionalLoad = qaFeatureFlags.filter(Boolean).length;
-      const qaWorkload = nbHome + totalPagesWithExtras + qaFunctionalLoad;
+      const qaWorkload = totalPages + qaFunctionalLoad;
 
       return {
         nbHome,
         nbPages,
         nbLegal,
         totalInternalPages,
-        totalPagesWithExtras,
+        totalPages,
         nbSeoPages,
         qaWorkload,
         seoAutoPages,
-        nbServiceListing,
-        nbServiceDetails,
-        serviceDesignFactor,
-        serviceContentMode,
-        serviceContentPages,
-        serviceVisualsVolume,
-        nbReaListing,
-        nbReaDetails,
-        reaDesignFactor,
-        reaContentMode,
-        reaContentPages,
-        reaVisualsVolume,
-        hasBlog,
-        blogArticles,
-        articleVisualsVolume,
-        articleSeoVolume,
         optLogo,
         logoConcepts,
         logoExports,
@@ -3483,29 +3118,9 @@
         complexity,
         margin,
         fx,
-        bufferPercent,
-        importArticles,
-        importBatchSize,
-        importBaseCost,
-        importDegressive
+        bufferPercent
       };
     }
-
-    function computeImportCost(importArticles, batchSize, baseCost, degressive) {
-      if (importArticles <= 0 || batchSize <= 0 || baseCost <= 0) {
-        return { cost: 0, batches: 0 };
-      }
-
-      const batches = Math.ceil(importArticles / batchSize);
-      let cost = 0;
-
-      for (let i = 0; i < batches; i++) {
-        cost += baseCost * Math.pow(degressive, i);
-      }
-
-      return { cost, batches };
-    }
-
     function getTaskVolume(task, params) {
       switch (task.volumeKey) {
         case "nbHome": return params.nbHome;
@@ -3518,29 +3133,17 @@
         case "brandGuidelines": return params.brandGuidelinesMode;
         case "brandTemplates": return params.brandTemplates;
         case "optFormation": return params.optFormation;
-        case "serviceListing": return params.nbServiceListing;
-        case "serviceDetailsWeighted": return params.nbServiceDetails * params.serviceDesignFactor;
-        case "serviceContentPages": return params.serviceContentPages;
-        case "serviceVisualsVolume": return params.serviceVisualsVolume;
-        case "reaListing": return params.nbReaListing;
-        case "reaDetailsWeighted": return params.nbReaDetails * params.reaDesignFactor;
-        case "reaContentPages": return params.reaContentPages;
-        case "reaVisualsVolume": return params.reaVisualsVolume;
-        case "blogArticles": return params.blogArticles;
-        case "articleVisuals": return params.articleVisualsVolume;
-        case "articleSeo": return params.articleSeoVolume;
-        case "hasBlog": return params.hasBlog;
         case "translationSiteHours": return params.translationSiteHours;
         case "chatbotSetupHours": return params.chatbotSetupHours;
         case "chatbotIntegrationHours": return params.chatbotIntegrationHours;
         case "chatbotTrainingHours": return params.chatbotTrainingHours;
-        case "importArticles": return params.importArticles;
         case "const":
         default:
           return 1;
       }
     }
 
+    function cloneTask(task) {
     function cloneTask(task) {
       return { ...task };
     }
@@ -4138,8 +3741,8 @@
 
       if (block) block.classList.toggle("is-hidden", !active);
 
-      if (pagesInput) pagesInput.placeholder = params.totalPagesWithExtras;
-      if (pagesInput && safeNumber(pagesInput.value, 0) <= 0) pagesInput.value = params.totalPagesWithExtras;
+      if (pagesInput) pagesInput.placeholder = params.totalPages;
+      if (pagesInput && safeNumber(pagesInput.value, 0) <= 0) pagesInput.value = params.totalPages;
       if (productsInput) productsInput.placeholder = 0;
       if (productsInput && safeNumber(productsInput.value, 0) <= 0) productsInput.value = 0;
     }
@@ -4220,12 +3823,6 @@
 
     function recalcAll() {
       const params = readParams();
-      const importResult = computeImportCost(
-        params.importArticles,
-        params.importBatchSize,
-        params.importBaseCost,
-        params.importDegressive
-      );
 
       updateChatbotOfferVisibility(params.chatbotOffer);
       updateTranslationFieldsUI(params);
@@ -4236,7 +3833,7 @@
 
       // Résumé simple
       document.getElementById("summary-pages").textContent =
-        `${params.nbHome} home · ${params.totalPagesWithExtras} internes`;
+        `${params.nbHome} home · ${params.totalInternalPages} internes`;
       document.getElementById("summary-complexity").textContent =
         `x${params.complexity.toLocaleString("fr-FR", { minimumFractionDigits: 1, maximumFractionDigits: 1 })}`;
       document.getElementById("summary-legal-pages").textContent =
@@ -4255,42 +3852,9 @@
           : "Langue unique";
         opts.push({ label: `${params.translationLabel} · ${langLabel}`, icon: "🌐" });
       }
-      if (params.hasBlog === 1) {
-        const blogLabel = params.blogArticles > 0 ? `Blog (${params.blogArticles} art.)` : "Blog activé";
-        opts.push({ label: blogLabel, icon: "✍️" });
-      }
-      if (params.nbServiceListing === 1 || params.nbServiceDetails > 0) {
-        const detailLabel = params.nbServiceDetails > 0 ? `${params.nbServiceDetails} fiches` : "listing seul";
-        const designLabel = params.serviceDesignFactor > 1 ? "design dédié" : "gabarit unique";
-        opts.push({ label: `Services ${detailLabel} (${designLabel})`, icon: "🛠️" });
-      }
-      if (params.serviceContentMode === 1 && params.serviceContentPages > 0) {
-        opts.push({ label: `Rédac/SEO services x${params.serviceContentPages}` , icon: "🖋️" });
-      }
-      if (params.serviceVisualsVolume > 0) {
-        opts.push({ label: `Visuels services x${params.serviceVisualsVolume}`, icon: "🖼️" });
-      }
-      if (params.nbReaListing === 1 || params.nbReaDetails > 0) {
-        const detailLabel = params.nbReaDetails > 0 ? `${params.nbReaDetails} cas` : "listing seul";
-        const designLabel = params.reaDesignFactor > 1 ? "design dédié" : "gabarit unique";
-        opts.push({ label: `Réalisations ${detailLabel} (${designLabel})`, icon: "🏆" });
-      }
-      if (params.reaContentMode === 1 && params.reaContentPages > 0) {
-        opts.push({ label: `Rédac/SEO réas x${params.reaContentPages}`, icon: "🖋️" });
-      }
-      if (params.reaVisualsVolume > 0) {
-        opts.push({ label: `Visuels réas x${params.reaVisualsVolume}`, icon: "🖼️" });
-      }
       if (params.nbSeoPages > 0) {
-        const seoParts = [];
-        if (params.seoAutoPages > 0) seoParts.push(`auto ${params.seoAutoPages}`);
-        if (params.serviceContentPages > 0) seoParts.push(`services ${params.serviceContentPages}`);
-        if (params.reaContentPages > 0) seoParts.push(`réas ${params.reaContentPages}`);
-        const seoBreakdown = seoParts.length ? ` (${seoParts.join(" / ")})` : "";
+        const seoBreakdown = params.seoAutoPages > 0 ? ` (auto ${params.seoAutoPages})` : "";
         opts.push({ label: `SEO x${params.nbSeoPages}${seoBreakdown}`, icon: "🔍", tone: "accent" });
-      }
-      if (importResult.batches > 0) {
-        opts.push({ label: `Import ${params.importArticles} art.`, icon: "⬇️" });
       }
       if (params.optHosting === 1) {
         opts.push({ label: `Hébergement ${fmtEuro(params.hostingCost, 0)}`, icon: "☁️", tone: "success" });
@@ -4309,12 +3873,6 @@
         });
       }
       renderOptionBadges(opts);
-      document.getElementById("summary-import").textContent =
-        params.hasBlog === 0
-          ? "Blog non prévu"
-          : importResult.batches > 0
-            ? `Blog activé · ${params.importArticles} art. / ${importResult.batches} batchs → ${fmtEuro(importResult.cost, 0)}`
-            : "Blog activé · pas d'import";
 
       // Détail des tâches
       const tbody = document.getElementById("tasks-body");
@@ -4326,20 +3884,12 @@
         if (!row) return;
 
         const rate = rolesById[task.roleId]?.rate ?? 0;
-        const isImportTask = task.type === "import";
         const matchesFilter = activeRoleFilter === "all" || task.roleId === activeRoleFilter;
 
         let baseHours = task.baseHours;
         let volume = getTaskVolume(task, params);
         let hours = task.baseHours * volume * params.complexity;
         let cost = hours * rate;
-
-        if (isImportTask) {
-          volume = params.importArticles;
-          baseHours = rate > 0 ? params.importBaseCost / rate : 0;
-          hours = rate > 0 ? importResult.cost / rate : 0;
-          cost = importResult.cost;
-        }
 
         if (matchesFilter) {
           totalHours += hours;
