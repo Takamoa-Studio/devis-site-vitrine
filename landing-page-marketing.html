@@ -2113,7 +2113,7 @@
               <div class="summary-card">
                 <div class="summary-label">Freelances - Coûts HT avant buffer</div>
                 <div class="summary-value" id="summary-cost-freelance">—</div>
-                <div class="summary-chip muted">Production (hors hébergement, domaine, chatbot)</div>
+                <div class="summary-chip muted">Production (hors hébergement et abonnements)</div>
               </div>
               <div class="summary-card">
                 <div class="summary-label">Coût interne estimé</div>
@@ -2735,6 +2735,13 @@
     const rolesById = {};
     roles.forEach(r => rolesById[r.id] = r);
 
+    const ROLE_RATE_MAP = {
+      translation: "copy_marketer",
+      chatbotSetup: "cp_strategy",
+      chatbotIntegration: "dev_wp",
+      chatbotTraining: "seo_dev"
+    };
+
     const SITE_PRESETS = {
       landing_starter: {
         label: "Landing essentielle (starter)",
@@ -2861,6 +2868,10 @@
       const contentHours = (coefficients.pagePerLanguage * pages + coefficients.productPerLanguage * products) * additionalLanguages;
 
       return setupHours + contentHours;
+    }
+
+    function getRoleRate(roleId, fallback = 0) {
+      return rolesById[roleId]?.rate ?? fallback;
     }
 
     function fmtEuro(num, digits = 0) {
@@ -3067,7 +3078,7 @@
       const translationLabel = TRANSLATION_MODES[translationMode]?.label || "Pas de traduction";
       const translationActive = translationMode !== "none" && translationAdditionalLanguages > 0;
       const translationSubscription = 0;
-      const translationCost = translationSiteHours * (rolesById["dev"]?.rate || 0);
+      const translationCost = translationSiteHours * getRoleRate(ROLE_RATE_MAP.translation);
       const qaFeatureFlags = [
         optLogo > 0,
         optFormation > 0,
@@ -3908,6 +3919,33 @@
         row.querySelector('td[data-type="cost"]').textContent = formatMainCurrency(cost);
       });
 
+      const addRoleContribution = (hours, roleId) => {
+        const rate = getRoleRate(roleId);
+        const cost = hours * rate;
+        const matchesFilter = activeRoleFilter === "all" || roleId === activeRoleFilter;
+
+        if (matchesFilter) {
+          totalHours += hours;
+          totalCost += cost;
+        }
+
+        return { hours, cost };
+      };
+
+      let chatbotSetupCost = 0;
+      if (params.optChatbot) {
+        const setup = addRoleContribution(params.chatbotSetupHours, ROLE_RATE_MAP.chatbotSetup);
+        const integration = addRoleContribution(params.chatbotIntegrationHours, ROLE_RATE_MAP.chatbotIntegration);
+        const training = addRoleContribution(params.chatbotTrainingHours, ROLE_RATE_MAP.chatbotTraining);
+        chatbotSetupCost = setup.cost + integration.cost + training.cost;
+      }
+
+      let translationCost = 0;
+      if (params.translationActive) {
+        const translation = addRoleContribution(params.translationSiteHours, ROLE_RATE_MAP.translation);
+        translationCost = translation.cost;
+      }
+
       const hostingDomainCost =
         (params.optHosting ? params.hostingCost : 0) +
         (params.optDomain ? params.domainCost : 0);
@@ -3916,7 +3954,6 @@
 
       const chatbotCost = params.optChatbot ? params.chatbotSubscription : 0;
       const translationOptionCost = params.translationActive ? params.translationSubscription : 0;
-      const translationCost = params.translationActive ? params.translationCost : 0;
 
       const includeOptionCosts = !activeRoleFilter || activeRoleFilter === "all";
       const optionCosts = includeOptionCosts ? hostingDomainCost + chatbotCost + translationOptionCost : 0;
@@ -3936,10 +3973,6 @@
       document.getElementById("summary-cost-freelance").textContent = formatMainCurrency(totalBeforeBuffer);
       document.getElementById("summary-cost-hosting").textContent = formatMainCurrency(hostingDomainCost);
       const chatbotHoursTotal = params.chatbotSetupHours + params.chatbotIntegrationHours + params.chatbotTrainingHours;
-      const chatbotSetupCost =
-        (params.chatbotSetupHours * (rolesById["cp"]?.rate || 0)) +
-        (params.chatbotIntegrationHours * (rolesById["dev"]?.rate || 0)) +
-        (params.chatbotTrainingHours * (rolesById["seo"]?.rate || 0));
       const chatbotDetailsLabel = params.optChatbot
         ? `${params.chatbotOfferLabel} · ${formatMainCurrency(chatbotCost)}/mois · ${fmtHours(chatbotHoursTotal)}h`
         : "Pas de chatbot activé";
