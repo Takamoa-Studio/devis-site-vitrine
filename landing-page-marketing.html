@@ -2228,9 +2228,9 @@
             </label>
             <div class="control-row">
               <select id="param_tariff_preset">
-                <option value="starter_core">Équipe starter (€ / h)</option>
-                <option value="studio_conversion" selected>Studio conversion (€ / h)</option>
-                <option value="premium_performance">Equipe senior performance (€ / h)</option>
+                <option value="freelance_mada">Freelance Mada (€ / h)</option>
+                <option value="offshore" selected>Agence Mada / Offshore (€ / h)</option>
+                <option value="europe">Agence Europe (€ / h)</option>
                 <option value="custom">Tarifs personnalisés</option>
               </select>
             </div>
@@ -2565,91 +2565,91 @@
       {
         id: "cp_rel",
         name: "Chef de projet / Relation client",
-        rate: 55,
+        rate: 28,
         note: "Découverte, relation client, suivi",
         icon: "🤝"
       },
       {
         id: "cp_strategy",
         name: "Chef de projet / Stratège marketing",
-        rate: 65,
+        rate: 28,
         note: "Structure, parcours, proposition de valeur",
         icon: "🧭"
       },
       {
         id: "copy_marketer",
         name: "Copywriter / Marketer",
-        rate: 60,
+        rate: 16,
         note: "Promesse, messages, CTA",
         icon: "✍️"
       },
       {
         id: "ux_ui",
         name: "Webdesigner / UX-UI",
-        rate: 62,
+        rate: 20,
         note: "Maquettes, expérience, UI",
         icon: "🎨"
       },
       {
         id: "motion_graph",
         name: "Webdesigner / Motion / Graphiste",
-        rate: 58,
+        rate: 18,
         note: "Visuels, icônes, animations",
         icon: "🖼️"
       },
       {
         id: "dev_wp",
         name: "Développeur Front / WordPress",
-        rate: 60,
+        rate: 25,
         note: "Intégration landing, performance",
         icon: "💻"
       },
       {
         id: "integrator",
         name: "Développeur / Intégrateur",
-        rate: 55,
+        rate: 25,
         note: "Formulaire, prise de rendez-vous",
         icon: "🛠️"
       },
       {
         id: "traffic_analyst",
         name: "Trafic manager / Web analyst",
-        rate: 58,
+        rate: 16,
         note: "Tracking, analytics, conversions",
         icon: "📈"
       },
       {
         id: "seo_dev",
         name: "SEO / Développeur",
-        rate: 57,
+        rate: 16,
         note: "Optimisation on-page et technique",
         icon: "🔎"
       },
       {
         id: "qa_tests",
         name: "QA / Tests",
-        rate: 45,
+        rate: 18,
         note: "Recette fonctionnelle",
         icon: "✅"
       },
       {
         id: "qa_dev",
         name: "QA / Développeur",
-        rate: 50,
+        rate: 18,
         note: "Responsive & bugfix",
         icon: "🧪"
       },
       {
         id: "traffic_marketer",
         name: "Trafic manager / Marketer",
-        rate: 60,
+        rate: 16,
         note: "Analyse des données, optimisations",
         icon: "🚀"
       },
       {
         id: "marketer_design",
         name: "Marketer / Copywriter / Designer",
-        rate: 62,
+        rate: 20,
         note: "A/B tests et variantes créatives",
         icon: "🧠"
       }
@@ -2921,58 +2921,58 @@
     let hasTaskDnDListeners = false;
 
     const RATE_PRESETS = {
-      starter_core: {
-        label: "Équipe starter (€ / h)",
+      freelance_mada: {
+        label: "Option 1 Freelance Mada (€ / h)",
         rates: {
-          cp_rel: 45,
-          cp_strategy: 55,
-          copy_marketer: 50,
-          ux_ui: 52,
-          motion_graph: 48,
-          dev_wp: 50,
-          integrator: 48,
-          traffic_analyst: 50,
-          seo_dev: 48,
-          qa_tests: 40,
-          qa_dev: 45,
-          traffic_marketer: 52,
-          marketer_design: 55
+          cp_rel: 12,
+          cp_strategy: 12,
+          copy_marketer: 7,
+          ux_ui: 8,
+          motion_graph: 8,
+          dev_wp: 10,
+          integrator: 10,
+          traffic_analyst: 7,
+          seo_dev: 7,
+          qa_tests: 7,
+          qa_dev: 7,
+          traffic_marketer: 7,
+          marketer_design: 8
         }
       },
-      studio_conversion: {
-        label: "Studio conversion (€ / h)",
+      offshore: {
+        label: "Option 2 Agence Mada / Offshore (€ / h)",
         rates: {
-          cp_rel: 55,
-          cp_strategy: 65,
-          copy_marketer: 60,
-          ux_ui: 62,
-          motion_graph: 58,
-          dev_wp: 60,
-          integrator: 55,
-          traffic_analyst: 58,
-          seo_dev: 57,
-          qa_tests: 45,
-          qa_dev: 50,
-          traffic_marketer: 60,
-          marketer_design: 62
+          cp_rel: 28,
+          cp_strategy: 28,
+          copy_marketer: 16,
+          ux_ui: 20,
+          motion_graph: 18,
+          dev_wp: 25,
+          integrator: 25,
+          traffic_analyst: 16,
+          seo_dev: 16,
+          qa_tests: 18,
+          qa_dev: 18,
+          traffic_marketer: 16,
+          marketer_design: 20
         }
       },
-      premium_performance: {
-        label: "Équipe senior performance (€ / h)",
+      europe: {
+        label: "Option 3 Agence Europe (€ / h)",
         rates: {
           cp_rel: 70,
-          cp_strategy: 78,
-          copy_marketer: 72,
-          ux_ui: 75,
-          motion_graph: 70,
-          dev_wp: 72,
-          integrator: 68,
-          traffic_analyst: 72,
-          seo_dev: 70,
-          qa_tests: 52,
-          qa_dev: 58,
-          traffic_marketer: 72,
-          marketer_design: 75
+          cp_strategy: 70,
+          copy_marketer: 45,
+          ux_ui: 55,
+          motion_graph: 50,
+          dev_wp: 55,
+          integrator: 55,
+          traffic_analyst: 45,
+          seo_dev: 45,
+          qa_tests: 55,
+          qa_dev: 55,
+          traffic_marketer: 45,
+          marketer_design: 55
         }
       }
     };
