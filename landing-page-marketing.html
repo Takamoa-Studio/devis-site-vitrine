@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Budget landing page marketing</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/webp" href="assets/favicon.webp">
+  <style>
+    :root {
+      --bg: #0f172a;
+      --bg-alt: #020617;
+      --card: #0b1220;
+      --accent: #38bdf8;
+      --accent-soft: rgba(56, 189, 248, 0.1);
+      --accent-2: #4ade80;
+      --text: #e5e7eb;
+      --muted: #9ca3af;
+      --border: #1f2937;
+      --radius-lg: 16px;
+      --radius-md: 10px;
+      --shadow-soft: 0 18px 40px rgba(15, 23, 42, 0.6);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top, #1d283a 0, #020617 45%, #000 100%);
+      color: var(--text);
+      line-height: 1.5;
+      min-height: 100vh;
+    }
+
+    h1, h2, h3 { margin: 0; font-weight: 600; letter-spacing: 0.02em; }
+    h1 { font-size: clamp(1.8rem, 3vw, 2.3rem); }
+    h2 { font-size: 1.05rem; text-transform: uppercase; color: var(--muted); letter-spacing: 0.14em; }
+
+    .page { max-width: 1200px; margin: 0 auto; padding: 28px 16px 48px; }
+    header { display: flex; justify-content: space-between; align-items: center; gap: 16px; margin-bottom: 20px; }
+    .column { display: flex; flex-direction: column; gap: 12px; }
+
+    .brand { display: flex; flex-direction: column; gap: 6px; }
+    .brand img { width: 180px; filter: drop-shadow(0 10px 30px rgba(56, 189, 248, 0.35)); }
+    .brand .subtitle { color: var(--muted); letter-spacing: 0.14em; font-size: 0.82rem; text-transform: uppercase; }
+
+    main { display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr); gap: 18px; align-items: flex-start; }
+    @media (max-width: 960px) { main { grid-template-columns: minmax(0, 1fr); } }
+
+    .card {
+      background: linear-gradient(160deg, rgba(56,189,248,0.06), rgba(15,23,42,0.95));
+      border: 1px solid rgba(148, 163, 184, 0.28);
+      border-radius: var(--radius-lg);
+      padding: 18px;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .card + .card { margin-top: 10px; }
+
+    .card-header { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-bottom: 12px; }
+    .card-header p { margin: 0; color: var(--muted); font-size: 0.9rem; }
+
+    .pill {
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(56, 189, 248, 0.5);
+      color: var(--accent);
+      display: inline-flex; align-items: center; gap: 6px;
+      background: rgba(56, 189, 248, 0.08);
+      box-shadow: 0 10px 24px rgba(56, 189, 248, 0.3);
+      font-size: 0.8rem;
+      white-space: nowrap;
+    }
+
+    .presets { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px; }
+
+    .preset {
+      border: 1px solid rgba(148, 163, 184, 0.3);
+      border-radius: var(--radius-md);
+      padding: 12px;
+      background: rgba(2, 6, 23, 0.6);
+      cursor: pointer;
+      transition: border-color 150ms ease, transform 150ms ease, box-shadow 150ms ease;
+    }
+    .preset:hover { border-color: rgba(56,189,248,0.7); transform: translateY(-2px); box-shadow: 0 16px 30px rgba(56, 189, 248, 0.22); }
+    .preset.active { border-color: rgba(56,189,248,0.9); box-shadow: 0 16px 32px rgba(56,189,248,0.35); background: rgba(56,189,248,0.07); }
+    .preset h3 { margin: 0; font-size: 1rem; }
+    .preset p { margin: 4px 0 0; color: var(--muted); font-size: 0.88rem; }
+
+    .tasks { display: flex; flex-direction: column; gap: 12px; }
+    .phase { border: 1px solid rgba(148, 163, 184, 0.25); border-radius: var(--radius-md); padding: 12px; background: rgba(15, 23, 42, 0.7); }
+    .phase h3 { display: flex; align-items: center; justify-content: space-between; gap: 8px; font-size: 0.98rem; }
+    .phase small { color: var(--muted); font-weight: 500; }
+
+    .task-line { display: grid; grid-template-columns: minmax(0, 1fr) 120px 120px; gap: 8px; align-items: center; padding: 6px 0; border-bottom: 1px solid rgba(148, 163, 184, 0.16); }
+    .task-line:last-child { border-bottom: none; }
+    .task-title { font-weight: 600; }
+    .task-role { color: var(--muted); font-size: 0.88rem; }
+    .task-line input { width: 100%; padding: 8px 10px; background: rgba(2, 6, 23, 0.7); border: 1px solid rgba(148, 163, 184, 0.3); color: var(--text); border-radius: 8px; }
+
+    .rates-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 10px; }
+    .field { display: flex; flex-direction: column; gap: 4px; font-size: 0.9rem; }
+    .field label { color: var(--muted); display: flex; justify-content: space-between; gap: 6px; }
+    .field input { padding: 8px 10px; border-radius: 8px; background: rgba(2, 6, 23, 0.72); border: 1px solid rgba(148, 163, 184, 0.32); color: var(--text); }
+
+    .summary { display: flex; flex-direction: column; gap: 10px; }
+    .stat { display: flex; justify-content: space-between; align-items: center; background: rgba(56, 189, 248, 0.08); border: 1px solid rgba(56, 189, 248, 0.35); border-radius: var(--radius-md); padding: 10px 12px; }
+    .stat .value { font-size: 1.1rem; font-weight: 700; }
+    .stat small { color: var(--muted); }
+
+    .role-breakdown { border: 1px solid rgba(148, 163, 184, 0.25); border-radius: var(--radius-md); padding: 10px; background: rgba(2,6,23,0.65); display: flex; flex-direction: column; gap: 6px; }
+    .role-line { display: flex; justify-content: space-between; gap: 8px; font-size: 0.92rem; }
+    .role-line span:last-child { color: var(--accent-2); font-weight: 600; }
+
+    .hint { color: var(--muted); font-size: 0.88rem; margin: 4px 0 0; }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header>
+      <div class="brand">
+        <img src="assets/logo.webp" alt="Logo">
+        <div class="subtitle">Landing page marketing · Estimation</div>
+        <p class="pill"><span>📈</span><span>Aligné sur un process landing dédié marketing</span></p>
+      </div>
+      <div class="pill">Mode freelance · multi-rôles</div>
+    </header>
+
+    <main>
+      <section class="column">
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <h1>Estime ton budget landing page</h1>
+              <p>Choisis un type de landing, ajuste les charges par tâche et les taux freelance.</p>
+            </div>
+            <div class="pill">3 presets · 1 clic</div>
+          </div>
+          <div class="presets" id="preset-container"></div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <h2>Tâches & rôles</h2>
+            <p>Basé sur un process marketing complet : cadrage, copy, design, intégration, data, optimisation.</p>
+          </div>
+          <div class="tasks" id="tasks"></div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <h2>Taux horaires freelance</h2>
+            <p>Ajuste les taux par rôle, le calcul s'actualise.</p>
+          </div>
+          <div class="rates-grid" id="rates-grid"></div>
+        </div>
+      </section>
+
+      <section class="column">
+        <div class="card">
+          <div class="card-header">
+            <h2>Résumé budgétaire</h2>
+            <div class="pill" id="current-preset-pill"></div>
+          </div>
+          <div class="summary">
+            <div class="stat">
+              <div>
+                <div>Total heures</div>
+                <small>Somme des charges estimées</small>
+              </div>
+              <div class="value" id="total-hours">— h</div>
+            </div>
+            <div class="stat">
+              <div>
+                <div>Coût freelance</div>
+                <small>Basé sur les taux horaires</small>
+              </div>
+              <div class="value" id="total-cost">— €</div>
+            </div>
+            <div class="stat">
+              <div>
+                <div>Marges & vente HT</div>
+                <small>Personnalise la marge agence</small>
+                <div class="field" style="margin-top:6px;">
+                  <label for="margin">Marge (%)</label>
+                  <input type="number" id="margin" min="0" max="120" step="1" value="20">
+                </div>
+              </div>
+              <div style="text-align:right;">
+                <div class="value" id="total-with-margin">— €</div>
+                <small id="margin-amount">Marge : — €</small>
+              </div>
+            </div>
+          </div>
+          <div class="role-breakdown" id="role-breakdown"></div>
+          <p class="hint">Astuce : ajuste les heures par tâche selon la complexité (sections, intégrations tierces, A/B tests...)</p>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    const presets = [
+      { id: "starter", label: "Landing Start", subtitle: "One-page orientée conversion", factor: 1, margin: 18 },
+      { id: "performance", label: "Landing Performance", subtitle: "Tracking complet + micro-copies", factor: 1.2, margin: 22 },
+      { id: "scale", label: "Landing Scale", subtitle: "Itérations, A/B tests & assets premium", factor: 1.35, margin: 26 }
+    ];
+
+    const roles = {
+      pm: { label: "Chef de projet / Stratège", rate: 95 },
+      copy: { label: "Copywriter / Marketer", rate: 85 },
+      design: { label: "Webdesigner / UX-UI", rate: 90 },
+      graph: { label: "Motion / Graphiste", rate: 80 },
+      dev: { label: "Développeur Front / Intégrateur", rate: 88 },
+      analytics: { label: "Trafic manager / Web analyst", rate: 82 },
+      seo: { label: "SEO / Développeur", rate: 78 },
+      qa: { label: "QA / Développeur", rate: 72 },
+      abtest: { label: "Marketer / Designer (A/B)", rate: 84 }
+    };
+
+    const tasks = [
+      { id: "cadrage_atelier", phase: "Cadrage", label: "Atelier de découverte : objectif, offre, cible, promesse", roleId: "pm", baseHours: 3 },
+      { id: "cadrage_structure", phase: "Cadrage", label: "Définition de la structure de la landing (sections & CTA)", roleId: "pm", baseHours: 4 },
+      { id: "copy_message", phase: "Copywriting", label: "Rédaction du message clé (hero, promesse, sous-titre, CTA)", roleId: "copy", baseHours: 3 },
+      { id: "copy_sections", phase: "Copywriting", label: "Rédaction des sections : bénéfices, preuve sociale, FAQ, objections", roleId: "copy", baseHours: 6 },
+      { id: "design_maquette", phase: "Design", label: "Maquette UX/UI de la landing page", roleId: "design", baseHours: 8 },
+      { id: "design_visuels", phase: "Design", label: "Création / sélection des visuels (images, icônes, illustrations)", roleId: "graph", baseHours: 6 },
+      { id: "integration_page", phase: "Intégration", label: "Intégration de la landing (WordPress / Webflow / HTML)", roleId: "dev", baseHours: 10 },
+      { id: "integration_form", phase: "Intégration", label: "Mise en place du formulaire / système de prise de rendez-vous", roleId: "dev", baseHours: 3 },
+      { id: "tracking_analytics", phase: "Tracking & data", label: "Installation analytics (GA4, pixels pub)", roleId: "analytics", baseHours: 2.5 },
+      { id: "tracking_conversions", phase: "Tracking & data", label: "Configuration des conversions (clic CTA, envoi formulaire, etc.)", roleId: "analytics", baseHours: 3 },
+      { id: "seo_onpage", phase: "SEO", label: "Optimisation on-page (title, meta, Hn, performances, mobile)", roleId: "seo", baseHours: 3 },
+      { id: "qa_fonctionnel", phase: "Recette", label: "Tests fonctionnels (formulaire, emails, redirections)", roleId: "qa", baseHours: 2 },
+      { id: "qa_responsive", phase: "Recette", label: "Tests responsive & bugfix", roleId: "qa", baseHours: 3 },
+      { id: "optimisation_analyse", phase: "Optimisation", label: "Analyse des premières données (taux de conversion, CPC, etc.)", roleId: "analytics", baseHours: 3 },
+      { id: "optimisation_ab", phase: "Optimisation", label: "Itérations : A/B tests sur titres, visuels, CTA", roleId: "abtest", baseHours: 4 }
+    ];
+
+    const presetContainer = document.getElementById('preset-container');
+    const tasksContainer = document.getElementById('tasks');
+    const ratesGrid = document.getElementById('rates-grid');
+    const marginInput = document.getElementById('margin');
+    const totalHoursEl = document.getElementById('total-hours');
+    const totalCostEl = document.getElementById('total-cost');
+    const totalWithMarginEl = document.getElementById('total-with-margin');
+    const marginAmountEl = document.getElementById('margin-amount');
+    const roleBreakdownEl = document.getElementById('role-breakdown');
+    const currentPresetPill = document.getElementById('current-preset-pill');
+
+    let currentPreset = presets[0];
+
+    function renderPresets() {
+      presetContainer.innerHTML = '';
+      presets.forEach(preset => {
+        const div = document.createElement('div');
+        div.className = `preset ${preset.id === currentPreset.id ? 'active' : ''}`;
+        div.innerHTML = `<h3>${preset.label}</h3><p>${preset.subtitle}</p><p class="hint">Coeff charge x${preset.factor} · Marge ${preset.margin}%</p>`;
+        div.addEventListener('click', () => {
+          currentPreset = preset;
+          marginInput.value = preset.margin;
+          applyPresetHours();
+          renderPresets();
+          updateSummary();
+        });
+        presetContainer.appendChild(div);
+      });
+      currentPresetPill.textContent = `${currentPreset.label} · coeff ${currentPreset.factor}`;
+    }
+
+    function renderTasks() {
+      tasksContainer.innerHTML = '';
+      const grouped = tasks.reduce((acc, task) => {
+        acc[task.phase] = acc[task.phase] || [];
+        acc[task.phase].push(task);
+        return acc;
+      }, {});
+
+      Object.entries(grouped).forEach(([phase, phaseTasks]) => {
+        const phaseDiv = document.createElement('div');
+        phaseDiv.className = 'phase';
+        phaseDiv.innerHTML = `<h3>${phase} <small>${phaseTasks.length} tâche(s)</small></h3>`;
+
+        phaseTasks.forEach(task => {
+          const line = document.createElement('div');
+          line.className = 'task-line';
+          line.innerHTML = `
+            <div>
+              <div class="task-title">${task.label}</div>
+              <div class="task-role">${roles[task.roleId].label}</div>
+            </div>
+            <div><input type="number" min="0" step="0.5" value="${task.baseHours * currentPreset.factor}" data-task-id="${task.id}" aria-label="Heures pour ${task.label}"></div>
+            <div style="text-align:right; color: var(--muted);">${(task.baseHours)} h base</div>
+          `;
+          line.querySelector('input').addEventListener('input', updateSummary);
+          phaseDiv.appendChild(line);
+        });
+
+        tasksContainer.appendChild(phaseDiv);
+      });
+    }
+
+    function renderRates() {
+      ratesGrid.innerHTML = '';
+      Object.entries(roles).forEach(([id, role]) => {
+        const field = document.createElement('div');
+        field.className = 'field';
+        field.innerHTML = `
+          <label for="rate-${id}"><span>${role.label}</span><span>${role.rate} €/h</span></label>
+          <input type="number" id="rate-${id}" value="${role.rate}" min="40" max="250" step="1" data-role-id="${id}">
+        `;
+        field.querySelector('input').addEventListener('input', updateSummary);
+        ratesGrid.appendChild(field);
+      });
+    }
+
+    function applyPresetHours() {
+      document.querySelectorAll('[data-task-id]').forEach(input => {
+        const task = tasks.find(t => t.id === input.dataset.taskId);
+        input.value = (task.baseHours * currentPreset.factor).toFixed(1);
+      });
+    }
+
+    function getHoursByRole() {
+      const hours = {};
+      document.querySelectorAll('[data-task-id]').forEach(input => {
+        const task = tasks.find(t => t.id === input.dataset.taskId);
+        const value = parseFloat(input.value) || 0;
+        hours[task.roleId] = (hours[task.roleId] || 0) + value;
+      });
+      return hours;
+    }
+
+    function getRates() {
+      const rates = {};
+      document.querySelectorAll('[data-role-id]').forEach(input => {
+        rates[input.dataset.roleId] = parseFloat(input.value) || 0;
+      });
+      return rates;
+    }
+
+    function updateSummary() {
+      const hoursByRole = getHoursByRole();
+      const rates = getRates();
+
+      let totalHours = 0;
+      let freelanceCost = 0;
+      roleBreakdownEl.innerHTML = '';
+
+      Object.entries(hoursByRole).forEach(([roleId, hours]) => {
+        totalHours += hours;
+        const cost = hours * (rates[roleId] || 0);
+        freelanceCost += cost;
+
+        const line = document.createElement('div');
+        line.className = 'role-line';
+        line.innerHTML = `<span>${roles[roleId].label}</span><span>${hours.toFixed(1)} h · ${formatCurrency(cost)}</span>`;
+        roleBreakdownEl.appendChild(line);
+      });
+
+      totalHoursEl.textContent = `${totalHours.toFixed(1)} h`;
+      totalCostEl.textContent = formatCurrency(freelanceCost);
+
+      const marginPercent = Math.max(0, parseFloat(marginInput.value) || 0);
+      const marginValue = freelanceCost * (marginPercent / 100);
+      const totalWithMargin = freelanceCost + marginValue;
+
+      marginAmountEl.textContent = `Marge : ${formatCurrency(marginValue)}`;
+      totalWithMarginEl.textContent = formatCurrency(totalWithMargin);
+      currentPresetPill.textContent = `${currentPreset.label} · coeff ${currentPreset.factor}`;
+    }
+
+    function formatCurrency(value) {
+      return new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 }).format(value || 0);
+    }
+
+    renderPresets();
+    renderTasks();
+    renderRates();
+    marginInput.addEventListener('input', updateSummary);
+    updateSummary();
+  </script>
+</body>
+</html>
