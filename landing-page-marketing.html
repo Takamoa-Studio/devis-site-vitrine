@@ -239,6 +239,30 @@
       transition: all 150ms ease;
     }
 
+    .finance-amount {
+      font-weight: 700;
+    }
+
+    .finance-amount.accent {
+      color: var(--accent);
+    }
+
+    .finance-amount.warning {
+      color: var(--danger);
+    }
+
+    .finance-amount.secondary {
+      color: #c084fc;
+    }
+
+    .finance-amount.highlight {
+      color: #fbbf24;
+    }
+
+    .finance-amount.positive {
+      color: var(--accent-2);
+    }
+
     .card-header .small-action:hover {
       background: rgba(56, 189, 248, 0.12);
       border-color: rgba(56, 189, 248, 0.4);
@@ -2232,27 +2256,31 @@
             <tbody>
               <tr>
                 <td>Coût total avant buffer</td>
-                <td class="align-right" id="tasks-finance-prebuffer">—</td>
+                <td class="align-right finance-amount accent" id="tasks-finance-prebuffer">—</td>
               </tr>
               <tr>
                 <td>Buffer imprévus <span class="muted" id="tasks-finance-buffer-label">(—%)</span></td>
-                <td class="align-right" id="tasks-finance-buffer">—</td>
+                <td class="align-right finance-amount warning" id="tasks-finance-buffer">—</td>
               </tr>
               <tr>
                 <td>Options fixes &amp; abonnements</td>
-                <td class="align-right" id="tasks-finance-options">—</td>
+                <td class="align-right finance-amount secondary" id="tasks-finance-options">—</td>
               </tr>
               <tr>
                 <td>Coût interne total (après buffer)</td>
-                <td class="align-right" id="tasks-finance-internal">—</td>
+                <td class="align-right finance-amount highlight" id="tasks-finance-internal">—</td>
+              </tr>
+              <tr>
+                <td>Bénéfice agence</td>
+                <td class="align-right finance-amount positive" id="tasks-finance-profit">—</td>
               </tr>
               <tr>
                 <td id="tasks-finance-sell-label">Prix conseillé HT (€)</td>
-                <td class="align-right" id="tasks-finance-sell">—</td>
+                <td class="align-right finance-amount positive" id="tasks-finance-sell">—</td>
               </tr>
               <tr>
                 <td id="tasks-finance-sell-alt-label">Équivalence (MGA)</td>
-                <td class="align-right" id="tasks-finance-sell-alt">—</td>
+                <td class="align-right finance-amount secondary" id="tasks-finance-sell-alt">—</td>
               </tr>
             </tbody>
           </table>
@@ -4012,6 +4040,7 @@
 
       // Prix de vente
       const priceSell = internalWithBuffer * params.margin;
+      const agencyProfit = priceSell - internalWithBuffer;
 
       document.getElementById("tasks-finance-prebuffer").textContent = formatMainCurrency(totalBeforeBuffer);
       document.getElementById("tasks-finance-buffer").textContent = formatMainCurrency(bufferAmount);
@@ -4043,6 +4072,7 @@
       document.getElementById("summary-price-sell").textContent = formatMainCurrency(priceSell);
       document.getElementById("summary-price-sell-mga").textContent = formatSecondaryCurrency(priceSell);
       document.getElementById("tasks-finance-internal").textContent = formatMainCurrency(internalWithBuffer);
+      document.getElementById("tasks-finance-profit").textContent = formatMainCurrency(agencyProfit);
       document.getElementById("tasks-finance-sell").textContent = formatMainCurrency(priceSell);
       document.getElementById("tasks-finance-sell-alt").textContent = formatSecondaryCurrency(priceSell);
 
