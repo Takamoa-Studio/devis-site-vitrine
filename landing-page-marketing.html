@@ -2075,7 +2075,7 @@
             <div class="toolbar-controls" role="group" aria-label="Filtres d'affichage des tâches">
               <div class="filter-select">
                 <span class="filter-icon" aria-hidden="true">🔍</span>
-                <select id="tasks-role-filter"></select>
+                <select id="tasks-role-filter" multiple aria-label="Filtre par rôle (sélection multiple)"></select>
                 <span class="select-caret" aria-hidden="true">▾</span>
               </div>
               <label class="toggle" for="toggle-zero-cost">
@@ -2333,7 +2333,7 @@
       }
     ];
 
-    let activeRoleFilter = "all";
+    let activeRoleFilters = ["all"];
     let hideZeroCost = true;
     let activeCurrency = "eur";
     let lastTotals = {
@@ -2349,6 +2349,12 @@
         color: "var(--accent)",
         bg: "var(--accent-soft)",
         border: "rgba(56, 189, 248, 0.35)"
+      },
+      multi: {
+        icon: "🎯",
+        color: "var(--accent-2)",
+        bg: "rgba(74, 222, 128, 0.16)",
+        border: "rgba(74, 222, 128, 0.35)"
       },
       cp_rel: {
         icon: "🤝",
@@ -3487,11 +3493,36 @@
       });
     }
 
+    function isAllRoleFilter(filters) {
+      return !filters
+        || filters.length === 0
+        || filters.includes("all")
+        || filters.length === roles.length;
+    }
+
+    function syncSelectValues(select, values) {
+      Array.from(select.options).forEach(option => {
+        option.selected = values.includes(option.value);
+      });
+    }
+
+    function formatRoleFilterLabel(filters) {
+      if (isAllRoleFilter(filters)) return "Tous les rôles";
+      return filters
+        .map(roleId => rolesById[roleId]?.name || roleId)
+        .join(", ");
+    }
+
     function applyFilterIcon(roleId) {
       const iconEl = document.querySelector(".filter-select .filter-icon");
       if (!iconEl) return;
 
-      const style = roleIconStyles[roleId] || roleIconStyles.all;
+      const roleIds = Array.isArray(roleId) ? roleId : [roleId];
+      const style = isAllRoleFilter(roleIds)
+        ? roleIconStyles.all
+        : roleIds.length === 1
+          ? (roleIconStyles[roleIds[0]] || roleIconStyles.all)
+          : roleIconStyles.multi;
       iconEl.textContent = style.icon;
       iconEl.style.color = style.color;
       iconEl.style.background = style.bg;
@@ -3510,9 +3541,11 @@
       if (!feedback) return;
 
       const defaultMessage = "Utilises le filtre par rôle pour voir le résumé financier du profil sélectionné.";
-      const roleLabel = rolesById[roleId]?.name ?? roleId;
+      const roleLabel = Array.isArray(roleId)
+        ? formatRoleFilterLabel(roleId)
+        : (rolesById[roleId]?.name ?? roleId);
 
-      if (roleId === "all") {
+      if (isAllRoleFilter(Array.isArray(roleId) ? roleId : [roleId])) {
         feedback.textContent = defaultMessage;
         return;
       }
@@ -3677,15 +3710,23 @@
         select.appendChild(option);
       });
 
-      select.value = activeRoleFilter;
-      applyFilterIcon(select.value);
+      syncSelectValues(select, activeRoleFilters);
+      applyFilterIcon(activeRoleFilters);
 
       select.addEventListener("change", () => {
         const previousTotals = { ...lastTotals };
-        activeRoleFilter = select.value;
-        applyFilterIcon(activeRoleFilter);
+        const selectedValues = Array.from(select.selectedOptions).map(option => option.value);
+        let nextFilters = selectedValues.length ? selectedValues : ["all"];
+
+        if (nextFilters.includes("all") && nextFilters.length > 1) {
+          nextFilters = ["all"];
+          syncSelectValues(select, nextFilters);
+        }
+
+        activeRoleFilters = nextFilters;
+        applyFilterIcon(activeRoleFilters);
         const newTotals = recalcAll();
-        updateFilterFeedback(activeRoleFilter, totalsChanged(previousTotals, newTotals));
+        updateFilterFeedback(activeRoleFilters, totalsChanged(previousTotals, newTotals));
       });
     }
 
@@ -3746,7 +3787,7 @@
         if (!row) return;
 
         const rate = rolesById[task.roleId]?.rate ?? 0;
-        const matchesFilter = activeRoleFilter === "all" || task.roleId === activeRoleFilter;
+        const matchesFilter = isAllRoleFilter(activeRoleFilters) || activeRoleFilters.includes(task.roleId);
 
         let baseHours = task.baseHours;
         let volume = getTaskVolume(task, params);
@@ -3773,7 +3814,7 @@
       const addRoleContribution = (hours, roleId) => {
         const rate = getRoleRate(roleId);
         const cost = hours * rate;
-        const matchesFilter = activeRoleFilter === "all" || roleId === activeRoleFilter;
+        const matchesFilter = isAllRoleFilter(activeRoleFilters) || activeRoleFilters.includes(roleId);
 
         if (matchesFilter) {
           totalHours += hours;
@@ -3806,7 +3847,7 @@
       const chatbotCost = params.optChatbot ? params.chatbotSubscription : 0;
       const translationOptionCost = params.translationActive ? params.translationSubscription : 0;
 
-      const includeOptionCosts = !activeRoleFilter || activeRoleFilter === "all";
+      const includeOptionCosts = isAllRoleFilter(activeRoleFilters);
       const optionCosts = includeOptionCosts ? hostingDomainCost + chatbotCost + translationOptionCost : 0;
       const totalBeforeBuffer = totalCost;
 
@@ -3965,9 +4006,7 @@
       const visibleRows = getVisibleTaskRows();
       const rows = [];
 
-      const filterLabel = activeRoleFilter === "all"
-        ? "Tous les rôles"
-        : (rolesById[activeRoleFilter]?.name ?? activeRoleFilter);
+      const filterLabel = formatRoleFilterLabel(activeRoleFilters);
 
       rows.push(["Filtre par rôle", filterLabel]);
       rows.push(["Tâches visibles", String(visibleRows.length)]);
@@ -4145,7 +4184,7 @@
         applyRatePreset(initialTariffPreset, { recalc: false });
       }
       applyPreset(initialPreset);
-      updateFilterFeedback(activeRoleFilter, false);
+      updateFilterFeedback(activeRoleFilters, false);
     });
   </script>
 </body>
