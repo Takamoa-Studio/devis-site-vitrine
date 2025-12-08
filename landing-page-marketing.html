@@ -2206,6 +2206,42 @@
             </tfoot>
           </table>
         </div>
+
+        <div class="tasks-table-wrapper" aria-label="Résumé financier au format tableau" style="margin-top: 14px;">
+          <table>
+            <thead>
+              <tr>
+                <th colspan="2">Résumé financier (raccourci)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Coût total avant buffer</td>
+                <td class="align-right" id="tasks-finance-prebuffer">—</td>
+              </tr>
+              <tr>
+                <td>Buffer imprévus <span class="muted" id="tasks-finance-buffer-label">(—%)</span></td>
+                <td class="align-right" id="tasks-finance-buffer">—</td>
+              </tr>
+              <tr>
+                <td>Options fixes &amp; abonnements</td>
+                <td class="align-right" id="tasks-finance-options">—</td>
+              </tr>
+              <tr>
+                <td>Coût interne total (après buffer)</td>
+                <td class="align-right" id="tasks-finance-internal">—</td>
+              </tr>
+              <tr>
+                <td id="tasks-finance-sell-label">Prix conseillé HT (€)</td>
+                <td class="align-right" id="tasks-finance-sell">—</td>
+              </tr>
+              <tr>
+                <td id="tasks-finance-sell-alt-label">Équivalence (MGA)</td>
+                <td class="align-right" id="tasks-finance-sell-alt">—</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </section>
   </div>
@@ -3960,6 +3996,14 @@
       // Prix de vente
       const priceSell = internalWithBuffer * params.margin;
 
+      document.getElementById("tasks-finance-prebuffer").textContent = formatMainCurrency(totalBeforeBuffer);
+      document.getElementById("tasks-finance-buffer").textContent = formatMainCurrency(bufferAmount);
+      const bufferLabel = document.getElementById("tasks-finance-buffer-label");
+      if (bufferLabel) {
+        bufferLabel.textContent = `(${params.bufferPercent}% imprévus)`;
+      }
+      document.getElementById("tasks-finance-options").textContent = formatMainCurrency(optionCosts);
+
       document.getElementById("summary-cost-freelance").textContent = formatMainCurrency(totalBeforeBuffer);
       document.getElementById("summary-cost-hosting").textContent = formatMainCurrency(hostingDomainCost);
       const chatbotHoursTotal = params.chatbotSetupHours + params.chatbotIntegrationHours + params.chatbotTrainingHours;
@@ -3981,12 +4025,17 @@
       document.getElementById("summary-cost-internal").textContent = formatMainCurrency(internalWithBuffer);
       document.getElementById("summary-price-sell").textContent = formatMainCurrency(priceSell);
       document.getElementById("summary-price-sell-mga").textContent = formatSecondaryCurrency(priceSell);
+      document.getElementById("tasks-finance-internal").textContent = formatMainCurrency(internalWithBuffer);
+      document.getElementById("tasks-finance-sell").textContent = formatMainCurrency(priceSell);
+      document.getElementById("tasks-finance-sell-alt").textContent = formatSecondaryCurrency(priceSell);
 
       const priceSellLabel = document.getElementById("summary-price-sell-label");
       const priceSellMgaLabel = document.getElementById("summary-price-sell-mga-label");
       const priceSellMgaChip = document.getElementById("summary-price-sell-mga-chip");
       const rateHeader = document.getElementById("tasks-header-rate");
       const costHeader = document.getElementById("tasks-header-cost");
+      const financeSellLabel = document.getElementById("tasks-finance-sell-label");
+      const financeSellAltLabel = document.getElementById("tasks-finance-sell-alt-label");
 
       if (priceSellLabel) {
         priceSellLabel.textContent = `Prix conseillé HT (${currencyMeta.mainSymbol})`;
@@ -4002,6 +4051,12 @@
       }
       if (costHeader) {
         costHeader.textContent = `Coût tâche (${currencyMeta.mainSymbol})`;
+      }
+      if (financeSellLabel) {
+        financeSellLabel.textContent = `Prix conseillé HT (${currencyMeta.mainSymbol})`;
+      }
+      if (financeSellAltLabel) {
+        financeSellAltLabel.textContent = `Équivalence (${currencyMeta.altSymbol})`;
       }
 
       const translationDetails = params.translationActive
