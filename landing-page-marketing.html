@@ -1208,6 +1208,21 @@
       flex-wrap: wrap;
     }
 
+    .toolbar-block--filters {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 10px;
+    }
+
+    .toolbar-row {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+      width: 100%;
+    }
+
     .toolbar-text {
       display: flex;
       flex-direction: column;
@@ -1220,6 +1235,74 @@
       align-items: center;
       gap: 10px;
       justify-content: flex-end;
+    }
+
+    .role-chip-group {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      width: 100%;
+    }
+
+    .role-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+      border-radius: var(--radius-md);
+      border: 1px solid rgba(148, 163, 184, 0.25);
+      background: rgba(15, 23, 42, 0.75);
+      cursor: pointer;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease, transform 0.1s ease;
+      min-width: 200px;
+    }
+
+    .role-chip:hover {
+      border-color: rgba(56, 189, 248, 0.35);
+      background: rgba(56, 189, 248, 0.06);
+      transform: translateY(-1px);
+    }
+
+    .role-chip.is-active {
+      border-color: rgba(56, 189, 248, 0.5);
+      box-shadow: 0 10px 30px rgba(56, 189, 248, 0.12);
+      background: linear-gradient(135deg, rgba(56, 189, 248, 0.12), rgba(74, 222, 128, 0.08));
+    }
+
+    .role-chip input {
+      display: none;
+    }
+
+    .role-chip-icon {
+      width: 34px;
+      height: 34px;
+      border-radius: 12px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(56, 189, 248, 0.12);
+      border: 1px solid rgba(56, 189, 248, 0.25);
+      font-size: 0.95rem;
+      flex-shrink: 0;
+      color: var(--accent);
+    }
+
+    .role-chip-text {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      color: var(--text);
+    }
+
+    .role-chip-title {
+      font-size: 0.9rem;
+      letter-spacing: 0.01em;
+    }
+
+    .role-chip-helper {
+      font-size: 0.78rem;
+      color: var(--muted);
     }
 
     .toolbar-heading,
@@ -2067,23 +2150,21 @@
         </div>
 
         <div class="tasks-toolbar" aria-label="Affiner l'affichage et gérer les tâches">
-          <div class="toolbar-block">
-            <div class="toolbar-text">
-              <label for="tasks-role-filter">Filtres d'affichage</label>
-              <span class="label-sub">Choisis un rôle et ajuste les tâches à 0 €.</span>
-            </div>
-            <div class="toolbar-controls" role="group" aria-label="Filtres d'affichage des tâches">
-              <div class="filter-select">
-                <span class="filter-icon" aria-hidden="true">🔍</span>
-                <select id="tasks-role-filter" multiple aria-label="Filtre par rôle (sélection multiple)"></select>
-                <span class="select-caret" aria-hidden="true">▾</span>
+          <div class="toolbar-block toolbar-block--filters">
+            <div class="toolbar-row">
+              <div class="toolbar-text">
+                <label for="tasks-role-filter">Filtres d'affichage</label>
+                <span class="label-sub">Choisis un rôle et ajuste les tâches à 0 €.</span>
               </div>
-              <label class="toggle" for="toggle-zero-cost">
-                <input type="checkbox" id="toggle-zero-cost" checked>
-                <span class="toggle-switch" aria-hidden="true"></span>
-                <span class="toggle-label" id="toggle-zero-cost-label">Tâches à 0€ affichées</span>
-              </label>
+              <div class="toolbar-controls" role="group" aria-label="Affichage des tâches">
+                <label class="toggle" for="toggle-zero-cost">
+                  <input type="checkbox" id="toggle-zero-cost" checked>
+                  <span class="toggle-switch" aria-hidden="true"></span>
+                  <span class="toggle-label" id="toggle-zero-cost-label">Tâches à 0€ affichées</span>
+                </label>
+              </div>
             </div>
+            <div class="role-chip-group" id="tasks-role-filter" role="group" aria-label="Filtre par rôle (sélection multiple)"></div>
           </div>
 
           <span class="toolbar-divider" role="presentation"></span>
@@ -3500,9 +3581,19 @@
         || filters.length === roles.length;
     }
 
-    function syncSelectValues(select, values) {
-      Array.from(select.options).forEach(option => {
-        option.selected = values.includes(option.value);
+    function syncRoleChips(container, filters) {
+      if (!container) return;
+
+      const normalized = Array.isArray(filters) ? filters : [];
+      const shouldShowAll = isAllRoleFilter(normalized);
+
+      container.querySelectorAll(".role-chip").forEach(chip => {
+        const roleId = chip.dataset.roleId;
+        const input = chip.querySelector("input");
+        const isActive = shouldShowAll ? roleId === "all" : normalized.includes(roleId);
+
+        if (input) input.checked = isActive;
+        chip.classList.toggle("is-active", isActive);
       });
     }
 
@@ -3511,22 +3602,6 @@
       return filters
         .map(roleId => rolesById[roleId]?.name || roleId)
         .join(", ");
-    }
-
-    function applyFilterIcon(roleId) {
-      const iconEl = document.querySelector(".filter-select .filter-icon");
-      if (!iconEl) return;
-
-      const roleIds = Array.isArray(roleId) ? roleId : [roleId];
-      const style = isAllRoleFilter(roleIds)
-        ? roleIconStyles.all
-        : roleIds.length === 1
-          ? (roleIconStyles[roleIds[0]] || roleIconStyles.all)
-          : roleIconStyles.multi;
-      iconEl.textContent = style.icon;
-      iconEl.style.color = style.color;
-      iconEl.style.background = style.bg;
-      iconEl.style.borderColor = style.border;
     }
 
     function totalsChanged(prev, next) {
@@ -3691,43 +3766,74 @@
     }
 
     function initRoleFilter() {
-      const select = document.getElementById("tasks-role-filter");
-      if (!select) return;
+      const container = document.getElementById("tasks-role-filter");
+      if (!container) return;
 
-      select.innerHTML = "";
+      const chips = [
+        { id: "all", name: "Tous les rôles", icon: roleIconStyles.all.icon, helper: "Aucun filtre appliqué" },
+        ...roles.map(role => ({ ...role, helper: role.note || "Filtre spécifique" }))
+      ];
 
-      const optionAll = document.createElement("option");
-      optionAll.value = "all";
-      optionAll.textContent = "Tous les rôles";
-      optionAll.dataset.icon = roleIconStyles.all.icon;
-      select.appendChild(optionAll);
+      container.innerHTML = "";
 
-      roles.forEach(role => {
-        const option = document.createElement("option");
-        option.value = role.id;
-        option.textContent = role.name;
-        option.dataset.icon = role.icon || roleIconStyles.all.icon;
-        select.appendChild(option);
+      chips.forEach(role => {
+        const chip = document.createElement("label");
+        chip.className = "role-chip";
+        chip.dataset.roleId = role.id;
+
+        const input = document.createElement("input");
+        input.type = "checkbox";
+        input.value = role.id;
+
+        const icon = document.createElement("span");
+        icon.className = "role-chip-icon";
+        icon.textContent = role.icon || roleIconStyles.all.icon;
+
+        const text = document.createElement("span");
+        text.className = "role-chip-text";
+
+        const title = document.createElement("span");
+        title.className = "role-chip-title";
+        title.textContent = role.name;
+
+        const helper = document.createElement("span");
+        helper.className = "role-chip-helper";
+        helper.textContent = role.helper;
+
+        text.appendChild(title);
+        text.appendChild(helper);
+
+        chip.appendChild(input);
+        chip.appendChild(icon);
+        chip.appendChild(text);
+        container.appendChild(chip);
+
+        input.addEventListener("change", () => {
+          const previousTotals = { ...lastTotals };
+          let nextFilters = [...activeRoleFilters];
+
+          if (role.id === "all") {
+            nextFilters = ["all"];
+          } else {
+            nextFilters = nextFilters.filter(value => value !== "all");
+
+            if (input.checked) {
+              nextFilters = Array.from(new Set([...nextFilters, role.id]));
+            } else {
+              nextFilters = nextFilters.filter(value => value !== role.id);
+            }
+
+            if (nextFilters.length === 0) nextFilters = ["all"];
+          }
+
+          activeRoleFilters = nextFilters;
+          syncRoleChips(container, activeRoleFilters);
+          const newTotals = recalcAll();
+          updateFilterFeedback(activeRoleFilters, totalsChanged(previousTotals, newTotals));
+        });
       });
 
-      syncSelectValues(select, activeRoleFilters);
-      applyFilterIcon(activeRoleFilters);
-
-      select.addEventListener("change", () => {
-        const previousTotals = { ...lastTotals };
-        const selectedValues = Array.from(select.selectedOptions).map(option => option.value);
-        let nextFilters = selectedValues.length ? selectedValues : ["all"];
-
-        if (nextFilters.includes("all") && nextFilters.length > 1) {
-          nextFilters = ["all"];
-          syncSelectValues(select, nextFilters);
-        }
-
-        activeRoleFilters = nextFilters;
-        applyFilterIcon(activeRoleFilters);
-        const newTotals = recalcAll();
-        updateFilterFeedback(activeRoleFilters, totalsChanged(previousTotals, newTotals));
-      });
+      syncRoleChips(container, activeRoleFilters);
     }
 
     // ----- Recalcul global -----
