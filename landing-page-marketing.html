@@ -263,6 +263,16 @@
       color: var(--accent-2);
     }
 
+    .finance-label-positive {
+      color: var(--accent-2);
+      font-weight: 600;
+    }
+
+    .finance-label-secondary {
+      color: #c084fc;
+      font-weight: 600;
+    }
+
     .card-header .small-action:hover {
       background: rgba(56, 189, 248, 0.12);
       border-color: rgba(56, 189, 248, 0.4);
@@ -2256,30 +2266,30 @@
             <tbody>
               <tr>
                 <td>Coût total avant buffer</td>
-                <td class="align-right finance-amount accent" id="tasks-finance-prebuffer">—</td>
+                <td class="align-right finance-amount" id="tasks-finance-prebuffer">—</td>
               </tr>
               <tr>
                 <td>Buffer imprévus <span class="muted" id="tasks-finance-buffer-label">(—%)</span></td>
-                <td class="align-right finance-amount warning" id="tasks-finance-buffer">—</td>
+                <td class="align-right finance-amount" id="tasks-finance-buffer">—</td>
               </tr>
               <tr>
                 <td>Options fixes &amp; abonnements</td>
-                <td class="align-right finance-amount secondary" id="tasks-finance-options">—</td>
+                <td class="align-right finance-amount" id="tasks-finance-options">—</td>
               </tr>
               <tr>
                 <td>Coût interne total (après buffer)</td>
-                <td class="align-right finance-amount highlight" id="tasks-finance-internal">—</td>
+                <td class="align-right finance-amount" id="tasks-finance-internal">—</td>
               </tr>
               <tr>
-                <td>Bénéfice agence</td>
+                <td class="finance-label-positive">Bénéfice agence</td>
                 <td class="align-right finance-amount positive" id="tasks-finance-profit">—</td>
               </tr>
               <tr>
-                <td id="tasks-finance-sell-label">Prix conseillé HT (€)</td>
+                <td id="tasks-finance-sell-label" class="finance-label-positive">Prix conseillé HT (€)</td>
                 <td class="align-right finance-amount positive" id="tasks-finance-sell">—</td>
               </tr>
               <tr>
-                <td id="tasks-finance-sell-alt-label">Équivalence (MGA)</td>
+                <td id="tasks-finance-sell-alt-label" class="finance-label-secondary">Équivalence (MGA)</td>
                 <td class="align-right finance-amount secondary" id="tasks-finance-sell-alt">—</td>
               </tr>
             </tbody>
