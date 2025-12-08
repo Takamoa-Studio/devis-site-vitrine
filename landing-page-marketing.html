@@ -985,6 +985,21 @@
       min-width: 100%;
     }
 
+    .tasks-table {
+      table-layout: fixed;
+    }
+
+    .tasks-table th.task-col,
+    .tasks-table td.task-col {
+      width: 230px;
+      max-width: 230px;
+    }
+
+    .tasks-table td.task-col {
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
     thead {
       position: sticky;
       top: 0;
@@ -2176,11 +2191,11 @@
         </div>
 
         <div class="tasks-table-wrapper" aria-label="Détail des tâches et calculs">
-          <table>
+          <table class="tasks-table">
             <thead>
               <tr>
                 <th>Phase</th>
-                <th>Tâche</th>
+                <th class="task-col">Tâche</th>
                 <th>Rôle</th>
                 <th class="align-right">Base h</th>
                 <th class="align-right">Volume</th>
@@ -3457,7 +3472,9 @@
         tdPhase.innerHTML = `<span class="tasks-phase">${task.phase}</span>`;
 
         const tdLabel = document.createElement("td");
+        tdLabel.className = "task-col";
         tdLabel.textContent = task.label;
+        tdLabel.title = task.label;
 
         const tdRole = document.createElement("td");
         tdRole.textContent = rolesById[task.roleId]?.name || "—";
