@@ -1852,9 +1852,9 @@
                 </div>
               </div>
 
-              <div class="field-subsection">
-                <p class="field-subtitle">Import d'articles existants</p>
-                <div class="grid" aria-label="Blog et import d'articles">
+            <div class="field-subsection">
+              <p class="field-subtitle">Import d'articles existants</p>
+              <div class="grid" aria-label="Blog et import d'articles">
                   <div class="field">
                     <label for="param_import_articles">
                       Articles à importer (refonte)
@@ -1884,13 +1884,42 @@
                       Facteur dégressif par batch
                       <span class="hint-icon" data-tooltip="0.9 = -10% par batch supplémentaire" role="note" tabindex="0" aria-label="0.9 = -10% par batch supplémentaire">?</span>
                     </label>
-                    <input type="number" id="param_import_degressif" min="0" max="1.5" step="0.05" value="0.9">
-                  </div>
+                  <input type="number" id="param_import_degressif" min="0" max="1.5" step="0.05" value="0.9">
                 </div>
               </div>
             </div>
 
-            <div class="field-group">
+            <div class="field-subsection">
+              <p class="field-subtitle">Newsletter</p>
+              <div class="grid" aria-label="Paramétrage des newsletters">
+                <div class="field">
+                  <label for="param_opt_newsletter">
+                    Inclure l'envoi de newsletters ?
+                    <span class="hint-icon" data-tooltip="0 = non, 1 = oui" role="note" tabindex="0" aria-label="0 = non, 1 = oui">?</span>
+                  </label>
+                  <input type="number" id="param_opt_newsletter" min="0" max="1" step="1" value="0">
+                </div>
+
+                <div class="field">
+                  <label for="param_newsletter_count">
+                    Nombre de newsletters
+                    <span class="hint-icon" data-tooltip="Campagnes à produire (contenu + envoi)" role="note" tabindex="0" aria-label="Campagnes à produire (contenu + envoi)">?</span>
+                  </label>
+                  <input type="number" id="param_newsletter_count" min="0" step="1" value="1">
+                </div>
+
+                <div class="field">
+                  <label for="param_newsletter_send_cost">
+                    Coût d'envoi par newsletter (€)
+                    <span class="hint-icon" data-tooltip="Budget plateforme / emailing par envoi" role="note" tabindex="0" aria-label="Budget plateforme / emailing par envoi">?</span>
+                  </label>
+                  <input type="number" id="param_newsletter_send_cost" min="0" step="5" value="90">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="field-group">
               <div class="group-header">
                 <h3 class="group-title"><span class="icon">🌐</span> Traduction & langues</h3>
                 <p class="group-sub">Activation du multilingue et estimation des volumes à traduire.</p>
@@ -2321,6 +2350,11 @@
                 <div class="summary-label">Option ChatBot IA</div>
                 <div class="summary-value" id="summary-cost-chatbot">—</div>
                 <div class="summary-chip" id="summary-chatbot-details">Pas de chatbot activé</div>
+              </div>
+              <div class="summary-card" id="summary-newsletter-card">
+                <div class="summary-label">Newsletters</div>
+                <div class="summary-value" id="summary-cost-newsletter">—</div>
+                <div class="summary-chip muted" id="summary-newsletter-details">Option newsletter inactive</div>
               </div>
               <div class="summary-card" id="summary-hosting-card">
                 <div class="summary-label">Hébergement &amp; Domaine</div>
@@ -2892,6 +2926,22 @@
         volumeKey: "reaVisualsVolume"
       },
       {
+        id: "content_newsletter_copy",
+        phase: "Contenus",
+        label: "Rédaction + séquence newsletter",
+        roleId: "seo",
+        baseHours: 2,
+        volumeKey: "newsletterCount"
+      },
+      {
+        id: "content_newsletter_design",
+        phase: "Contenus",
+        label: "Design / mise en page newsletter",
+        roleId: "graph",
+        baseHours: 1.5,
+        volumeKey: "newsletterCount"
+      },
+      {
         id: "dev_config",
         phase: "Développement",
         label: "Configuration WordPress & plugins",
@@ -2995,6 +3045,7 @@
       { value: "blogArticles", label: "Articles de blog", hint: "Multiplié par le nombre d'articles." },
       { value: "articleVisuals", label: "Visuels par article", hint: "Volume de visuels liés aux articles." },
       { value: "articleSeo", label: "Optimisation SEO", hint: "Nombre d'articles avec optimisation SEO." },
+      { value: "newsletterCount", label: "Newsletters", hint: "Volume de newsletters à produire et envoyer." },
       { value: "hasBlog", label: "Activation du blog", hint: "1 si le blog est activé, sinon 0." },
       { value: "translationSiteHours", label: "Traduction du site", hint: "Calcule un volume d'heures selon les langues et pages." },
       { value: "chatbotSetupHours", label: "Setup chatbot", hint: "Utilise les heures de setup chatbot." },
@@ -3049,6 +3100,9 @@
           param_blog_articles: 0,
           param_blog_visuals: 1,
           param_blog_seo: 1,
+          param_opt_newsletter: 0,
+          param_newsletter_count: 1,
+          param_newsletter_send_cost: 90,
           param_opt_logo: 0,
           param_logo_concepts: 0,
           param_logo_exports: 0,
@@ -3107,6 +3161,9 @@
           param_blog_articles: 2,
           param_blog_visuals: 1,
           param_blog_seo: 1,
+          param_opt_newsletter: 0,
+          param_newsletter_count: 1,
+          param_newsletter_send_cost: 90,
           param_opt_logo: 0,
           param_logo_concepts: 2,
           param_logo_exports: 3,
@@ -3165,6 +3222,9 @@
           param_blog_articles: 6,
           param_blog_visuals: 1,
           param_blog_seo: 1,
+          param_opt_newsletter: 0,
+          param_newsletter_count: 2,
+          param_newsletter_send_cost: 120,
           param_opt_logo: 1,
           param_logo_concepts: 3,
           param_logo_exports: 4,
@@ -3324,6 +3384,9 @@
       "param_blog_articles",
       "param_blog_visuals",
       "param_blog_seo",
+      "param_opt_newsletter",
+      "param_newsletter_count",
+      "param_newsletter_send_cost",
       "param_opt_logo",
       "param_logo_concepts",
       "param_logo_exports",
@@ -3384,6 +3447,12 @@
       const wantsBlogSeo = Math.max(0, Math.min(1, safeNumber(document.getElementById("param_blog_seo").value, 1)));
       const articleVisualsVolume = blogArticles * wantsBlogVisuals;
       const articleSeoVolume = blogArticles * wantsBlogSeo;
+      const optNewsletter = Math.max(0, Math.min(1, safeNumber(document.getElementById("param_opt_newsletter").value, 0)));
+      const newsletterCountRaw = Math.max(0, safeNumber(document.getElementById("param_newsletter_count").value, 0));
+      const newsletterCount = optNewsletter ? newsletterCountRaw : 0;
+      const newsletterSendUnitCostRaw = Math.max(0, safeNumber(document.getElementById("param_newsletter_send_cost").value, 0));
+      const newsletterSendUnitCost = optNewsletter ? newsletterSendUnitCostRaw : 0;
+      const newsletterSendCost = newsletterCount * newsletterSendUnitCost;
       const optLogo = Math.max(0, Math.min(1, safeNumber(document.getElementById("param_opt_logo").value, 0)));
       const logoConceptsRaw = Math.max(0, safeNumber(document.getElementById("param_logo_concepts").value, 2));
       const logoConcepts = optLogo ? logoConceptsRaw : 0;
@@ -3477,6 +3546,7 @@
         optLogo > 0,
         optFormation > 0,
         optChatbot > 0,
+        optNewsletter > 0,
         importArticles > 0,
         optHosting > 0,
         optDomain > 0,
@@ -3510,6 +3580,10 @@
         blogArticles,
         articleVisualsVolume,
         articleSeoVolume,
+        optNewsletter,
+        newsletterCount,
+        newsletterSendUnitCost,
+        newsletterSendCost,
         optLogo,
         logoConcepts,
         logoExports,
@@ -3586,6 +3660,7 @@
         case "blogArticles": return params.blogArticles;
         case "articleVisuals": return params.articleVisualsVolume;
         case "articleSeo": return params.articleSeoVolume;
+        case "newsletterCount": return params.newsletterCount;
         case "hasBlog": return params.hasBlog;
         case "translationSiteHours": return params.translationSiteHours;
         case "chatbotSetupHours": return params.chatbotSetupHours;
@@ -4316,6 +4391,11 @@
         const blogLabel = params.blogArticles > 0 ? `Blog (${params.blogArticles} art.)` : "Blog activé";
         opts.push({ label: blogLabel, icon: "✍️" });
       }
+      if (params.optNewsletter === 1) {
+        const sendLabel = params.newsletterSendCost > 0 ? ` · envoi ${fmtEuro(params.newsletterSendCost, 0)}` : "";
+        const countLabel = params.newsletterCount > 0 ? `x${params.newsletterCount}` : "1";
+        opts.push({ label: `Newsletter ${countLabel}${sendLabel}`, icon: "📧" });
+      }
       if (params.nbServiceListing === 1 || params.nbServiceDetails > 0) {
         const detailLabel = params.nbServiceDetails > 0 ? `${params.nbServiceDetails} fiches` : "listing seul";
         const designLabel = params.serviceDesignFactor > 1 ? "design dédié" : "gabarit unique";
@@ -4421,12 +4501,15 @@
 
       const hostingActive = params.optHosting === 1 || params.optDomain === 1;
 
+      const newsletterOptionCost = params.optNewsletter ? params.newsletterSendCost : 0;
+      const newsletterActive = params.optNewsletter === 1;
+
       const chatbotCost = params.optChatbot ? params.chatbotSubscription : 0;
       const translationOptionCost = params.translationActive ? params.translationSubscription : 0;
       const translationCost = params.translationActive ? params.translationCost : 0;
 
       const includeOptionCosts = !activeRoleFilter || activeRoleFilter === "all";
-      const optionCosts = includeOptionCosts ? hostingDomainCost + chatbotCost + translationOptionCost : 0;
+      const optionCosts = includeOptionCosts ? hostingDomainCost + chatbotCost + translationOptionCost + newsletterOptionCost : 0;
       const totalBeforeBuffer = totalCost;
 
       document.getElementById("tfoot-hours").textContent = fmtHours(totalHours);
@@ -4442,6 +4525,7 @@
 
       document.getElementById("summary-cost-freelance").textContent = formatMainCurrency(totalBeforeBuffer);
       document.getElementById("summary-cost-hosting").textContent = formatMainCurrency(hostingDomainCost);
+      document.getElementById("summary-cost-newsletter").textContent = formatMainCurrency(newsletterOptionCost);
       const chatbotHoursTotal = params.chatbotSetupHours + params.chatbotIntegrationHours + params.chatbotTrainingHours;
       const chatbotSetupCost =
         (params.chatbotSetupHours * (rolesById["cp"]?.rate || 0)) +
@@ -4451,15 +4535,23 @@
         ? `${params.chatbotOfferLabel} · ${formatMainCurrency(chatbotCost)}/mois · ${fmtHours(chatbotHoursTotal)}h`
         : "Pas de chatbot activé";
 
+      const newsletterDetails = params.optNewsletter
+        ? `${params.newsletterCount} newsletter(s) · envoi ${formatMainCurrency(params.newsletterSendCost)} · contenu inclus dans la prod`
+        : "Option newsletter inactive";
+
+      document.getElementById("summary-newsletter-details").textContent = newsletterDetails;
+
       document.getElementById("summary-cost-chatbot").textContent =
         params.optChatbot ? formatMainCurrency(chatbotSetupCost) : formatMainCurrency(0);
       document.getElementById("summary-chatbot-details").textContent = chatbotDetailsLabel;
 
       const hostingCard = document.getElementById("summary-hosting-card");
       const chatbotCard = document.getElementById("summary-chatbot-card");
+      const newsletterCard = document.getElementById("summary-newsletter-card");
       const translationCard = document.getElementById("summary-translation-card");
 
       if (hostingCard) hostingCard.classList.toggle("is-hidden", !hostingActive);
+      if (newsletterCard) newsletterCard.classList.toggle("is-hidden", !newsletterActive);
       if (chatbotCard) chatbotCard.classList.toggle("is-hidden", params.optChatbot !== 1);
       if (translationCard) translationCard.classList.toggle("is-hidden", !params.translationActive);
       document.getElementById("summary-cost-internal").textContent = formatMainCurrency(internalWithBuffer);
