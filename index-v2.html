@@ -1628,6 +1628,46 @@
                   </label>
                   <input type="number" id="param_buffer" min="0" step="5" value="10">
                 </div>
+
+                <div class="field">
+                  <label for="param_content_ownership">
+                    Contenus fournis par ?
+                    <span class="hint-icon" data-tooltip="impacte la coordination et la révision" role="note" tabindex="0" aria-label="impacte la coordination et la révision">?</span>
+                  </label>
+                  <select id="param_content_ownership">
+                    <option value="mixed" selected>Mixte client / agence</option>
+                    <option value="agency">Contenus gérés par l'agence</option>
+                    <option value="client">Contenus fournis par le client</option>
+                  </select>
+                </div>
+
+                <div class="field">
+                  <label for="param_design_revisions">
+                    Allers-retours design (rounds)
+                    <span class="hint-icon" data-tooltip="impacte UX/UI + identité" role="note" tabindex="0" aria-label="impacte UX/UI + identité">?</span>
+                  </label>
+                  <input type="number" id="param_design_revisions" min="1" step="1" value="2">
+                </div>
+
+                <div class="field">
+                  <label for="param_copy_revisions">
+                    Allers-retours contenus / copy
+                    <span class="hint-icon" data-tooltip="impacte rédaction + SEO" role="note" tabindex="0" aria-label="impacte rédaction + SEO">?</span>
+                  </label>
+                  <input type="number" id="param_copy_revisions" min="1" step="1" value="2">
+                </div>
+
+                <div class="field">
+                  <label for="param_rush_mode">
+                    Mode deadline / rush
+                    <span class="hint-icon" data-tooltip="applique une majoration sur la prod" role="note" tabindex="0" aria-label="applique une majoration sur la prod">?</span>
+                  </label>
+                  <select id="param_rush_mode">
+                    <option value="1" selected>Planning normal</option>
+                    <option value="1.15">Prioritaire (+15%)</option>
+                    <option value="1.3">Rush (+30%)</option>
+                  </select>
+                </div>
               </div>
             </div>
 
@@ -1712,6 +1752,27 @@
               </div>
 
               <div class="field-subsection">
+                <p class="field-subtitle">Tech & migration</p>
+                <div class="grid" aria-label="Tech services">
+                  <div class="field">
+                    <label for="param_service_cpt">
+                      CPT + champs personnalisés ?
+                      <span class="hint-icon" data-tooltip="Active un setup CPT/ACF dédié" role="note" tabindex="0" aria-label="Active un setup CPT/ACF dédié">?</span>
+                    </label>
+                    <input type="number" id="param_service_cpt" min="0" max="1" step="1" value="1">
+                  </div>
+
+                  <div class="field">
+                    <label for="param_service_migration">
+                      Migration des services ?
+                      <span class="hint-icon" data-tooltip="Import d'anciens services / offres" role="note" tabindex="0" aria-label="Import d'anciens services / offres">?</span>
+                    </label>
+                    <input type="number" id="param_service_migration" min="0" max="1" step="1" value="0">
+                  </div>
+                </div>
+              </div>
+
+              <div class="field-subsection">
                 <p class="field-subtitle">Contenus & SEO</p>
                 <div class="grid" aria-label="Contenus et SEO pour les services">
                   <div class="field">
@@ -1772,6 +1833,27 @@
                       <option value="1">Gabarit unique pour toutes les études</option>
                       <option value="1.4">Design spécifique par étude (+40%)</option>
                     </select>
+                  </div>
+                </div>
+              </div>
+
+              <div class="field-subsection">
+                <p class="field-subtitle">Tech & migration</p>
+                <div class="grid" aria-label="Tech réalisations">
+                  <div class="field">
+                    <label for="param_rea_cpt">
+                      CPT + champs personnalisés ?
+                      <span class="hint-icon" data-tooltip="Active un setup CPT/ACF dédié" role="note" tabindex="0" aria-label="Active un setup CPT/ACF dédié">?</span>
+                    </label>
+                    <input type="number" id="param_rea_cpt" min="0" max="1" step="1" value="1">
+                  </div>
+
+                  <div class="field">
+                    <label for="param_rea_migration">
+                      Migration des réalisations ?
+                      <span class="hint-icon" data-tooltip="Import d'anciennes études de cas" role="note" tabindex="0" aria-label="Import d'anciennes études de cas">?</span>
+                    </label>
+                    <input type="number" id="param_rea_migration" min="0" max="1" step="1" value="0">
                   </div>
                 </div>
               </div>
@@ -1852,6 +1934,43 @@
                 </div>
               </div>
 
+              <div class="field-subsection">
+                <p class="field-subtitle">Méthode de production</p>
+                <div class="grid" aria-label="Processus éditorial">
+                  <div class="field">
+                    <label for="param_blog_research">
+                      Recherche & brief SEO ?
+                      <span class="hint-icon" data-tooltip="Recherche mots-clés, SERP, angles" role="note" tabindex="0" aria-label="Recherche mots-clés, SERP, angles">?</span>
+                    </label>
+                    <input type="number" id="param_blog_research" min="0" max="1" step="1" value="1">
+                  </div>
+
+                  <div class="field">
+                    <label for="param_blog_outline">
+                      Outline validé avec le client ?
+                      <span class="hint-icon" data-tooltip="Structure détaillée avant rédaction" role="note" tabindex="0" aria-label="Structure détaillée avant rédaction">?</span>
+                    </label>
+                    <input type="number" id="param_blog_outline" min="0" max="1" step="1" value="1">
+                  </div>
+
+                  <div class="field">
+                    <label for="param_blog_writing">
+                      Rédaction complète ?
+                      <span class="hint-icon" data-tooltip="Copie rédigée par l'agence" role="note" tabindex="0" aria-label="Copie rédigée par l'agence">?</span>
+                    </label>
+                    <input type="number" id="param_blog_writing" min="0" max="1" step="1" value="1">
+                  </div>
+
+                  <div class="field">
+                    <label for="param_blog_integration">
+                      Intégration / mise en page ?
+                      <span class="hint-icon" data-tooltip="Intégration CMS + maillage" role="note" tabindex="0" aria-label="Intégration CMS + maillage">?</span>
+                    </label>
+                    <input type="number" id="param_blog_integration" min="0" max="1" step="1" value="1">
+                  </div>
+                </div>
+              </div>
+
             <div class="field-subsection">
               <p class="field-subtitle">Import d'articles existants</p>
               <div class="grid" aria-label="Blog et import d'articles">
@@ -1885,6 +2004,14 @@
                       <span class="hint-icon" data-tooltip="0.9 = -10% par batch supplémentaire" role="note" tabindex="0" aria-label="0.9 = -10% par batch supplémentaire">?</span>
                     </label>
                   <input type="number" id="param_import_degressif" min="0" max="1.5" step="0.05" value="0.9">
+                </div>
+
+                <div class="field">
+                  <label for="param_redirect_plan">
+                    Plan de redirections 301 ?
+                    <span class="hint-icon" data-tooltip="Prévoir le mapping lors des imports/migrations" role="note" tabindex="0" aria-label="Prévoir le mapping lors des imports/migrations">?</span>
+                  </label>
+                  <input type="number" id="param_redirect_plan" min="0" max="1" step="1" value="1">
                 </div>
               </div>
             </div>
@@ -1972,6 +2099,43 @@
                     Laisse les champs à 0 pour que le calcul s'appuie sur le volume total de pages saisies plus haut.
                   </div>
                 </div>
+
+                <div class="field-subsection translation-params is-hidden" id="translation-quality-block">
+                  <p class="field-subtitle">Qualité & SEO multilingue</p>
+                  <div class="grid" aria-label="Qualité de traduction">
+                    <div class="field">
+                      <label for="param_translation_review">
+                        Relecture par langue ?
+                        <span class="hint-icon" data-tooltip="Temps dédié à la relecture humaine" role="note" tabindex="0" aria-label="Temps dédié à la relecture humaine">?</span>
+                      </label>
+                      <select id="param_translation_review">
+                        <option value="machine" selected>Machine seule</option>
+                        <option value="hybrid">Hybridé (spot check)</option>
+                        <option value="human">Revue humaine complète</option>
+                      </select>
+                    </div>
+
+                    <div class="field">
+                      <label for="param_translation_excluded">
+                        Pages exclues de la trad.
+                        <span class="hint-icon" data-tooltip="Pages légales exclues, backlog…" role="note" tabindex="0" aria-label="Pages légales exclues, backlog…">?</span>
+                      </label>
+                      <input type="number" id="param_translation_excluded" min="0" step="1" value="0">
+                    </div>
+
+                    <div class="field">
+                      <label for="param_translation_seo_overhead">
+                        Surcharge SEO multilingue
+                        <span class="hint-icon" data-tooltip="hreflang, slugs traduits, métas" role="note" tabindex="0" aria-label="hreflang, slugs traduits, métas">?</span>
+                      </label>
+                      <select id="param_translation_seo_overhead">
+                        <option value="0">Basique (0)</option>
+                        <option value="0.15">Standard (+0.15h / page / langue)</option>
+                        <option value="0.3">Avancé (+0.3h / page / langue)</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
 
@@ -2006,6 +2170,25 @@
                     </label>
                     <input type="number" id="param_logo_exports" min="0" step="1" value="3">
                   </div>
+
+                  <div class="field">
+                    <label for="param_logo_revisions">
+                      Rounds de révision logo
+                      <span class="hint-icon" data-tooltip="Allers-retours design dédiés" role="note" tabindex="0" aria-label="Allers-retours design dédiés">?</span>
+                    </label>
+                    <input type="number" id="param_logo_revisions" min="1" step="1" value="2">
+                  </div>
+
+                  <div class="field">
+                    <label for="param_identity_assets">
+                      Assets existants fournis ?
+                      <span class="hint-icon" data-tooltip="Réduit l'exploration créative" role="note" tabindex="0" aria-label="Réduit l'exploration créative">?</span>
+                    </label>
+                    <select id="param_identity_assets">
+                      <option value="1">Oui, identité de départ</option>
+                      <option value="0" selected>Non, on repart de zéro</option>
+                    </select>
+                  </div>
                 </div>
               </div>
 
@@ -2030,6 +2213,14 @@
                       <span class="hint-icon" data-tooltip="0 = non prévu" role="note" tabindex="0" aria-label="0 = non prévu">?</span>
                     </label>
                     <input type="number" id="param_brand_templates" min="0" step="1" value="2">
+                  </div>
+
+                  <div class="field">
+                    <label for="param_charte_revisions">
+                      Rounds de révision charte
+                      <span class="hint-icon" data-tooltip="Allers-retours sur guidelines & gabarits" role="note" tabindex="0" aria-label="Allers-retours sur guidelines & gabarits">?</span>
+                    </label>
+                    <input type="number" id="param_charte_revisions" min="1" step="1" value="2">
                   </div>
                 </div>
               </div>
@@ -2208,6 +2399,31 @@
                     </div>
                   </div>
                 </div>
+
+              <div class="field-subsection">
+                <p class="field-subtitle">Maintenance & SLA</p>
+                <div class="grid" aria-label="Pack maintenance mensuel">
+                  <div class="field">
+                    <label for="param_maintenance_hours">
+                      Heures de maintenance / mois
+                      <span class="hint-icon" data-tooltip="TMA, patchs, support" role="note" tabindex="0" aria-label="TMA, patchs, support">?</span>
+                    </label>
+                    <input type="number" id="param_maintenance_hours" min="0" step="1" value="0">
+                  </div>
+
+                  <div class="field">
+                    <label for="param_maintenance_sla">
+                      SLA / priorité
+                      <span class="hint-icon" data-tooltip="Impacte le coût récurrent" role="note" tabindex="0" aria-label="Impacte le coût récurrent">?</span>
+                    </label>
+                    <select id="param_maintenance_sla">
+                      <option value="1" selected>Standard (J+3)</option>
+                      <option value="1.2">Prioritaire (J+1)</option>
+                      <option value="1.4">Urgent (SLA étendu)</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
               </div>
             </div>
 
@@ -2346,35 +2562,15 @@
           </div>
           <div class="section">
             <div class="summary-row">
-              <div class="summary-card summary-card-highlight" id="summary-chatbot-card">
-                <div class="summary-label">Option ChatBot IA</div>
-                <div class="summary-value" id="summary-cost-chatbot">—</div>
-                <div class="summary-chip" id="summary-chatbot-details">Pas de chatbot activé</div>
-              </div>
-              <div class="summary-card" id="summary-newsletter-card">
-                <div class="summary-label">Newsletters</div>
-                <div class="summary-value" id="summary-cost-newsletter">—</div>
-                <div class="summary-chip muted" id="summary-newsletter-details">Option newsletter inactive</div>
-              </div>
-              <div class="summary-card" id="summary-hosting-card">
-                <div class="summary-label">Hébergement &amp; Domaine</div>
-                <div class="summary-value" id="summary-cost-hosting">—</div>
-                <div class="summary-chip muted">Options fixes activées</div>
-              </div>
-              <div class="summary-card" id="summary-translation-card">
-                <div class="summary-label">Traduction du site</div>
-                <div class="summary-value" id="summary-cost-translation">—</div>
-                <div class="summary-chip muted" id="summary-translation-details">Pas de traduction activée</div>
+              <div class="summary-card summary-card-highlight" id="summary-setup-card">
+                <div class="summary-label">Setup HT (prod + options)</div>
+                <div class="summary-value" id="summary-total-setup">—</div>
+                <div class="summary-chip" id="summary-setup-details">Production, buffer & rush appliqués</div>
               </div>
               <div class="summary-card">
-                <div class="summary-label">Freelances - Coûts HT avant buffer</div>
-                <div class="summary-value" id="summary-cost-freelance">—</div>
-                <div class="summary-chip muted">Production (hors hébergement, domaine, chatbot)</div>
-              </div>
-              <div class="summary-card">
-                <div class="summary-label">Coût interne estimé</div>
+                <div class="summary-label">Coût interne setup</div>
                 <div class="summary-value" id="summary-cost-internal">—</div>
-                <div class="summary-chip muted">Base précédente + buffer imprévus</div>
+                <div class="summary-chip muted">Prod + options ponctuelles</div>
               </div>
               <div class="summary-card">
                 <div class="summary-label" id="summary-price-sell-label">Prix conseillé HT (€)</div>
@@ -2382,7 +2578,50 @@
                 <div class="summary-chip">Coût interne × marge agence</div>
               </div>
               <div class="summary-card">
-                <div class="summary-label" id="summary-price-sell-mga-label">Prix conseillé HT (MGA)</div>
+                <div class="summary-label">Récurrent mensuel</div>
+                <div class="summary-value accent" id="summary-total-recurring">—</div>
+                <div class="summary-chip muted" id="summary-recurring-details">Hosting, chatbot, maintenance</div>
+              </div>
+            </div>
+
+            <div class="summary-row">
+              <div class="summary-card" id="summary-rush-card">
+                <div class="summary-label">Mode délai</div>
+                <div class="summary-value" id="summary-rush">—</div>
+                <div class="summary-chip muted" id="summary-rush-details">Planning normal</div>
+              </div>
+              <div class="summary-card" id="summary-freelance-card">
+                <div class="summary-label">Prod HT avant buffer</div>
+                <div class="summary-value" id="summary-cost-freelance">—</div>
+                <div class="summary-chip muted">Heures + complexité</div>
+              </div>
+              <div class="summary-card" id="summary-chatbot-card">
+                <div class="summary-label">Option ChatBot IA</div>
+                <div class="summary-value" id="summary-cost-chatbot">—</div>
+                <div class="summary-chip" id="summary-chatbot-details">Pas de chatbot activé</div>
+              </div>
+              <div class="summary-card" id="summary-maintenance-card">
+                <div class="summary-label">Maintenance</div>
+                <div class="summary-value" id="summary-maintenance">—</div>
+                <div class="summary-chip muted" id="summary-maintenance-details">Pas de maintenance</div>
+              </div>
+              <div class="summary-card" id="summary-hosting-card">
+                <div class="summary-label">Hébergement &amp; Domaine</div>
+                <div class="summary-value" id="summary-cost-hosting">—</div>
+                <div class="summary-chip muted">Options fixes activées</div>
+              </div>
+              <div class="summary-card" id="summary-newsletter-card">
+                <div class="summary-label">Newsletters</div>
+                <div class="summary-value" id="summary-cost-newsletter">—</div>
+                <div class="summary-chip muted" id="summary-newsletter-details">Option newsletter inactive</div>
+              </div>
+              <div class="summary-card" id="summary-translation-card">
+                <div class="summary-label">Traduction du site</div>
+                <div class="summary-value" id="summary-cost-translation">—</div>
+                <div class="summary-chip muted" id="summary-translation-details">Pas de traduction activée</div>
+              </div>
+              <div class="summary-card">
+                <div class="summary-label" id="summary-price-sell-mga-label">Équivalence</div>
                 <div class="summary-value accent" id="summary-price-sell-mga">—</div>
                 <div class="summary-chip muted" id="summary-price-sell-mga-chip">Conversion indicative en Ariary</div>
               </div>
@@ -2845,6 +3084,14 @@
         volumeKey: "serviceDetailsWeighted"
       },
       {
+        id: "dev_services_cpt",
+        phase: "Développement",
+        label: "CPT + templates services",
+        roleId: "dev",
+        baseHours: 4,
+        volumeKey: "serviceCptSetup"
+      },
+      {
         id: "dev_realisations_listing",
         phase: "Développement",
         label: "Intégration page Réalisations",
@@ -2861,12 +3108,36 @@
         volumeKey: "reaDetailsWeighted"
       },
       {
+        id: "dev_realisations_cpt",
+        phase: "Développement",
+        label: "CPT + templates réalisations",
+        roleId: "dev",
+        baseHours: 4,
+        volumeKey: "reaCptSetup"
+      },
+      {
         id: "dev_blog",
         phase: "Développement",
         label: "Intégration blog (listing + article)",
         roleId: "dev",
         baseHours: 5,
         volumeKey: "hasBlog"
+      },
+      {
+        id: "dev_services_migration",
+        phase: "Développement",
+        label: "Migration fiches service",
+        roleId: "dev",
+        baseHours: 1.4,
+        volumeKey: "serviceMigrationVolume"
+      },
+      {
+        id: "dev_rea_migration",
+        phase: "Développement",
+        label: "Migration études de cas",
+        roleId: "dev",
+        baseHours: 1.6,
+        volumeKey: "reaMigrationVolume"
       },
       {
         id: "dev_import_articles",
@@ -2878,12 +3149,36 @@
         type: "import"
       },
       {
-        id: "content_articles",
+        id: "content_blog_research",
         phase: "Contenus",
-        label: "Création + mise en ligne des articles",
+        label: "Recherche & brief SEO articles",
         roleId: "seo",
-        baseHours: 2.5,
-        volumeKey: "blogArticles"
+        baseHours: 1,
+        volumeKey: "blogResearchVolume"
+      },
+      {
+        id: "content_blog_outline",
+        phase: "Contenus",
+        label: "Outline + validation client",
+        roleId: "seo",
+        baseHours: 0.7,
+        volumeKey: "blogOutlineVolume"
+      },
+      {
+        id: "content_blog_writing",
+        phase: "Contenus",
+        label: "Rédaction complète articles",
+        roleId: "seo",
+        baseHours: 1.8,
+        volumeKey: "blogWritingVolume"
+      },
+      {
+        id: "content_blog_integration",
+        phase: "Contenus",
+        label: "Intégration & maillage articles",
+        roleId: "seo",
+        baseHours: 1.2,
+        volumeKey: "blogIntegrationVolume"
       },
       {
         id: "content_services",
@@ -2957,6 +3252,14 @@
         roleId: "seo",
         baseHours: 1,
         volumeKey: "articleSeo"
+      },
+      {
+        id: "seo_redirects",
+        phase: "SEO",
+        label: "Plan de redirections 301",
+        roleId: "seo",
+        baseHours: 0.35,
+        volumeKey: "redirectPlanVolume"
       },
       {
         id: "seo_pages",
@@ -3042,12 +3345,21 @@
       { value: "reaDetailsWeighted", label: "Études de cas pondérées", hint: "Nombre de cas × facteur design." },
       { value: "reaContentPages", label: "Rédaction études de cas", hint: "Volume de contenus pour les études." },
       { value: "reaVisualsVolume", label: "Visuels études de cas", hint: "Volume de visuels pour les études." },
+      { value: "serviceCptSetup", label: "Setup CPT services", hint: "Active le setup CPT/ACF des services." },
+      { value: "reaCptSetup", label: "Setup CPT réalisations", hint: "Active le setup CPT/ACF des réalisations." },
+      { value: "serviceMigrationVolume", label: "Migration services", hint: "Migration des fiches services existantes." },
+      { value: "reaMigrationVolume", label: "Migration réalisations", hint: "Migration des études de cas existantes." },
       { value: "blogArticles", label: "Articles de blog", hint: "Multiplié par le nombre d'articles." },
+      { value: "blogResearchVolume", label: "Recherche éditoriale", hint: "Recherche & brief SEO par article." },
+      { value: "blogOutlineVolume", label: "Outline d'articles", hint: "Structures détaillées validées." },
+      { value: "blogWritingVolume", label: "Rédaction articles", hint: "Copie complète par article." },
+      { value: "blogIntegrationVolume", label: "Intégration articles", hint: "Mise en page CMS + maillage." },
       { value: "articleVisuals", label: "Visuels par article", hint: "Volume de visuels liés aux articles." },
       { value: "articleSeo", label: "Optimisation SEO", hint: "Nombre d'articles avec optimisation SEO." },
       { value: "newsletterCount", label: "Newsletters", hint: "Volume de newsletters à produire et envoyer." },
       { value: "hasBlog", label: "Activation du blog", hint: "1 si le blog est activé, sinon 0." },
       { value: "translationSiteHours", label: "Traduction du site", hint: "Calcule un volume d'heures selon les langues et pages." },
+      { value: "redirectPlanVolume", label: "Plan de redirections", hint: "Nombre d'URLs à mapper." },
       { value: "chatbotSetupHours", label: "Setup chatbot", hint: "Utilise les heures de setup chatbot." },
       { value: "chatbotIntegrationHours", label: "Intégration chatbot", hint: "Utilise les heures d'intégration." },
       { value: "chatbotTrainingHours", label: "Training chatbot", hint: "Utilise les heures de training." },
@@ -3082,15 +3394,23 @@
       landing: {
         label: "Landing Page",
         values: {
+          param_content_ownership: "mixed",
+          param_design_revisions: 2,
+          param_copy_revisions: 2,
+          param_rush_mode: 1,
           param_nb_home: 1,
           param_nb_pages: 1,
           param_nb_legal: 2,
           param_seo_mode: 1,
+          param_service_cpt: 1,
+          param_service_migration: 0,
           param_service_listing: 0,
           param_service_details: 0,
           param_service_design_mode: 1,
           param_service_content: 1,
           param_service_visuals: 0,
+          param_rea_cpt: 1,
+          param_rea_migration: 0,
           param_rea_listing: 0,
           param_rea_details: 0,
           param_rea_design_mode: 1,
@@ -3100,23 +3420,35 @@
           param_blog_articles: 0,
           param_blog_visuals: 1,
           param_blog_seo: 1,
+          param_blog_research: 1,
+          param_blog_outline: 1,
+          param_blog_writing: 1,
+          param_blog_integration: 1,
           param_opt_newsletter: 0,
           param_newsletter_count: 1,
           param_newsletter_send_cost: 90,
           param_opt_logo: 0,
           param_logo_concepts: 0,
           param_logo_exports: 0,
+          param_logo_revisions: 2,
+          param_identity_assets: 0,
           param_brand_guidelines: 0,
           param_brand_templates: 0,
+          param_charte_revisions: 2,
           param_opt_formation: 0,
           param_opt_hosting: 0,
           param_hosting_cost: 132,
           param_opt_domain: 1,
           param_domain_cost: 20,
+          param_maintenance_hours: 0,
+          param_maintenance_sla: 1,
           param_translation_mode: "none",
           param_translation_languages: 2,
           param_translation_pages: 0,
           param_translation_products: 0,
+          param_translation_review: "machine",
+          param_translation_excluded: 0,
+          param_translation_seo_overhead: 0,
           param_chatbot_offer: "none",
           param_chatbot_plugin_setup_hours: 4,
           param_chatbot_plugin_integration_hours: 4,
@@ -3137,21 +3469,30 @@
           param_import_articles: 0,
           param_import_batch_size: 10,
           param_import_base_cost: 120,
-          param_import_degressif: 0.9
+          param_import_degressif: 0.9,
+          param_redirect_plan: 1
         }
       },
       vitrine: {
         label: "Site vitrine",
         values: {
+          param_content_ownership: "mixed",
+          param_design_revisions: 2,
+          param_copy_revisions: 2,
+          param_rush_mode: 1,
           param_nb_home: 1,
           param_nb_pages: 4,
           param_nb_legal: 3,
           param_seo_mode: 1,
+          param_service_cpt: 1,
+          param_service_migration: 0,
           param_service_listing: 1,
           param_service_details: 3,
           param_service_design_mode: 1,
           param_service_content: 1,
           param_service_visuals: 0,
+          param_rea_cpt: 1,
+          param_rea_migration: 0,
           param_rea_listing: 1,
           param_rea_details: 3,
           param_rea_design_mode: 1,
@@ -3161,23 +3502,35 @@
           param_blog_articles: 2,
           param_blog_visuals: 1,
           param_blog_seo: 1,
+          param_blog_research: 1,
+          param_blog_outline: 1,
+          param_blog_writing: 1,
+          param_blog_integration: 1,
           param_opt_newsletter: 0,
           param_newsletter_count: 1,
           param_newsletter_send_cost: 90,
           param_opt_logo: 0,
           param_logo_concepts: 2,
           param_logo_exports: 3,
+          param_logo_revisions: 2,
+          param_identity_assets: 0,
           param_brand_guidelines: 1,
           param_brand_templates: 2,
+          param_charte_revisions: 2,
           param_opt_formation: 0,
           param_opt_hosting: 0,
           param_hosting_cost: 132,
           param_opt_domain: 1,
           param_domain_cost: 20,
+          param_maintenance_hours: 0,
+          param_maintenance_sla: 1,
           param_translation_mode: "none",
           param_translation_languages: 2,
           param_translation_pages: 0,
           param_translation_products: 0,
+          param_translation_review: "machine",
+          param_translation_excluded: 0,
+          param_translation_seo_overhead: 0,
           param_chatbot_offer: "none",
           param_chatbot_plugin_setup_hours: 4,
           param_chatbot_plugin_integration_hours: 4,
@@ -3198,21 +3551,30 @@
           param_import_articles: 0,
           param_import_batch_size: 10,
           param_import_base_cost: 120,
-          param_import_degressif: 0.9
+          param_import_degressif: 0.9,
+          param_redirect_plan: 1
         }
       },
       vitrine_avancee: {
         label: "Vitrine avancée",
         values: {
+          param_content_ownership: "mixed",
+          param_design_revisions: 2,
+          param_copy_revisions: 2,
+          param_rush_mode: 1.15,
           param_nb_home: 1,
           param_nb_pages: 8,
           param_nb_legal: 3,
           param_seo_mode: 1.3,
+          param_service_cpt: 1,
+          param_service_migration: 1,
           param_service_listing: 1,
           param_service_details: 6,
           param_service_design_mode: 1.4,
           param_service_content: 1,
           param_service_visuals: 1,
+          param_rea_cpt: 1,
+          param_rea_migration: 1,
           param_rea_listing: 1,
           param_rea_details: 6,
           param_rea_design_mode: 1.4,
@@ -3222,23 +3584,35 @@
           param_blog_articles: 6,
           param_blog_visuals: 1,
           param_blog_seo: 1,
+          param_blog_research: 1,
+          param_blog_outline: 1,
+          param_blog_writing: 1,
+          param_blog_integration: 1,
           param_opt_newsletter: 0,
           param_newsletter_count: 2,
           param_newsletter_send_cost: 120,
           param_opt_logo: 1,
           param_logo_concepts: 3,
           param_logo_exports: 4,
+          param_logo_revisions: 2,
+          param_identity_assets: 0,
           param_brand_guidelines: 1.6,
           param_brand_templates: 3,
+          param_charte_revisions: 2,
           param_opt_formation: 1,
           param_opt_hosting: 1,
           param_hosting_cost: 420,
           param_opt_domain: 1,
           param_domain_cost: 30,
+          param_maintenance_hours: 4,
+          param_maintenance_sla: 1.2,
           param_translation_mode: "none",
           param_translation_languages: 2,
           param_translation_pages: 0,
           param_translation_products: 0,
+          param_translation_review: "machine",
+          param_translation_excluded: 0,
+          param_translation_seo_overhead: 0,
           param_chatbot_offer: "custom",
           param_chatbot_plugin_setup_hours: 4,
           param_chatbot_plugin_integration_hours: 4,
@@ -3259,7 +3633,8 @@
           param_import_articles: 15,
           param_import_batch_size: 10,
           param_import_base_cost: 120,
-          param_import_degressif: 0.9
+          param_import_degressif: 0.9,
+          param_redirect_plan: 1
         }
       }
     };
@@ -3370,33 +3745,50 @@
       "param_nb_pages",
       "param_nb_legal",
       "param_seo_mode",
+      "param_content_ownership",
+      "param_design_revisions",
+      "param_copy_revisions",
+      "param_rush_mode",
       "param_service_listing",
       "param_service_details",
       "param_service_design_mode",
       "param_service_content",
       "param_service_visuals",
+      "param_service_cpt",
+      "param_service_migration",
       "param_rea_listing",
       "param_rea_details",
       "param_rea_design_mode",
       "param_rea_content",
       "param_rea_visuals",
+      "param_rea_cpt",
+      "param_rea_migration",
       "param_has_blog",
       "param_blog_articles",
       "param_blog_visuals",
       "param_blog_seo",
+      "param_blog_research",
+      "param_blog_outline",
+      "param_blog_writing",
+      "param_blog_integration",
       "param_opt_newsletter",
       "param_newsletter_count",
       "param_newsletter_send_cost",
       "param_opt_logo",
       "param_logo_concepts",
       "param_logo_exports",
+      "param_logo_revisions",
+      "param_identity_assets",
       "param_brand_guidelines",
       "param_brand_templates",
+      "param_charte_revisions",
       "param_opt_formation",
       "param_opt_hosting",
       "param_hosting_cost",
       "param_opt_domain",
       "param_domain_cost",
+      "param_maintenance_hours",
+      "param_maintenance_sla",
       "param_chatbot_offer",
       "param_chatbot_plugin_setup_hours",
       "param_chatbot_plugin_integration_hours",
@@ -3414,13 +3806,17 @@
       "param_translation_languages",
       "param_translation_pages",
       "param_translation_products",
+      "param_translation_review",
+      "param_translation_excluded",
+      "param_translation_seo_overhead",
       "param_margin",
       "param_fx",
       "param_buffer",
       "param_import_articles",
       "param_import_batch_size",
       "param_import_base_cost",
-      "param_import_degressif"
+      "param_import_degressif",
+      "param_redirect_plan"
     ];
 
     const ALL_INPUT_IDS = [...PARAM_INPUT_IDS, "param_type_site", "param_comment", "param_tariff_preset"];
@@ -3435,18 +3831,30 @@
       const serviceDesignFactor = safeNumber(document.getElementById("param_service_design_mode").value, 1);
       const serviceContentMode = Math.max(0, Math.min(1, safeNumber(document.getElementById("param_service_content").value, 1)));
       const serviceVisualsPref = Math.max(0, Math.min(1, safeNumber(document.getElementById("param_service_visuals").value, 0)));
+      const serviceCpt = Math.max(0, Math.min(1, safeNumber(document.getElementById("param_service_cpt").value, 1)));
+      const serviceMigration = Math.max(0, Math.min(1, safeNumber(document.getElementById("param_service_migration").value, 0)));
       const nbReaListing = Math.max(0, Math.min(1, safeNumber(document.getElementById("param_rea_listing").value, 1)));
       const nbReaDetails = Math.max(0, safeNumber(document.getElementById("param_rea_details").value, 0));
       const reaDesignFactor = safeNumber(document.getElementById("param_rea_design_mode").value, 1);
       const reaContentMode = Math.max(0, Math.min(1, safeNumber(document.getElementById("param_rea_content").value, 1)));
       const reaVisualsPref = Math.max(0, Math.min(1, safeNumber(document.getElementById("param_rea_visuals").value, 0)));
+      const reaCpt = Math.max(0, Math.min(1, safeNumber(document.getElementById("param_rea_cpt").value, 1)));
+      const reaMigration = Math.max(0, Math.min(1, safeNumber(document.getElementById("param_rea_migration").value, 0)));
       const hasBlog = Math.max(0, Math.min(1, safeNumber(document.getElementById("param_has_blog").value, 1)));
       const blogArticlesRaw = Math.max(0, safeNumber(document.getElementById("param_blog_articles").value, 0));
       const blogArticles = hasBlog ? blogArticlesRaw : 0;
       const wantsBlogVisuals = Math.max(0, Math.min(1, safeNumber(document.getElementById("param_blog_visuals").value, 1)));
       const wantsBlogSeo = Math.max(0, Math.min(1, safeNumber(document.getElementById("param_blog_seo").value, 1)));
+      const blogResearchMode = Math.max(0, Math.min(1, safeNumber(document.getElementById("param_blog_research").value, 1)));
+      const blogOutlineMode = Math.max(0, Math.min(1, safeNumber(document.getElementById("param_blog_outline").value, 1)));
+      const blogWritingMode = Math.max(0, Math.min(1, safeNumber(document.getElementById("param_blog_writing").value, 1)));
+      const blogIntegrationMode = Math.max(0, Math.min(1, safeNumber(document.getElementById("param_blog_integration").value, 1)));
       const articleVisualsVolume = blogArticles * wantsBlogVisuals;
       const articleSeoVolume = blogArticles * wantsBlogSeo;
+      const blogResearchVolume = blogArticles * blogResearchMode;
+      const blogOutlineVolume = blogArticles * blogOutlineMode;
+      const blogWritingVolume = blogArticles * blogWritingMode;
+      const blogIntegrationVolume = blogArticles * blogIntegrationMode;
       const optNewsletter = Math.max(0, Math.min(1, safeNumber(document.getElementById("param_opt_newsletter").value, 0)));
       const newsletterCountRaw = Math.max(0, safeNumber(document.getElementById("param_newsletter_count").value, 0));
       const newsletterCount = optNewsletter ? newsletterCountRaw : 0;
@@ -3458,9 +3866,15 @@
       const logoConcepts = optLogo ? logoConceptsRaw : 0;
       const logoExportsRaw = Math.max(0, safeNumber(document.getElementById("param_logo_exports").value, 3));
       const logoExports = optLogo ? logoExportsRaw : 0;
+      const logoRevisionsRaw = Math.max(1, safeNumber(document.getElementById("param_logo_revisions")?.value, 2));
+      const logoRevisionFactor = 1 + 0.2 * (logoRevisionsRaw - 1);
       const brandGuidelinesMode = optLogo ? Math.max(0, safeNumber(document.getElementById("param_brand_guidelines").value, 1)) : 0;
       const brandTemplatesRaw = Math.max(0, safeNumber(document.getElementById("param_brand_templates").value, 2));
       const brandTemplates = optLogo ? brandTemplatesRaw : 0;
+      const charteRevisionsRaw = Math.max(1, safeNumber(document.getElementById("param_charte_revisions")?.value, 2));
+      const charteRevisionFactor = 1 + 0.2 * (charteRevisionsRaw - 1);
+      const identityAssetsProvided = Math.max(0, Math.min(1, safeNumber(document.getElementById("param_identity_assets")?.value, 0)));
+      const identityAssetsFactor = identityAssetsProvided ? 0.85 : 1;
       const optFormation = Math.max(0, Math.min(1, safeNumber(document.getElementById("param_opt_formation").value, 0)));
       const optHosting = Math.max(0, Math.min(1, safeNumber(document.getElementById("param_opt_hosting").value, 0)));
       const hostingCostRaw = Math.max(0, safeNumber(document.getElementById("param_hosting_cost").value, 0));
@@ -3468,6 +3882,9 @@
       const optDomain = Math.max(0, Math.min(1, safeNumber(document.getElementById("param_opt_domain").value, 0)));
       const domainCostRaw = Math.max(0, safeNumber(document.getElementById("param_domain_cost").value, 0));
       const domainCost = optDomain ? domainCostRaw : 0;
+      const maintenanceHoursRaw = Math.max(0, safeNumber(document.getElementById("param_maintenance_hours")?.value, 0));
+      const maintenanceSla = Math.max(0, safeNumber(document.getElementById("param_maintenance_sla")?.value, 1));
+      const maintenanceMonthlyHours = maintenanceHoursRaw * maintenanceSla;
       const chatbotOffer = document.getElementById("param_chatbot_offer")?.value || "none";
 
       const chatbotPlugin = {
@@ -3511,11 +3928,25 @@
       const margin = Math.max(1, safeNumber(document.getElementById("param_margin").value, 1.3));
       const fx = Math.max(1, safeNumber(document.getElementById("param_fx").value, 5000));
       const bufferPercent = Math.max(0, safeNumber(document.getElementById("param_buffer").value, 0));
+      const contentOwnership = document.getElementById("param_content_ownership")?.value || "mixed";
+      const contentOwnershipMap = {
+        agency: { content: 1.15, pm: 1.05 },
+        mixed: { content: 1.05, pm: 1.15 },
+        client: { content: 0.85, pm: 1.1 }
+      };
+      const contentCollabFactor = contentOwnershipMap[contentOwnership]?.content ?? 1;
+      const pmCoordinationFactor = contentOwnershipMap[contentOwnership]?.pm ?? 1;
+      const designRevisions = Math.max(1, safeNumber(document.getElementById("param_design_revisions").value, 2));
+      const copyRevisions = Math.max(1, safeNumber(document.getElementById("param_copy_revisions").value, 2));
+      const designRevisionFactor = 1 + 0.25 * (designRevisions - 1);
+      const copyRevisionFactor = 1 + 0.2 * (copyRevisions - 1);
+      const rushMultiplier = Math.max(1, safeNumber(document.getElementById("param_rush_mode").value, 1));
       const importArticlesRaw = Math.max(0, safeNumber(document.getElementById("param_import_articles").value, 0));
       const importArticles = hasBlog ? importArticlesRaw : 0;
       const importBatchSize = Math.max(1, safeNumber(document.getElementById("param_import_batch_size").value, 1));
       const importBaseCost = Math.max(0, safeNumber(document.getElementById("param_import_base_cost").value, 0));
       const importDegressive = Math.max(0, safeNumber(document.getElementById("param_import_degressif").value, 1));
+      const redirectPlan = Math.max(0, Math.min(1, safeNumber(document.getElementById("param_redirect_plan").value, 1)));
 
       const totalInternalPages = nbPages + nbLegal;
       const totalPagesWithExtras = totalInternalPages + nbServiceListing + nbServiceDetails + nbReaListing + nbReaDetails + (hasBlog ? 2 : 0);
@@ -3524,6 +3955,10 @@
       const reaContentPages = reaContentMode ? nbReaListing + nbReaDetails : 0;
       const serviceVisualsVolume = serviceContentMode ? serviceVisualsPref * nbServiceDetails : 0;
       const reaVisualsVolume = reaContentMode ? reaVisualsPref * nbReaDetails : 0;
+      const serviceCptVolume = serviceCpt ? 1 : 0;
+      const reaCptVolume = reaCpt ? 1 : 0;
+      const serviceMigrationVolume = serviceMigration ? nbServiceDetails : 0;
+      const reaMigrationVolume = reaMigration ? nbReaDetails : 0;
       const nbSeoPages = seoAutoPages + serviceContentPages + reaContentPages;
       const translationMode = document.getElementById("param_translation_mode")?.value || "none";
       const translationLanguagesRaw = Math.max(1, safeNumber(document.getElementById("param_translation_languages").value, 1));
@@ -3531,14 +3966,23 @@
       const translationAdditionalLanguages = Math.max(0, translationLanguages - 1);
       const translationPagesRaw = Math.max(0, safeNumber(document.getElementById("param_translation_pages").value, totalPagesWithExtras));
       const translationProductsRaw = Math.max(0, safeNumber(document.getElementById("param_translation_products").value, 0));
-      const translationPagesInput = translationPagesRaw > 0 ? translationPagesRaw : totalPagesWithExtras;
+      const translationExcludedPages = Math.max(0, safeNumber(document.getElementById("param_translation_excluded")?.value, 0));
+      const translationReviewMode = document.getElementById("param_translation_review")?.value || "machine";
+      const translationSeoOverhead = Math.max(0, safeNumber(document.getElementById("param_translation_seo_overhead")?.value, 0));
+      const translationPagesInputRaw = translationPagesRaw > 0 ? translationPagesRaw : totalPagesWithExtras;
+      const translationPagesInput = Math.max(0, translationPagesInputRaw - translationExcludedPages);
       const translationProductsInput = translationProductsRaw > 0 ? translationProductsRaw : 0;
       const translationCoefficients = TRANSLATION_MODES[translationMode]?.coefficients || null;
-      const translationSiteHours = computeTranslationHours(translationCoefficients, translationAdditionalLanguages, translationPagesInput, translationProductsInput);
+      const translationBaseHours = computeTranslationHours(translationCoefficients, translationAdditionalLanguages, translationPagesInput, translationProductsInput);
+      const translationReviewUnit = translationReviewMode === "human" ? 0.35 : translationReviewMode === "hybrid" ? 0.18 : 0;
+      const translationReviewHours = translationBaseHours > 0 ? (translationPagesInput + translationProductsInput) * translationAdditionalLanguages * translationReviewUnit : 0;
+      const translationSeoHours = translationBaseHours > 0 ? translationPagesInput * translationAdditionalLanguages * translationSeoOverhead : 0;
+      const translationSiteHours = translationBaseHours + translationReviewHours + translationSeoHours;
       const translationLabel = TRANSLATION_MODES[translationMode]?.label || "Pas de traduction";
       const translationActive = translationMode !== "none" && translationAdditionalLanguages > 0;
       const translationSubscription = 0;
       const translationCost = translationSiteHours * (rolesById["dev"]?.rate || 0);
+      const redirectPlanVolume = redirectPlan ? importArticles + serviceMigrationVolume + reaMigrationVolume : 0;
       const qaFeatureFlags = [
         nbServiceListing + nbServiceDetails > 0,
         nbReaListing + nbReaDetails > 0,
@@ -3548,6 +3992,11 @@
         optChatbot > 0,
         optNewsletter > 0,
         importArticles > 0,
+        serviceCptVolume > 0,
+        reaCptVolume > 0,
+        serviceMigrationVolume > 0,
+        reaMigrationVolume > 0,
+        redirectPlanVolume > 0,
         optHosting > 0,
         optDomain > 0,
         translationActive
@@ -3570,14 +4019,22 @@
         serviceContentMode,
         serviceContentPages,
         serviceVisualsVolume,
+        serviceCptVolume,
+        serviceMigrationVolume,
         nbReaListing,
         nbReaDetails,
         reaDesignFactor,
         reaContentMode,
         reaContentPages,
         reaVisualsVolume,
+        reaCptVolume,
+        reaMigrationVolume,
         hasBlog,
         blogArticles,
+        blogResearchVolume,
+        blogOutlineVolume,
+        blogWritingVolume,
+        blogIntegrationVolume,
         articleVisualsVolume,
         articleSeoVolume,
         optNewsletter,
@@ -3587,6 +4044,9 @@
         optLogo,
         logoConcepts,
         logoExports,
+        logoRevisionFactor,
+        charteRevisionFactor,
+        identityAssetsFactor,
         brandGuidelinesMode,
         brandTemplates,
         optFormation,
@@ -3594,10 +4054,16 @@
         hostingCost,
         optDomain,
         domainCost,
+        maintenanceMonthlyHours,
+        maintenanceSla,
         translationMode,
         translationLabel,
         translationLanguages,
         translationAdditionalLanguages,
+        translationReviewMode,
+        translationReviewHours,
+        translationSeoHours,
+        translationExcludedPages,
         translationPagesInput,
         translationProductsInput,
         translationSiteHours,
@@ -3612,13 +4078,20 @@
         chatbotTrainingHours,
         chatbotSubscription,
         complexity,
+        contentOwnership,
+        contentCollabFactor,
+        pmCoordinationFactor,
+        designRevisionFactor,
+        copyRevisionFactor,
+        rushMultiplier,
         margin,
         fx,
         bufferPercent,
         importArticles,
         importBatchSize,
         importBaseCost,
-        importDegressive
+        importDegressive,
+        redirectPlanVolume
       };
     }
 
@@ -3653,16 +4126,25 @@
         case "serviceDetailsWeighted": return params.nbServiceDetails * params.serviceDesignFactor;
         case "serviceContentPages": return params.serviceContentPages;
         case "serviceVisualsVolume": return params.serviceVisualsVolume;
+        case "serviceCptSetup": return params.serviceCptVolume;
+        case "serviceMigrationVolume": return params.serviceMigrationVolume;
         case "reaListing": return params.nbReaListing;
         case "reaDetailsWeighted": return params.nbReaDetails * params.reaDesignFactor;
         case "reaContentPages": return params.reaContentPages;
         case "reaVisualsVolume": return params.reaVisualsVolume;
+        case "reaCptSetup": return params.reaCptVolume;
+        case "reaMigrationVolume": return params.reaMigrationVolume;
         case "blogArticles": return params.blogArticles;
+        case "blogResearchVolume": return params.blogResearchVolume;
+        case "blogOutlineVolume": return params.blogOutlineVolume;
+        case "blogWritingVolume": return params.blogWritingVolume;
+        case "blogIntegrationVolume": return params.blogIntegrationVolume;
         case "articleVisuals": return params.articleVisualsVolume;
         case "articleSeo": return params.articleSeoVolume;
         case "newsletterCount": return params.newsletterCount;
         case "hasBlog": return params.hasBlog;
         case "translationSiteHours": return params.translationSiteHours;
+        case "redirectPlanVolume": return params.redirectPlanVolume;
         case "chatbotSetupHours": return params.chatbotSetupHours;
         case "chatbotIntegrationHours": return params.chatbotIntegrationHours;
         case "chatbotTrainingHours": return params.chatbotTrainingHours;
@@ -4266,9 +4748,11 @@
       const block = document.getElementById("translation-params-block");
       const pagesInput = document.getElementById("param_translation_pages");
       const productsInput = document.getElementById("param_translation_products");
+      const qualityBlock = document.getElementById("translation-quality-block");
       const active = params.translationMode && params.translationMode !== "none";
 
       if (block) block.classList.toggle("is-hidden", !active);
+      if (qualityBlock) qualityBlock.classList.toggle("is-hidden", !active);
 
       if (pagesInput) pagesInput.placeholder = params.totalPagesWithExtras;
       if (pagesInput && safeNumber(pagesInput.value, 0) <= 0) pagesInput.value = params.totalPagesWithExtras;
@@ -4358,6 +4842,12 @@
         params.importBaseCost,
         params.importDegressive
       );
+      const maintenanceActive = params.maintenanceMonthlyHours > 0;
+      const ownershipLabel = params.contentOwnership === "agency"
+        ? "agence"
+        : params.contentOwnership === "client"
+          ? "client"
+          : "mixte";
 
       updateChatbotOfferVisibility(params.chatbotOffer);
       updateTranslationFieldsUI(params);
@@ -4376,6 +4866,9 @@
           ? `${params.nbLegal} pages légales incluses`
           : "Aucune page légale";
       const opts = [];
+      opts.push({ label: `Contenus : ${ownershipLabel}` , icon: "✍️" });
+      opts.push({ label: `Revs design x${params.designRevisionFactor.toLocaleString("fr-FR", { maximumFractionDigits: 2 })}`, icon: "🔁" });
+      opts.push({ label: `Revs copy x${params.copyRevisionFactor.toLocaleString("fr-FR", { maximumFractionDigits: 2 })}`, icon: "📝" });
       if (params.optLogo === 1) {
         const label = params.brandGuidelinesMode > 0 ? "Identité visuelle + charte" : "Identité visuelle";
         opts.push({ label, icon: "🎨", tone: "accent" });
@@ -4407,6 +4900,12 @@
       if (params.serviceVisualsVolume > 0) {
         opts.push({ label: `Visuels services x${params.serviceVisualsVolume}`, icon: "🖼️" });
       }
+      if (params.serviceCptVolume > 0) {
+        opts.push({ label: "CPT/ACF services", icon: "🧩" });
+      }
+      if (params.serviceMigrationVolume > 0) {
+        opts.push({ label: `Migration services x${params.serviceMigrationVolume}`, icon: "⬇️" });
+      }
       if (params.nbReaListing === 1 || params.nbReaDetails > 0) {
         const detailLabel = params.nbReaDetails > 0 ? `${params.nbReaDetails} cas` : "listing seul";
         const designLabel = params.reaDesignFactor > 1 ? "design dédié" : "gabarit unique";
@@ -4418,6 +4917,12 @@
       if (params.reaVisualsVolume > 0) {
         opts.push({ label: `Visuels réas x${params.reaVisualsVolume}`, icon: "🖼️" });
       }
+      if (params.reaCptVolume > 0) {
+        opts.push({ label: "CPT/ACF réas", icon: "🧩" });
+      }
+      if (params.reaMigrationVolume > 0) {
+        opts.push({ label: `Migration réas x${params.reaMigrationVolume}`, icon: "⬇️" });
+      }
       if (params.nbSeoPages > 0) {
         const seoParts = [];
         if (params.seoAutoPages > 0) seoParts.push(`auto ${params.seoAutoPages}`);
@@ -4428,6 +4933,9 @@
       }
       if (importResult.batches > 0) {
         opts.push({ label: `Import ${params.importArticles} art.`, icon: "⬇️" });
+      }
+      if (params.redirectPlanVolume > 0) {
+        opts.push({ label: `Plan 301 x${params.redirectPlanVolume}`, icon: "🧭" });
       }
       if (params.optHosting === 1) {
         opts.push({ label: `Hébergement ${fmtEuro(params.hostingCost, 0)}`, icon: "☁️", tone: "success" });
@@ -4445,13 +4953,24 @@
           tone: "accent"
         });
       }
+      if (maintenanceActive) {
+        opts.push({ label: `Maintenance ${fmtHours(params.maintenanceMonthlyHours)}h/mois`, icon: "🛟" });
+      }
+      if (params.rushMultiplier > 1) {
+        opts.push({ label: `Rush x${params.rushMultiplier}`, icon: "⏱️", tone: "accent" });
+      }
       renderOptionBadges(opts);
-      document.getElementById("summary-import").textContent =
-        params.hasBlog === 0
-          ? "Blog non prévu"
-          : importResult.batches > 0
-            ? `Blog activé · ${params.importArticles} art. / ${importResult.batches} batchs → ${fmtEuro(importResult.cost, 0)}`
-            : "Blog activé · pas d'import";
+      const importLabels = [];
+      if (params.hasBlog === 1) {
+        if (importResult.batches > 0) {
+          importLabels.push(`Blog ${params.importArticles} art. / ${importResult.batches} batchs → ${formatMainCurrency(importResult.cost)}`);
+        } else {
+          importLabels.push("Blog activé");
+        }
+      }
+      if (params.serviceMigrationVolume > 0) importLabels.push(`Services migrés x${params.serviceMigrationVolume}`);
+      if (params.reaMigrationVolume > 0) importLabels.push(`Réas migrées x${params.reaMigrationVolume}`);
+      document.getElementById("summary-import").textContent = importLabels.length ? importLabels.join(" · ") : "Aucun import/migration";
 
       // Détail des tâches
       const tbody = document.getElementById("tasks-body");
@@ -4468,7 +4987,16 @@
 
         let baseHours = task.baseHours;
         let volume = getTaskVolume(task, params);
-        let hours = task.baseHours * volume * params.complexity;
+        let taskMultiplier = params.complexity;
+
+        if (task.phase === "Design") taskMultiplier *= params.designRevisionFactor;
+        if (task.phase === "Graphisme") taskMultiplier *= params.identityAssetsFactor;
+        if (task.id?.startsWith("logo_")) taskMultiplier *= params.logoRevisionFactor;
+        if (task.id === "brand_guidelines" || task.id === "brand_templates") taskMultiplier *= params.charteRevisionFactor;
+        if (task.phase === "Contenus" || task.phase === "SEO") taskMultiplier *= params.copyRevisionFactor * params.contentCollabFactor;
+        if (task.roleId === "cp") taskMultiplier *= params.pmCoordinationFactor;
+
+        let hours = task.baseHours * volume * taskMultiplier;
         let cost = hours * rate;
 
         if (isImportTask) {
@@ -4495,10 +5023,9 @@
         row.querySelector('td[data-type="cost"]').textContent = formatMainCurrency(cost);
       });
 
-      const hostingDomainCost =
-        (params.optHosting ? params.hostingCost : 0) +
-        (params.optDomain ? params.domainCost : 0);
+      const hostingMonthly = (params.optHosting ? params.hostingCost / 12 : 0) + (params.optDomain ? params.domainCost / 12 : 0);
 
+      const maintenanceMonthlyCost = params.maintenanceMonthlyHours * (rolesById["dev"]?.rate || 0);
       const hostingActive = params.optHosting === 1 || params.optDomain === 1;
 
       const newsletterOptionCost = params.optNewsletter ? params.newsletterSendCost : 0;
@@ -4508,24 +5035,29 @@
       const translationOptionCost = params.translationActive ? params.translationSubscription : 0;
       const translationCost = params.translationActive ? params.translationCost : 0;
 
-      const includeOptionCosts = !activeRoleFilter || activeRoleFilter === "all";
-      const optionCosts = includeOptionCosts ? hostingDomainCost + chatbotCost + translationOptionCost + newsletterOptionCost : 0;
-      const totalBeforeBuffer = totalCost;
+      const totalBeforeBuffer = totalCost * params.rushMultiplier;
 
       document.getElementById("tfoot-hours").textContent = fmtHours(totalHours);
       document.getElementById("tfoot-cost").textContent = formatMainCurrency(totalBeforeBuffer);
       document.getElementById("tfoot-prebuffer").textContent = formatMainCurrency(totalBeforeBuffer);
 
-      // Buffer imprévus appliqué uniquement sur la production freelance
       const bufferAmount = totalBeforeBuffer * (params.bufferPercent / 100);
-      const internalWithBuffer = totalBeforeBuffer + bufferAmount + optionCosts;
+      const setupInternal = totalBeforeBuffer + bufferAmount + newsletterOptionCost;
+      const recurringMonthly = chatbotCost + translationOptionCost + hostingMonthly + maintenanceMonthlyCost;
 
       // Prix de vente
-      const priceSell = internalWithBuffer * params.margin;
+      const priceSell = setupInternal * params.margin;
+      const recurringSell = recurringMonthly * params.margin;
 
-      document.getElementById("summary-cost-freelance").textContent = formatMainCurrency(totalBeforeBuffer);
-      document.getElementById("summary-cost-hosting").textContent = formatMainCurrency(hostingDomainCost);
+      document.getElementById("summary-total-setup").textContent = formatMainCurrency(setupInternal);
+      document.getElementById("summary-setup-details").textContent = `Rush x${params.rushMultiplier.toLocaleString("fr-FR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} · buffer ${params.bufferPercent}%`;
+      document.getElementById("summary-cost-freelance").textContent = formatMainCurrency(totalCost);
+      document.getElementById("summary-cost-hosting").textContent = formatMainCurrency(hostingMonthly);
       document.getElementById("summary-cost-newsletter").textContent = formatMainCurrency(newsletterOptionCost);
+      document.getElementById("summary-total-recurring").textContent = formatMainCurrency(recurringMonthly);
+      document.getElementById("summary-recurring-details").textContent = recurringMonthly > 0
+        ? `Vente conseillée ${formatMainCurrency(recurringSell)}/mois`
+        : "Aucun récurrent";
       const chatbotHoursTotal = params.chatbotSetupHours + params.chatbotIntegrationHours + params.chatbotTrainingHours;
       const chatbotSetupCost =
         (params.chatbotSetupHours * (rolesById["cp"]?.rate || 0)) +
@@ -4545,16 +5077,28 @@
         params.optChatbot ? formatMainCurrency(chatbotSetupCost) : formatMainCurrency(0);
       document.getElementById("summary-chatbot-details").textContent = chatbotDetailsLabel;
 
+      document.getElementById("summary-maintenance").textContent = formatMainCurrency(maintenanceMonthlyCost);
+      document.getElementById("summary-maintenance-details").textContent = maintenanceActive
+        ? `${fmtHours(params.maintenanceMonthlyHours)}h/mois · SLA x${params.maintenanceSla}`
+        : "Pas de maintenance";
+
+      document.getElementById("summary-rush").textContent = `x${params.rushMultiplier.toLocaleString("fr-FR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+      document.getElementById("summary-rush-details").textContent = params.rushMultiplier > 1
+        ? "Majoration délai appliquée"
+        : "Planning normal";
+
       const hostingCard = document.getElementById("summary-hosting-card");
       const chatbotCard = document.getElementById("summary-chatbot-card");
       const newsletterCard = document.getElementById("summary-newsletter-card");
       const translationCard = document.getElementById("summary-translation-card");
+      const maintenanceCard = document.getElementById("summary-maintenance-card");
 
       if (hostingCard) hostingCard.classList.toggle("is-hidden", !hostingActive);
       if (newsletterCard) newsletterCard.classList.toggle("is-hidden", !newsletterActive);
       if (chatbotCard) chatbotCard.classList.toggle("is-hidden", params.optChatbot !== 1);
       if (translationCard) translationCard.classList.toggle("is-hidden", !params.translationActive);
-      document.getElementById("summary-cost-internal").textContent = formatMainCurrency(internalWithBuffer);
+      if (maintenanceCard) maintenanceCard.classList.toggle("is-hidden", !maintenanceActive);
+      document.getElementById("summary-cost-internal").textContent = formatMainCurrency(setupInternal);
       document.getElementById("summary-price-sell").textContent = formatMainCurrency(priceSell);
       document.getElementById("summary-price-sell-mga").textContent = formatSecondaryCurrency(priceSell);
 
@@ -4580,8 +5124,22 @@
         costHeader.textContent = `Coût tâche (${currencyMeta.mainSymbol})`;
       }
 
+      const translationReviewLabel = params.translationReviewMode === "human"
+        ? "relecture humaine"
+        : params.translationReviewMode === "hybrid"
+          ? "spot check"
+          : "machine only";
+      const translationReviewDetail = params.translationReviewHours > 0
+        ? ` +${fmtHours(params.translationReviewHours)}h revue`
+        : "";
+      const translationSeoDetail = params.translationSeoHours > 0
+        ? ` · SEO +${fmtHours(params.translationSeoHours)}h`
+        : "";
+      const translationExcludes = params.translationExcludedPages > 0
+        ? ` · ${params.translationExcludedPages} page(s) exclues`
+        : "";
       const translationDetails = params.translationActive
-        ? `${params.translationLabel} · ${params.translationLanguages} langues · ${fmtHours(params.translationSiteHours)}h`
+        ? `${params.translationLabel} · ${params.translationLanguages} langues · ${fmtHours(params.translationSiteHours)}h · ${translationReviewLabel}${translationReviewDetail}${translationSeoDetail}${translationExcludes}`
         : "Pas de traduction activée";
       document.getElementById("summary-cost-translation").textContent = formatMainCurrency(translationCost);
       document.getElementById("summary-translation-details").textContent = translationDetails;
@@ -4589,7 +5147,7 @@
       lastTotals = {
         hours: totalHours,
         cost: totalBeforeBuffer,
-        internal: internalWithBuffer,
+        internal: setupInternal,
         sell: priceSell
       };
 
